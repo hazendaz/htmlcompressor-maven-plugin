@@ -18,6 +18,8 @@
  */
 package com.tunyk.mvn.plugins.htmlcompressor;
 
+import java.nio.charset.Charset;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -25,126 +27,186 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Compress XML files
+ * Compress XML files.
  */
-@Mojo(name = &quot;xml&quot;, defaultPhase = LifecyclePhase.COMPILE, requiresProject = false)
-<span class="fc" id="L31">public class XmlCompressorMojo extends AbstractMojo {</span>
+@Mojo(name = &quot;xml&quot;, defaultPhase = LifecyclePhase.COMPILE, requiresProject = false, threadSafe = true)
+<span class="fc" id="L33">public class XmlCompressorMojo extends AbstractMojo {</span>
 
-    /**
-     * file types to be processed
-     */
+    /** file types to be processed. */
     @Parameter(property=&quot;htmlcompressor.fileExt&quot;)
     private String[] fileExt;
 
-    /**
-     * if false all compression is off (default is true)
-     */
-<span class="fc" id="L42">    @Parameter(property=&quot;htmlcompressor.enabled&quot;, defaultValue=&quot;true&quot;)</span>
-<span class="fc" id="L43">    private Boolean enabled = true;</span>
+    /** if false all compression is off (default is true). */
+<span class="fc" id="L40">    @Parameter(property=&quot;htmlcompressor.enabled&quot;, defaultValue=&quot;true&quot;)</span>
+    private boolean enabled = true;
 
-    /**
-     * if false keeps XML comments (default is true)
-     */
+    /** Skip run of plugin. */
+    @Parameter(defaultValue = &quot;false&quot;, alias = &quot;skip&quot;, property = &quot;skip&quot;)
+    private boolean skip;
+
+    /** if false keeps XML comments (default is true). */
 <span class="fc" id="L48">    @Parameter(property=&quot;htmlcompressor.removeComments&quot;, defaultValue=&quot;true&quot;)</span>
-<span class="fc" id="L49">    private Boolean removeComments = true;</span>
+    private boolean removeComments = true;
 
-    /**
-     * removes iter-tag whitespace characters  (default is true)
-     */
-<span class="fc" id="L54">    @Parameter(property=&quot;htmlcompressor.removeIntertagSpaces&quot;, defaultValue=&quot;true&quot;)</span>
-<span class="fc" id="L55">    private Boolean removeIntertagSpaces = true;</span>
+    /** removes iter-tag whitespace characters  (default is true). */
+<span class="fc" id="L52">    @Parameter(property=&quot;htmlcompressor.removeIntertagSpaces&quot;, defaultValue=&quot;true&quot;)</span>
+    private boolean removeIntertagSpaces = true;
 
     /**
      * source folder where xml files are located.
      */
-<span class="fc" id="L60">    @Parameter(property=&quot;htmlcompressor.srcFolder&quot;, defaultValue=&quot;${project.basedir}/src/main/resources&quot;)</span>
+<span class="fc" id="L58">    @Parameter(property=&quot;htmlcompressor.srcFolder&quot;, defaultValue=&quot;${project.basedir}/src/main/resources&quot;)</span>
     private String srcFolder = &quot;src/main/resources&quot;;
 
     /**
      * target folder where compressed xml files will be placed.
      */
-<span class="fc" id="L66">    @Parameter(property=&quot;htmlcompressor.targetFolder&quot;, defaultValue=&quot;${project.build.directory}/classes&quot;)</span>
+<span class="fc" id="L64">    @Parameter(property=&quot;htmlcompressor.targetFolder&quot;, defaultValue=&quot;${project.build.directory}/classes&quot;)</span>
     private String targetFolder = &quot;target/classes&quot;;
 
-    /**
-     * Charset encoding for files to read and create
-     */
-<span class="fc" id="L72">    @Parameter(property=&quot;htmlcompressor.encoding&quot;, defaultValue=&quot;utf-8&quot;)</span>
-    private String encoding = &quot;utf-8&quot;;
+    /** Charset encoding for files to read and create. */
+<span class="fc" id="L68">    @Parameter(property=&quot;htmlcompressor.encoding&quot;, defaultValue=&quot;UTF-8&quot;)</span>
+    private String encoding = &quot;UTF-8&quot;;
 
     @Override
     public void execute() throws MojoExecutionException {
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (!enabled) {</span>
-<span class="nc" id="L78">            getLog().info(&quot;XML compression was turned off.&quot;);</span>
-<span class="nc" id="L79">            return;</span>
+        // Check if plugin run should be skipped
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (this.skip) {</span>
+<span class="nc" id="L75">            getLog().info(&quot;XMLCompressor is skipped&quot;);</span>
+<span class="nc" id="L76">            return;</span>
         }
 
-<span class="fc" id="L82">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
-<span class="fc" id="L83">        XmlCompressor xmlCompressor = new XmlCompressor(srcFolder, targetFolder);</span>
-<span class="fc" id="L84">        xmlCompressor.setFileExt(fileExt);</span>
-<span class="fc" id="L85">        xmlCompressor.setFileEncoding(encoding);</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (!enabled) {</span>
+<span class="nc" id="L80">            getLog().info(&quot;XML compression was turned off.&quot;);</span>
+<span class="nc" id="L81">            return;</span>
+        }
 
-<span class="fc" id="L87">        com.googlecode.htmlcompressor.compressor.XmlCompressor xmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.XmlCompressor();</span>
-<span class="fc" id="L88">        xmlCompressorHandler.setEnabled(enabled);</span>
-<span class="fc" id="L89">        xmlCompressorHandler.setRemoveComments(removeComments);</span>
-<span class="fc" id="L90">        xmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
-<span class="fc" id="L91">        xmlCompressor.setXmlCompressor(xmlCompressorHandler);</span>
+<span class="fc" id="L84">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
+<span class="fc" id="L85">        XmlCompressor xmlCompressor = new XmlCompressor(srcFolder, targetFolder);</span>
+<span class="fc" id="L86">        xmlCompressor.setFileExt(fileExt);</span>
+<span class="fc" id="L87">        xmlCompressor.setFileEncoding(Charset.forName(encoding));</span>
+
+<span class="fc" id="L89">        com.googlecode.htmlcompressor.compressor.XmlCompressor xmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.XmlCompressor();</span>
+<span class="fc" id="L90">        xmlCompressorHandler.setEnabled(enabled);</span>
+<span class="fc" id="L91">        xmlCompressorHandler.setRemoveComments(removeComments);</span>
+<span class="fc" id="L92">        xmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
+<span class="fc" id="L93">        xmlCompressor.setXmlCompressor(xmlCompressorHandler);</span>
 
         try {
-<span class="fc" id="L94">            xmlCompressor.compress();</span>
-<span class="nc" id="L95">        } catch(Exception e) {</span>
-<span class="nc" id="L96">            throw new MojoExecutionException(e.getMessage());</span>
-<span class="fc" id="L97">        }</span>
+<span class="fc" id="L96">            xmlCompressor.compress();</span>
+<span class="nc" id="L97">        } catch(Exception e) {</span>
+<span class="nc" id="L98">            throw new MojoExecutionException(e.getMessage());</span>
+<span class="fc" id="L99">        }</span>
 
-<span class="fc" id="L99">        getLog().info(&quot;XML compression completed.&quot;);</span>
-<span class="fc" id="L100">    }</span>
+<span class="fc" id="L101">        getLog().info(&quot;XML compression completed.&quot;);</span>
+<span class="fc" id="L102">    }</span>
 
+    /**
+     * Gets the file ext.
+     *
+     * @return the file ext
+     */
     public String[] getFileExt() {
-<span class="nc" id="L103">        return fileExt;</span>
+<span class="nc" id="L110">        return fileExt;</span>
     }
 
+    /**
+     * Sets the file ext.
+     *
+     * @param fileExt the new file ext
+     */
     public void setFileExt(String[] fileExt) {
-<span class="nc" id="L107">        this.fileExt = fileExt;</span>
-<span class="nc" id="L108">    }</span>
+<span class="nc" id="L119">        this.fileExt = fileExt;</span>
+<span class="nc" id="L120">    }</span>
     
+    /**
+     * Gets the enabled.
+     *
+     * @return the enabled
+     */
     public Boolean getEnabled() {
-<span class="nc" id="L111">        return enabled;</span>
+<span class="nc" id="L128">        return enabled;</span>
     }
 
+    /**
+     * Sets the enabled.
+     *
+     * @param enabled the new enabled
+     */
     public void setEnabled(Boolean enabled) {
-<span class="nc" id="L115">        this.enabled = enabled;</span>
-<span class="nc" id="L116">    }</span>
+<span class="nc" id="L137">        this.enabled = enabled;</span>
+<span class="nc" id="L138">    }</span>
 
+    /**
+     * Gets the removes the comments.
+     *
+     * @return the removes the comments
+     */
     public Boolean getRemoveComments() {
-<span class="nc" id="L119">        return removeComments;</span>
+<span class="nc" id="L146">        return removeComments;</span>
     }
 
+    /**
+     * Sets the removes the comments.
+     *
+     * @param removeComments the new removes the comments
+     */
     public void setRemoveComments(Boolean removeComments) {
-<span class="nc" id="L123">        this.removeComments = removeComments;</span>
-<span class="nc" id="L124">    }</span>
+<span class="nc" id="L155">        this.removeComments = removeComments;</span>
+<span class="nc" id="L156">    }</span>
 
+    /**
+     * Gets the removes the intertag spaces.
+     *
+     * @return the removes the intertag spaces
+     */
     public Boolean getRemoveIntertagSpaces() {
-<span class="nc" id="L127">        return removeIntertagSpaces;</span>
+<span class="nc" id="L164">        return removeIntertagSpaces;</span>
     }
 
+    /**
+     * Sets the removes the intertag spaces.
+     *
+     * @param removeIntertagSpaces the new removes the intertag spaces
+     */
     public void setRemoveIntertagSpaces(Boolean removeIntertagSpaces) {
-<span class="nc" id="L131">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
-<span class="nc" id="L132">    }</span>
+<span class="nc" id="L173">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
+<span class="nc" id="L174">    }</span>
 
+    /**
+     * Gets the src folder.
+     *
+     * @return the src folder
+     */
     public String getSrcFolder() {
-<span class="nc" id="L135">        return srcFolder;</span>
+<span class="nc" id="L182">        return srcFolder;</span>
     }
 
+    /**
+     * Sets the src folder.
+     *
+     * @param srcFolder the new src folder
+     */
     public void setSrcFolder(String srcFolder) {
-<span class="fc" id="L139">        this.srcFolder = srcFolder;</span>
-<span class="fc" id="L140">    }</span>
+<span class="fc" id="L191">        this.srcFolder = srcFolder;</span>
+<span class="fc" id="L192">    }</span>
 
+    /**
+     * Gets the target folder.
+     *
+     * @return the target folder
+     */
     public String getTargetFolder() {
-<span class="nc" id="L143">        return targetFolder;</span>
+<span class="nc" id="L200">        return targetFolder;</span>
     }
 
+    /**
+     * Sets the target folder.
+     *
+     * @param targetFolder the new target folder
+     */
     public void setTargetFolder(String targetFolder) {
-<span class="fc" id="L147">        this.targetFolder = targetFolder;</span>
-<span class="fc" id="L148">    }</span>
+<span class="fc" id="L209">        this.targetFolder = targetFolder;</span>
+<span class="fc" id="L210">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

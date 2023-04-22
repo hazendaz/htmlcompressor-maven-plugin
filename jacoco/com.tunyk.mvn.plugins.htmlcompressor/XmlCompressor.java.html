@@ -18,81 +18,157 @@
  */
 package com.tunyk.mvn.plugins.htmlcompressor;
 
-import java.util.Map;
+import java.nio.charset.Charset;
+import java.util.concurrent.ConcurrentMap;
+import java.util.Map.Entry;
 
+/**
+ * The Class XmlCompressor.
+ */
 public class XmlCompressor {
 
-<span class="fc" id="L25">    private static final String[] FILE_EXT = {&quot;xml&quot;};</span>
+    /** The Constant FILE_EXT. */
+<span class="fc" id="L31">    private static final String[] FILE_EXT = {&quot;xml&quot;};</span>
 
+    /** The file ext. */
     private String[] fileExt;
+    
+    /** The src dir path. */
     private String srcDirPath;
+    
+    /** The target dir path. */
     private String targetDirPath;
-    private String fileEncoding;
+    
+    /** The file encoding. */
+    private Charset fileEncoding;
+    
+    /** The xml compressor. */
     private com.googlecode.htmlcompressor.compressor.XmlCompressor xmlCompressor;
 
-<span class="fc" id="L33">    public XmlCompressor(String srcDirPath, String targetDirPath) {</span>
-<span class="fc" id="L34">        this.srcDirPath = srcDirPath;</span>
-<span class="fc" id="L35">        this.targetDirPath = targetDirPath;</span>
-<span class="fc" id="L36">    }</span>
+    /**
+     * Instantiates a new xml compressor.
+     *
+     * @param srcDirPath the src dir path
+     * @param targetDirPath the target dir path
+     */
+<span class="fc" id="L54">    public XmlCompressor(String srcDirPath, String targetDirPath) {</span>
+<span class="fc" id="L55">        this.srcDirPath = srcDirPath;</span>
+<span class="fc" id="L56">        this.targetDirPath = targetDirPath;</span>
+<span class="fc" id="L57">    }</span>
 
+    /**
+     * Compress.
+     *
+     * @throws Exception the exception
+     */
     public void compress()  throws Exception {
-<span class="pc bpc" id="L39" title="3 of 4 branches missed.">        if (fileExt == null || fileExt.length == 0) {</span>
-<span class="fc" id="L40">            fileExt = FILE_EXT;</span>
+<span class="pc bpc" id="L65" title="3 of 4 branches missed.">        if (fileExt == null || fileExt.length == 0) {</span>
+<span class="fc" id="L66">            fileExt = FILE_EXT;</span>
         }
 
-<span class="fc" id="L43">        FileTool fileTool = new FileTool(srcDirPath, fileExt, true);</span>
-<span class="fc" id="L44">        fileTool.setFileEncoding(fileEncoding);</span>
-<span class="fc" id="L45">        Map&lt;String, String&gt; map = fileTool.getFiles();</span>
+<span class="fc" id="L69">        FileTool fileTool = new FileTool(srcDirPath, fileExt, true);</span>
+<span class="fc" id="L70">        fileTool.setFileEncoding(fileEncoding);</span>
+<span class="fc" id="L71">        ConcurrentMap&lt;String, String&gt; map = fileTool.getFiles();</span>
 
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (xmlCompressor == null) {</span>
-<span class="fc" id="L48">            xmlCompressor = new com.googlecode.htmlcompressor.compressor.XmlCompressor();</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (xmlCompressor == null) {</span>
+<span class="fc" id="L74">            xmlCompressor = new com.googlecode.htmlcompressor.compressor.XmlCompressor();</span>
         }
 
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        for(String key : map.keySet()) {</span>
-<span class="fc" id="L52">            map.put(key, xmlCompressor.compress(map.get(key)));</span>
-<span class="fc" id="L53">        }</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for (Entry&lt;String, String&gt; key : map.entrySet()) {</span>
+<span class="fc" id="L78">            map.put(key.getKey(), xmlCompressor.compress(key.getValue()));</span>
+<span class="fc" id="L79">        }</span>
 
-<span class="fc" id="L55">        fileTool.writeFiles(map, targetDirPath);</span>
-<span class="fc" id="L56">    }</span>
+<span class="fc" id="L81">        fileTool.writeFiles(map, targetDirPath);</span>
+<span class="fc" id="L82">    }</span>
 
+    /**
+     * Gets the file ext.
+     *
+     * @return the file ext
+     */
     public String[] getFileExt() {
-<span class="nc" id="L59">        return fileExt;</span>
+<span class="nc" id="L90">        return fileExt;</span>
     }
 
+    /**
+     * Sets the file ext.
+     *
+     * @param fileExt the new file ext
+     */
     public void setFileExt(String[] fileExt) {
-<span class="fc" id="L63">        this.fileExt = fileExt;</span>
-<span class="fc" id="L64">    }</span>
+<span class="fc" id="L99">        this.fileExt = fileExt;</span>
+<span class="fc" id="L100">    }</span>
     
+    /**
+     * Gets the src dir path.
+     *
+     * @return the src dir path
+     */
     public String getSrcDirPath() {
-<span class="nc" id="L67">        return srcDirPath;</span>
+<span class="nc" id="L108">        return srcDirPath;</span>
     }
 
+    /**
+     * Sets the src dir path.
+     *
+     * @param srcDirPath the new src dir path
+     */
     public void setSrcDirPath(String srcDirPath) {
-<span class="nc" id="L71">        this.srcDirPath = srcDirPath;</span>
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L117">        this.srcDirPath = srcDirPath;</span>
+<span class="nc" id="L118">    }</span>
 
+    /**
+     * Gets the target dir path.
+     *
+     * @return the target dir path
+     */
     public String getTargetDirPath() {
-<span class="nc" id="L75">        return targetDirPath;</span>
+<span class="nc" id="L126">        return targetDirPath;</span>
     }
 
+    /**
+     * Sets the target dir path.
+     *
+     * @param targetDirPath the new target dir path
+     */
     public void setTargetDirPath(String targetDirPath) {
-<span class="nc" id="L79">        this.targetDirPath = targetDirPath;</span>
-<span class="nc" id="L80">    }</span>
+<span class="nc" id="L135">        this.targetDirPath = targetDirPath;</span>
+<span class="nc" id="L136">    }</span>
 
-    public String getFileEncoding() {
-<span class="nc" id="L83">        return fileEncoding;</span>
+    /**
+     * Gets the file encoding.
+     *
+     * @return the file encoding
+     */
+    public Charset getFileEncoding() {
+<span class="nc" id="L144">        return fileEncoding;</span>
     }
 
-    public void setFileEncoding(String fileEncoding) {
-<span class="fc" id="L87">        this.fileEncoding = fileEncoding;</span>
-<span class="fc" id="L88">    }</span>
+    /**
+     * Sets the file encoding.
+     *
+     * @param fileEncoding the new file encoding
+     */
+    public void setFileEncoding(Charset fileEncoding) {
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        this.fileEncoding = fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
+<span class="fc" id="L154">    }</span>
 
+    /**
+     * Gets the xml compressor.
+     *
+     * @return the xml compressor
+     */
     public com.googlecode.htmlcompressor.compressor.XmlCompressor getXmlCompressor() {
-<span class="nc" id="L91">        return xmlCompressor;</span>
+<span class="nc" id="L162">        return xmlCompressor;</span>
     }
 
+    /**
+     * Sets the xml compressor.
+     *
+     * @param xmlCompressor the new xml compressor
+     */
     public void setXmlCompressor(com.googlecode.htmlcompressor.compressor.XmlCompressor xmlCompressor) {
-<span class="fc" id="L95">        this.xmlCompressor = xmlCompressor;</span>
-<span class="fc" id="L96">    }</span>
+<span class="fc" id="L171">        this.xmlCompressor = xmlCompressor;</span>
+<span class="fc" id="L172">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

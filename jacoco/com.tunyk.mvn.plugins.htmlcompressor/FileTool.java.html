@@ -18,120 +18,227 @@
  */
 package com.tunyk.mvn.plugins.htmlcompressor;
 
-import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+/**
+ * The Class FileTool.
+ */
 public class FileTool {
 
+    /** The root dir path. */
     private String rootDirPath;
+    
+    /** The file ext. */
     private String[] fileExt;
+    
+    /** The recursive. */
     private boolean recursive;
-    private String fileEncoding;
+    
+    /** The file encoding. */
+    private Charset fileEncoding;
 
-<span class="fc" id="L39">    public FileTool(String rootDir, String[] fileExt, boolean recursive) throws IOException {</span>
-<span class="fc" id="L40">        this.setRootDirPath(rootDir);</span>
-<span class="fc" id="L41">        this.fileExt = fileExt;</span>
-<span class="fc" id="L42">        this.recursive = recursive;</span>
-<span class="fc" id="L43">    }</span>
-
-    public Map&lt;String, String&gt; getFiles() throws IOException {
-<span class="fc" id="L46">        Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();</span>
-<span class="fc" id="L47">        File rootDir = new File(rootDirPath);</span>
-        // TODO: fix unchecked warning
-<span class="fc" id="L49">        Collection&lt;File&gt; files = FileUtils.listFiles(rootDir, fileExt, recursive);</span>
-<span class="fc" id="L50">        int truncationIndex = 0;</span>
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        for (File file : files) {</span>
-<span class="fc" id="L52">            String normalizedFilePath = file.getCanonicalPath().replaceAll(&quot;\\\\&quot;, &quot;/&quot;);</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">            if (truncationIndex == 0) {</span>
-<span class="fc" id="L54">                truncationIndex = normalizedFilePath.indexOf(rootDirPath) + rootDirPath.length() + 1;</span>
-            }
-<span class="fc" id="L56">            String key = normalizedFilePath.substring(truncationIndex);</span>
-<span class="fc" id="L57">            String value = FileUtils.readFileToString(file, fileEncoding);</span>
-<span class="fc" id="L58">            map.put(key, value);</span>
-<span class="fc" id="L59">        }</span>
-<span class="fc" id="L60">        return map;</span>
-    }
-
-    public void writeFiles(Map&lt;String, String&gt; map, String targetDir) throws IOException {
-<span class="fc bfc" id="L64" title="All 2 branches covered.">        for(String key : map.keySet()) {</span>
-<span class="fc" id="L65">            File file = new File(targetDir + &quot;/&quot; + key);</span>
-<span class="fc" id="L66">            FileUtils.writeStringToFile(file, map.get(key), fileEncoding);</span>
-<span class="fc" id="L67">        }</span>
+    /**
+     * Instantiates a new file tool.
+     *
+     * @param rootDir the root dir
+     * @param fileExt the file ext
+     * @param recursive the recursive
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+<span class="fc" id="L64">    public FileTool(String rootDir, String[] fileExt, boolean recursive) throws IOException {</span>
+<span class="fc" id="L65">        this.setRootDirPath(rootDir);</span>
+<span class="fc" id="L66">        this.fileExt = fileExt;</span>
+<span class="fc" id="L67">        this.recursive = recursive;</span>
 <span class="fc" id="L68">    }</span>
 
+    /**
+     * Gets the files.
+     *
+     * @return the files
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public ConcurrentMap&lt;String, String&gt; getFiles() throws IOException {
+<span class="fc" id="L77">        ConcurrentMap&lt;String, String&gt; map = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="fc" id="L78">        Path rootDir = Path.of(rootDirPath);</span>
+        List&lt;Path&gt; paths;
+<span class="fc" id="L80">        try (Stream&lt;Path&gt; walk = Files.walk(rootDir)) {</span>
+<span class="fc" id="L81">            paths = walk.map(Path::normalize).filter(Files::isRegularFile).filter(path -&gt; Arrays.stream(fileExt).anyMatch(path.getFileName().toString()::endsWith)).collect(Collectors.toList());</span>
+        }
+<span class="fc" id="L83">        int truncationIndex = 0;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        for (Path path : paths) {</span>
+<span class="fc" id="L85">            String normalizedFilePath = path.toFile().getCanonicalPath().replace(&quot;\\&quot;, &quot;/&quot;);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            if (truncationIndex == 0) {</span>
+<span class="fc" id="L87">                truncationIndex = normalizedFilePath.indexOf(rootDirPath) + rootDirPath.length() + 1;</span>
+            }
+<span class="fc" id="L89">            String key = normalizedFilePath.substring(truncationIndex);</span>
+<span class="fc" id="L90">            String value = Files.readString(path, getFileEncoding());</span>
+<span class="fc" id="L91">            map.put(key, value);</span>
+<span class="fc" id="L92">        }</span>
+<span class="fc" id="L93">        return map;</span>
+    }
+
+    /**
+     * Write files.
+     *
+     * @param map the map
+     * @param targetDir the target dir
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public void writeFiles(Map&lt;String, String&gt; map, String targetDir) throws IOException {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        for (Entry&lt;String, String&gt; entry : map.entrySet()) {</span>
+<span class="fc" id="L105">            Path path = Path.of(targetDir + '/' + entry.getKey());</span>
+<span class="fc" id="L106">            Files.createDirectories(path.getParent());</span>
+<span class="fc" id="L107">            Files.writeString(path, entry.getValue(), getFileEncoding());</span>
+<span class="fc" id="L108">        }</span>
+<span class="fc" id="L109">    }</span>
+
+    /**
+     * Write to json file.
+     *
+     * @param map the map
+     * @param targetFile the target file
+     * @param integrationCode the integration code
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws JSONException the JSON exception
+     */
     public void writeToJsonFile(Map&lt;String, String&gt; map, String targetFile, String integrationCode) throws IOException, JSONException {
-<span class="fc" id="L71">        String replacePattern = &quot;%s&quot;;</span>
-<span class="fc" id="L72">        File file = new File(targetFile);</span>
-<span class="fc" id="L73">        JSONObject json = new JSONObject();</span>
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        for(String key : map.keySet()) {</span>
-<span class="fc" id="L75">            json.put(key, map.get(key));</span>
-<span class="fc" id="L76">        }</span>
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (integrationCode == null) {</span>
-<span class="nc" id="L78">            integrationCode = replacePattern;</span>
+<span class="fc" id="L121">        String replacePattern = &quot;%s&quot;;</span>
+<span class="fc" id="L122">        Path path = Path.of(targetFile);</span>
+<span class="fc" id="L123">        JSONObject json = new JSONObject();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        for (Entry&lt;String, String&gt; entry : map.entrySet()) {</span>
+<span class="fc" id="L125">            json.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L126">        }</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (integrationCode == null) {</span>
+<span class="nc" id="L128">            integrationCode = replacePattern;</span>
         }
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (integrationCode.indexOf(replacePattern) == -1) {</span>
-<span class="nc" id="L81">            integrationCode += replacePattern;</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        if (integrationCode.indexOf(replacePattern) == -1) {</span>
+<span class="nc" id="L131">            integrationCode += replacePattern;</span>
         }
-<span class="fc" id="L83">        String contents = integrationCode.replaceFirst(replacePattern, Matcher.quoteReplacement(json.toString()));</span>
-<span class="fc" id="L84">        FileUtils.writeStringToFile(file, contents, fileEncoding);</span>
-<span class="fc" id="L85">    }</span>
+<span class="fc" id="L133">        String contents = integrationCode.replaceFirst(replacePattern, Matcher.quoteReplacement(json.toString()));</span>
+<span class="fc" id="L134">        Files.createDirectories(path.getParent());</span>
+<span class="fc" id="L135">        Files.writeString(path, contents, getFileEncoding());</span>
+<span class="fc" id="L136">    }</span>
 
+    /**
+     * Human readable byte count.
+     *
+     * @param bytes the bytes
+     * @param si the si
+     * @return the string
+     */
+    // TODO JWL 4/22/2023 Didn't see a good way to handle as it gets flagged to remove unnecessary cast if I fix this per error-prone, so ignoring it
+    @SuppressWarnings(&quot;LongDoubleConversion&quot;)
     public static String humanReadableByteCount(long bytes, boolean si) {
-<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        int unit = si ? 1000 : 1024;</span>
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (bytes &lt; unit) return bytes + &quot; B&quot;;</span>
-<span class="nc" id="L90">        int exp = (int) (Math.log(bytes) / Math.log(unit));</span>
-<span class="nc bnc" id="L91" title="All 4 branches missed.">        String pre = (si ? &quot;kMGTPE&quot; : &quot;KMGTPE&quot;).charAt(exp - 1) + (si ? &quot;&quot; : &quot;i&quot;);</span>
-<span class="nc" id="L92">        return String.format(&quot;%.1f %sB&quot;, bytes / Math.pow(unit, exp), pre);</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        int unit = si ? 1000 : 1024;</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (bytes &lt; unit) return bytes + &quot; B&quot;;</span>
+<span class="nc" id="L150">        int exp = (int) (Math.log(bytes) / Math.log(unit));</span>
+<span class="nc bnc" id="L151" title="All 4 branches missed.">        String pre = (si ? &quot;kMGTPE&quot; : &quot;KMGTPE&quot;).charAt(exp - 1) + (si ? &quot;&quot; : &quot;i&quot;);</span>
+<span class="nc" id="L152">        return String.format(&quot;%.1f %sB&quot;, bytes / Math.pow(unit, exp), pre);</span>
     }
 
+    /**
+     * Gets the elapsed HMS time.
+     *
+     * @param elapsedTime the elapsed time
+     * @return the elapsed HMS time
+     */
     public static String getElapsedHMSTime(long elapsedTime) {
-<span class="fc" id="L96">        String format = String.format(&quot;%%0%dd&quot;, 2);</span>
-<span class="fc" id="L97">        elapsedTime = elapsedTime / 1000;</span>
-<span class="fc" id="L98">        String seconds = String.format(format, elapsedTime % 60);</span>
-<span class="fc" id="L99">        String minutes = String.format(format, (elapsedTime % 3600) / 60);</span>
-<span class="fc" id="L100">        String hours = String.format(format, elapsedTime / 3600);</span>
-<span class="fc" id="L101">        return hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds;</span>
+<span class="fc" id="L162">        String format = String.format(&quot;%%0%dd&quot;, 2);</span>
+<span class="fc" id="L163">        elapsedTime = elapsedTime / 1000;</span>
+<span class="fc" id="L164">        String seconds = String.format(format, elapsedTime % 60);</span>
+<span class="fc" id="L165">        String minutes = String.format(format, (elapsedTime % 3600) / 60);</span>
+<span class="fc" id="L166">        String hours = String.format(format, elapsedTime / 3600);</span>
+<span class="fc" id="L167">        return hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds;</span>
     }
 
+    /**
+     * Gets the root dir path.
+     *
+     * @return the root dir path
+     */
     public String getRootDirPath() {
-<span class="nc" id="L105">        return rootDirPath;</span>
+<span class="nc" id="L176">        return rootDirPath;</span>
     }
 
+    /**
+     * Sets the root dir path.
+     *
+     * @param rootDirPath the new root dir path
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public void setRootDirPath(String rootDirPath) throws IOException {
-<span class="fc" id="L109">        File file = new File(rootDirPath);</span>
-<span class="fc" id="L110">        this.rootDirPath = file.getCanonicalPath().replaceAll(&quot;\\\\&quot;, &quot;/&quot;).replaceAll(&quot;/$&quot;, &quot;&quot;);</span>
-<span class="fc" id="L111">    }</span>
+<span class="fc" id="L186">        File file = new File(rootDirPath);</span>
+<span class="fc" id="L187">        this.rootDirPath = file.getCanonicalPath().replace(&quot;\\&quot;, &quot;/&quot;).replaceAll(&quot;/$&quot;, &quot;&quot;);</span>
+<span class="fc" id="L188">    }</span>
 
+    /**
+     * Gets the file ext.
+     *
+     * @return the file ext
+     */
     public String[] getFileExt() {
-<span class="nc" id="L114">        return fileExt;</span>
+<span class="nc" id="L196">        return fileExt;</span>
     }
 
+    /**
+     * Sets the file ext.
+     *
+     * @param fileExt the new file ext
+     */
     public void setFileExt(String[] fileExt) {
-<span class="nc" id="L118">        this.fileExt = fileExt;</span>
-<span class="nc" id="L119">    }</span>
+<span class="nc" id="L205">        this.fileExt = fileExt;</span>
+<span class="nc" id="L206">    }</span>
 
+    /**
+     * Checks if is recursive.
+     *
+     * @return true, if is recursive
+     */
     public boolean isRecursive() {
-<span class="nc" id="L122">        return recursive;</span>
+<span class="nc" id="L214">        return recursive;</span>
     }
 
+    /**
+     * Sets the recursive.
+     *
+     * @param recursive the new recursive
+     */
     public void setRecursive(boolean recursive) {
-<span class="nc" id="L126">        this.recursive = recursive;</span>
-<span class="nc" id="L127">    }</span>
+<span class="nc" id="L223">        this.recursive = recursive;</span>
+<span class="nc" id="L224">    }</span>
 
-    public String getFileEncoding() {
-<span class="nc" id="L130">        return fileEncoding;</span>
+    /**
+     * Gets the file encoding.
+     *
+     * @return the file encoding
+     */
+    public Charset getFileEncoding() {
+<span class="fc bfc" id="L232" title="All 2 branches covered.">        return fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
     }
 
-    public void setFileEncoding(String fileEncoding) {
-<span class="fc" id="L134">        this.fileEncoding = fileEncoding;</span>
-<span class="fc" id="L135">    }</span>
+    /**
+     * Sets the file encoding.
+     *
+     * @param fileEncoding the new file encoding
+     */
+    public void setFileEncoding(Charset fileEncoding) {
+<span class="fc bfc" id="L241" title="All 2 branches covered.">        this.fileEncoding = fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
+<span class="fc" id="L242">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

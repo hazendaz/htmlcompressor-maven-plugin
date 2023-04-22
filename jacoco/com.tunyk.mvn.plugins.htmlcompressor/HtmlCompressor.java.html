@@ -18,125 +18,244 @@
  */
 package com.tunyk.mvn.plugins.htmlcompressor;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Map;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.ConcurrentMap;
+import java.util.Map.Entry;
 
+/**
+ * The Class HtmlCompressor.
+ */
 public class HtmlCompressor {
 
-<span class="fc" id="L30">    private static final String[] FILE_EXT = {&quot;htm&quot;, &quot;html&quot;};</span>
+    /** The Constant FILE_EXT. */
+<span class="fc" id="L34">    private static final String[] FILE_EXT = {&quot;htm&quot;, &quot;html&quot;};</span>
 
+    /** The file ext. */
     private String[] fileExt;
+    
+    /** The src dir path. */
     private String srcDirPath;
+    
+    /** The target dir path. */
     private String targetDirPath;
-    private String fileEncoding;
+    
+    /** The file encoding. */
+    private Charset fileEncoding;
+    
+    /** The create json file. */
     private boolean createJsonFile;
+    
+    /** The target json file path. */
     private String targetJsonFilePath;
+    
+    /** The json integration file path. */
     private String jsonIntegrationFilePath;
+    
+    /** The html compressor. */
     private com.googlecode.htmlcompressor.compressor.HtmlCompressor htmlCompressor;
 
-<span class="fc" id="L41">    public HtmlCompressor(String srcDirPath, String targetDirPath) {</span>
-<span class="fc" id="L42">        this.srcDirPath = srcDirPath;</span>
-<span class="fc" id="L43">        this.targetDirPath = targetDirPath;</span>
-<span class="fc" id="L44">    }</span>
+    /**
+     * Instantiates a new html compressor.
+     *
+     * @param srcDirPath the src dir path
+     * @param targetDirPath the target dir path
+     */
+<span class="fc" id="L66">    public HtmlCompressor(String srcDirPath, String targetDirPath) {</span>
+<span class="fc" id="L67">        this.srcDirPath = srcDirPath;</span>
+<span class="fc" id="L68">        this.targetDirPath = targetDirPath;</span>
+<span class="fc" id="L69">    }</span>
 
-<span class="fc" id="L46">    public HtmlCompressor(String srcDirPath, String targetDirPath, boolean createJsonFile, String targetJsonFilePath, String jsonIntegrationFilePath) {</span>
-<span class="fc" id="L47">        this.srcDirPath = srcDirPath;</span>
-<span class="fc" id="L48">        this.targetDirPath = targetDirPath;</span>
-<span class="fc" id="L49">        this.createJsonFile = createJsonFile;</span>
-<span class="fc" id="L50">        this.targetJsonFilePath = targetJsonFilePath;</span>
-<span class="fc" id="L51">        this.jsonIntegrationFilePath = jsonIntegrationFilePath;</span>
-<span class="fc" id="L52">    }</span>
+    /**
+     * Instantiates a new html compressor.
+     *
+     * @param srcDirPath the src dir path
+     * @param targetDirPath the target dir path
+     * @param createJsonFile the create json file
+     * @param targetJsonFilePath the target json file path
+     * @param jsonIntegrationFilePath the json integration file path
+     */
+<span class="fc" id="L80">    public HtmlCompressor(String srcDirPath, String targetDirPath, boolean createJsonFile, String targetJsonFilePath, String jsonIntegrationFilePath) {</span>
+<span class="fc" id="L81">        this.srcDirPath = srcDirPath;</span>
+<span class="fc" id="L82">        this.targetDirPath = targetDirPath;</span>
+<span class="fc" id="L83">        this.createJsonFile = createJsonFile;</span>
+<span class="fc" id="L84">        this.targetJsonFilePath = targetJsonFilePath;</span>
+<span class="fc" id="L85">        this.jsonIntegrationFilePath = jsonIntegrationFilePath;</span>
+<span class="fc" id="L86">    }</span>
 
+    /**
+     * Compress.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public void compress() throws IOException {
-<span class="pc bpc" id="L55" title="3 of 4 branches missed.">        if (fileExt == null || fileExt.length == 0) {</span>
-<span class="fc" id="L56">            fileExt = FILE_EXT;</span>
+<span class="pc bpc" id="L94" title="3 of 4 branches missed.">        if (fileExt == null || fileExt.length == 0) {</span>
+<span class="fc" id="L95">            fileExt = FILE_EXT;</span>
         }
 
-<span class="fc" id="L59">        FileTool fileTool = new FileTool(srcDirPath, fileExt, true);</span>
-<span class="fc" id="L60">        fileTool.setFileEncoding(fileEncoding);</span>
-<span class="fc" id="L61">        Map&lt;String, String&gt; map = fileTool.getFiles();</span>
+<span class="fc" id="L98">        FileTool fileTool = new FileTool(srcDirPath, fileExt, true);</span>
+<span class="fc" id="L99">        fileTool.setFileEncoding(fileEncoding);</span>
+<span class="fc" id="L100">        ConcurrentMap&lt;String, String&gt; map = fileTool.getFiles();</span>
 
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (htmlCompressor == null) {</span>
-<span class="fc" id="L64">            htmlCompressor = new com.googlecode.htmlcompressor.compressor.HtmlCompressor();</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (htmlCompressor == null) {</span>
+<span class="fc" id="L103">            htmlCompressor = new com.googlecode.htmlcompressor.compressor.HtmlCompressor();</span>
         }
 
-<span class="fc bfc" id="L67" title="All 2 branches covered.">        for(String key : map.keySet()) {</span>
-<span class="fc" id="L68">            map.put(key, htmlCompressor.compress(map.get(key)));</span>
-<span class="fc" id="L69">        }</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (Entry&lt;String, String&gt; key : map.entrySet()) {</span>
+<span class="fc" id="L107">            map.put(key.getKey(), htmlCompressor.compress(key.getValue()));</span>
+<span class="fc" id="L108">        }</span>
 
-<span class="fc" id="L71">        fileTool.writeFiles(map, targetDirPath);</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (createJsonFile) {</span>
-<span class="fc" id="L73">            String jsonIntegrationCode = FileUtils.readFileToString(new File(jsonIntegrationFilePath), Charset.defaultCharset());</span>
-<span class="fc" id="L74">            fileTool.writeToJsonFile(map, targetJsonFilePath, jsonIntegrationCode);</span>
+<span class="fc" id="L110">        fileTool.writeFiles(map, targetDirPath);</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (createJsonFile) {</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">            String jsonIntegrationCode = Files.readString(Path.of(jsonIntegrationFilePath), fileEncoding == null ? Charset.defaultCharset() : fileEncoding);</span>
+<span class="fc" id="L113">            fileTool.writeToJsonFile(map, targetJsonFilePath, jsonIntegrationCode);</span>
         }
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L115">    }</span>
 
+    /**
+     * Gets the file ext.
+     *
+     * @return the file ext
+     */
     public String[] getFileExt() {
-<span class="nc" id="L79">        return fileExt;</span>
+<span class="nc" id="L123">        return fileExt;</span>
     }
 
+    /**
+     * Sets the file ext.
+     *
+     * @param fileExt the new file ext
+     */
     public void setFileExt(String[] fileExt) {
-<span class="fc" id="L83">        this.fileExt = fileExt;</span>
-<span class="fc" id="L84">    }</span>
+<span class="fc" id="L132">        this.fileExt = fileExt;</span>
+<span class="fc" id="L133">    }</span>
     
+    /**
+     * Gets the src dir path.
+     *
+     * @return the src dir path
+     */
     public String getSrcDirPath() {
-<span class="nc" id="L87">        return srcDirPath;</span>
+<span class="nc" id="L141">        return srcDirPath;</span>
     }
 
+    /**
+     * Sets the src dir path.
+     *
+     * @param srcDirPath the new src dir path
+     */
     public void setSrcDirPath(String srcDirPath) {
-<span class="nc" id="L91">        this.srcDirPath = srcDirPath;</span>
-<span class="nc" id="L92">    }</span>
+<span class="nc" id="L150">        this.srcDirPath = srcDirPath;</span>
+<span class="nc" id="L151">    }</span>
 
+    /**
+     * Gets the target dir path.
+     *
+     * @return the target dir path
+     */
     public String getTargetDirPath() {
-<span class="nc" id="L95">        return targetDirPath;</span>
+<span class="nc" id="L159">        return targetDirPath;</span>
     }
 
+    /**
+     * Sets the target dir path.
+     *
+     * @param targetDirPath the new target dir path
+     */
     public void setTargetDirPath(String targetDirPath) {
-<span class="nc" id="L99">        this.targetDirPath = targetDirPath;</span>
-<span class="nc" id="L100">    }</span>
+<span class="nc" id="L168">        this.targetDirPath = targetDirPath;</span>
+<span class="nc" id="L169">    }</span>
 
-    public String getFileEncoding() {
-<span class="nc" id="L103">        return fileEncoding;</span>
+    /**
+     * Gets the file encoding.
+     *
+     * @return the file encoding
+     */
+    public Charset getFileEncoding() {
+<span class="nc" id="L177">        return fileEncoding;</span>
     }
 
-    public void setFileEncoding(String fileEncoding) {
-<span class="fc" id="L107">        this.fileEncoding = fileEncoding;</span>
-<span class="fc" id="L108">    }</span>
+    /**
+     * Sets the file encoding.
+     *
+     * @param fileEncoding the new file encoding
+     */
+    public void setFileEncoding(Charset fileEncoding) {
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        this.fileEncoding = fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
+<span class="fc" id="L187">    }</span>
 
+    /**
+     * Checks if is creates the json file.
+     *
+     * @return true, if is creates the json file
+     */
     public boolean isCreateJsonFile() {
-<span class="nc" id="L111">        return createJsonFile;</span>
+<span class="nc" id="L195">        return createJsonFile;</span>
     }
 
+    /**
+     * Sets the creates the json file.
+     *
+     * @param createJsonFile the new creates the json file
+     */
     public void setCreateJsonFile(boolean createJsonFile) {
-<span class="fc" id="L115">        this.createJsonFile = createJsonFile;</span>
-<span class="fc" id="L116">    }</span>
+<span class="fc" id="L204">        this.createJsonFile = createJsonFile;</span>
+<span class="fc" id="L205">    }</span>
 
+    /**
+     * Gets the target json file path.
+     *
+     * @return the target json file path
+     */
     public String getTargetJsonFilePath() {
-<span class="nc" id="L119">        return targetJsonFilePath;</span>
+<span class="nc" id="L213">        return targetJsonFilePath;</span>
     }
 
+    /**
+     * Sets the target json file path.
+     *
+     * @param targetJsonFilePath the new target json file path
+     */
     public void setTargetJsonFilePath(String targetJsonFilePath) {
-<span class="fc" id="L123">        this.targetJsonFilePath = targetJsonFilePath;</span>
-<span class="fc" id="L124">    }</span>
+<span class="fc" id="L222">        this.targetJsonFilePath = targetJsonFilePath;</span>
+<span class="fc" id="L223">    }</span>
 
+    /**
+     * Gets the json integration file path.
+     *
+     * @return the json integration file path
+     */
     public String getJsonIntegrationFilePath() {
-<span class="nc" id="L127">        return jsonIntegrationFilePath;</span>
+<span class="nc" id="L231">        return jsonIntegrationFilePath;</span>
     }
 
+    /**
+     * Sets the json integration file path.
+     *
+     * @param jsonIntegrationFilePath the new json integration file path
+     */
     public void setJsonIntegrationFilePath(String jsonIntegrationFilePath) {
-<span class="fc" id="L131">        this.jsonIntegrationFilePath = jsonIntegrationFilePath;</span>
-<span class="fc" id="L132">    }</span>
+<span class="fc" id="L240">        this.jsonIntegrationFilePath = jsonIntegrationFilePath;</span>
+<span class="fc" id="L241">    }</span>
 
+    /**
+     * Gets the html compressor.
+     *
+     * @return the html compressor
+     */
     public com.googlecode.htmlcompressor.compressor.HtmlCompressor getHtmlCompressor() {
-<span class="fc" id="L135">        return htmlCompressor;</span>
+<span class="fc" id="L249">        return htmlCompressor;</span>
     }
 
+    /**
+     * Sets the html compressor.
+     *
+     * @param htmlCompressor the new html compressor
+     */
     public void setHtmlCompressor(com.googlecode.htmlcompressor.compressor.HtmlCompressor htmlCompressor) {
-<span class="fc" id="L139">        this.htmlCompressor = htmlCompressor;</span>
-<span class="fc" id="L140">    }</span>
+<span class="fc" id="L258">        this.htmlCompressor = htmlCompressor;</span>
+<span class="fc" id="L259">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
