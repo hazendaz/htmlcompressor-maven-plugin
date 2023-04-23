@@ -89,7 +89,7 @@
           <ul class="breadcrumb">
         <li id="publishDate">Last Published: 2023-04-22<span class="divider">|</span>
 </li>
-          <li id="projectVersion">Version: 1.9.1</li>
+          <li id="projectVersion">Version: 1.9.1.1</li>
           </ul>
         </div>
       </header>
@@ -145,10 +145,10 @@
 <th>Line</th></tr>
 <tr class="b">
 <td>com\tunyk\mvn\plugins\htmlcompressor\HtmlCompressor.java</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressor.html#L115">115</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressor.html#L125">125</a></td></tr>
 <tr class="a">
 <td>com\tunyk\mvn\plugins\htmlcompressor\XmlCompressor.java</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressor.html#L82">82</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressor.html#L85">85</a></td></tr>
 <tr class="b"><td colspan='2'>
 <div>
 <pre>}
@@ -165,12 +165,13 @@
     /**
      * Sets the file ext.
      *
-     * @param fileExt the new file ext
+     * @param fileExt
+     *            the new file ext
      */
     public void setFileExt(String[] fileExt) {
         this.fileExt = fileExt;
     }
-    
+
     /**
      * Gets the src dir path.
      *
@@ -183,7 +184,8 @@
     /**
      * Sets the src dir path.
      *
-     * @param srcDirPath the new src dir path
+     * @param srcDirPath
+     *            the new src dir path
      */
     public void setSrcDirPath(String srcDirPath) {
         this.srcDirPath = srcDirPath;
@@ -201,7 +203,8 @@
     /**
      * Sets the target dir path.
      *
-     * @param targetDirPath the new target dir path
+     * @param targetDirPath
+     *            the new target dir path
      */
     public void setTargetDirPath(String targetDirPath) {
         this.targetDirPath = targetDirPath;
@@ -219,7 +222,8 @@
     /**
      * Sets the file encoding.
      *
-     * @param fileEncoding the new file encoding
+     * @param fileEncoding
+     *            the new file encoding
      */
     public void setFileEncoding(Charset fileEncoding) {
         this.fileEncoding = fileEncoding == null ? Charset.defaultCharset() : fileEncoding;

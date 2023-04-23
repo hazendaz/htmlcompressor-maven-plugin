@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressorMojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Maven HTMLCompressor Plugin</a> &gt; <a href="index.source.html" class="el_package">com.tunyk.mvn.plugins.htmlcompressor</a> &gt; <span class="el_source">HtmlCompressorMojo.java</span></div><h1>HtmlCompressorMojo.java</h1><pre class="source lang-java linenums">/*
- * Copyright (c) 2011 Alex Tunyk &lt;alex at tunyk.com&gt;.
+ * Copyright (c) 2011-2023 Alex Tunyk &lt;alex at tunyk.com&gt;.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *   https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
@@ -23,12 +23,6 @@ import com.google.javascript.jscomp.SourceFile;
 import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
 import com.googlecode.htmlcompressor.compressor.Compressor;
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -41,6 +35,12 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+
 /**
  * Compress HTML files.
  */
@@ -48,15 +48,15 @@ import java.util.regex.PatternSyntaxException;
 <span class="fc" id="L48">public class HtmlCompressorMojo extends AbstractMojo {</span>
 
     /** file where statistics of html compression is stored. */
-<span class="fc" id="L51">    @Parameter(property=&quot;htmlcompressor.htmlCompressionStatistics&quot;, defaultValue=&quot;${project.build.directory}/htmlcompressor/html-compression-statistics.txt&quot;)</span>
+<span class="fc" id="L51">    @Parameter(property = &quot;htmlcompressor.htmlCompressionStatistics&quot;, defaultValue = &quot;${project.build.directory}/htmlcompressor/html-compression-statistics.txt&quot;)</span>
     private String htmlCompressionStatistics = &quot;target/htmlcompressor/html-compression-statistics.txt&quot;;
 
     /** file types to be processed. */
-    @Parameter(property=&quot;htmlcompressor.fileExt&quot;)
+    @Parameter(property = &quot;htmlcompressor.fileExt&quot;)
     private String[] fileExt;
 
     /** if false all compression is off (default is true). */
-<span class="fc" id="L59">    @Parameter(property=&quot;htmlcompressor.enabled&quot;, defaultValue=&quot;true&quot;)</span>
+<span class="fc" id="L59">    @Parameter(property = &quot;htmlcompressor.enabled&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean enabled = true;
 
     /** Skip run of plugin. */
@@ -64,355 +64,376 @@ import java.util.regex.PatternSyntaxException;
     private boolean skip;
 
     /** if false keeps HTML comments (default is true). */
-<span class="fc" id="L67">    @Parameter(property=&quot;htmlcompressor.removeComments&quot;, defaultValue=&quot;true&quot;)</span>
+<span class="fc" id="L67">    @Parameter(property = &quot;htmlcompressor.removeComments&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean removeComments = true;
 
     /** if false keeps multiple whitespace characters (default is true). */
-<span class="fc" id="L71">    @Parameter(property=&quot;htmlcompressor.removeMultiSpaces&quot;, defaultValue=&quot;true&quot;)</span>
+<span class="fc" id="L71">    @Parameter(property = &quot;htmlcompressor.removeMultiSpaces&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean removeMultiSpaces = true;
 
     /** removes iter-tag whitespace characters. */
-    @Parameter(property=&quot;htmlcompressor.removeIntertagSpaces&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeIntertagSpaces&quot;, defaultValue = &quot;false&quot;)
     private boolean removeIntertagSpaces;
 
     /** removes unnecessary tag attribute quotes. */
-    @Parameter(property=&quot;htmlcompressor.removeQuotes&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeQuotes&quot;, defaultValue = &quot;false&quot;)
     private boolean removeQuotes;
 
     /** simplify existing doctype. */
-    @Parameter(property=&quot;htmlcompressor.simpleDoctype&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.simpleDoctype&quot;, defaultValue = &quot;false&quot;)
     private boolean simpleDoctype;
 
     /** remove optional attributes from script tags. */
-    @Parameter(property=&quot;htmlcompressor.removeScriptAttributes&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeScriptAttributes&quot;, defaultValue = &quot;false&quot;)
     private boolean removeScriptAttributes;
 
     /** remove optional attributes from style tags. */
-    @Parameter(property=&quot;htmlcompressor.removeStyleAttributes&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeStyleAttributes&quot;, defaultValue = &quot;false&quot;)
     private boolean removeStyleAttributes;
 
     /** remove optional attributes from link tags. */
-    @Parameter(property=&quot;htmlcompressor.removeLinkAttributes&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeLinkAttributes&quot;, defaultValue = &quot;false&quot;)
     private boolean removeLinkAttributes;
 
     /** remove optional attributes from form tags. */
-    @Parameter(property=&quot;htmlcompressor.removeFormAttributes&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeFormAttributes&quot;, defaultValue = &quot;false&quot;)
     private boolean removeFormAttributes;
 
     /** remove optional attributes from input tags. */
-    @Parameter(property=&quot;htmlcompressor.removeInputAttributes&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeInputAttributes&quot;, defaultValue = &quot;false&quot;)
     private boolean removeInputAttributes;
 
     /** remove values from boolean tag attributes. */
-    @Parameter(property=&quot;htmlcompressor.simpleBooleanAttributes&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.simpleBooleanAttributes&quot;, defaultValue = &quot;false&quot;)
     private boolean simpleBooleanAttributes;
 
     /** remove &quot;javascript:&quot; from inline event handlers. */
-    @Parameter(property=&quot;htmlcompressor.removeJavaScriptProtocol&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeJavaScriptProtocol&quot;, defaultValue = &quot;false&quot;)
     private boolean removeJavaScriptProtocol;
 
     /** replace &quot;http://&quot; with &quot;//&quot; inside tag attributes. */
-    @Parameter(property=&quot;htmlcompressor.removeHttpProtocol&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeHttpProtocol&quot;, defaultValue = &quot;false&quot;)
     private boolean removeHttpProtocol;
 
     /** replace &quot;https://&quot; with &quot;//&quot; inside tag attributes. */
-    @Parameter(property=&quot;htmlcompressor.removeHttpsProtocol&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.removeHttpsProtocol&quot;, defaultValue = &quot;false&quot;)
     private boolean removeHttpsProtocol;
 
     /** compress inline css. */
-    @Parameter(property=&quot;htmlcompressor.compressCss&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.compressCss&quot;, defaultValue = &quot;false&quot;)
     private boolean compressCss;
 
     /** preserves original line breaks. */
-    @Parameter(property=&quot;htmlcompressor.preserveLineBreaks&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.preserveLineBreaks&quot;, defaultValue = &quot;false&quot;)
     private boolean preserveLineBreaks;
 
     /** --line-break param for Yahoo YUI Compressor. */
-<span class="fc" id="L131">    @Parameter(property=&quot;htmlcompressor.yuiCssLineBreak&quot;, defaultValue=&quot;-1&quot;)</span>
+<span class="fc" id="L131">    @Parameter(property = &quot;htmlcompressor.yuiCssLineBreak&quot;, defaultValue = &quot;-1&quot;)</span>
     private int yuiCssLineBreak = -1;
 
     /** css compressor. */
     // TODO JWL 4/22/2023 Unsupported
     @SuppressWarnings(&quot;unused&quot;)
-    @Parameter(property=&quot;htmlcompressor.cssCompressor&quot;, defaultValue=&quot;&quot;)
+    @Parameter(property = &quot;htmlcompressor.cssCompressor&quot;, defaultValue = &quot;&quot;)
     private Compressor cssCompressor;
 
     /** compress inline javascript. */
-    @Parameter(property=&quot;htmlcompressor.compressJavaScript&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.compressJavaScript&quot;, defaultValue = &quot;false&quot;)
     private boolean compressJavaScript;
 
     /** javascript compression: &quot;yui&quot; or &quot;closure&quot;. */
-<span class="fc" id="L145">    @Parameter(property=&quot;htmlcompressor.jsCompressor&quot;, defaultValue=&quot;yui&quot;)</span>
+<span class="fc" id="L145">    @Parameter(property = &quot;htmlcompressor.jsCompressor&quot;, defaultValue = &quot;yui&quot;)</span>
     private String jsCompressor = &quot;yui&quot;;
 
     /** javascript compression. */
     // TODO JWL 4/22/2023Unsupported
     @SuppressWarnings(&quot;unused&quot;)
-    @Parameter(property=&quot;htmlcompressor.javaScriptCompressor&quot;, defaultValue=&quot;&quot;)
+    @Parameter(property = &quot;htmlcompressor.javaScriptCompressor&quot;, defaultValue = &quot;&quot;)
     private Compressor javaScriptCompressor;
 
     /** --nomunge param for Yahoo YUI Compressor. */
-    @Parameter(property=&quot;htmlcompressor.yuiJsNoMunge&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.yuiJsNoMunge&quot;, defaultValue = &quot;false&quot;)
     private boolean yuiJsNoMunge;
 
     /** --preserve-semi param for Yahoo YUI Compressor. */
-    @Parameter(property=&quot;htmlcompressor.yuiJsPreserveAllSemiColons&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.yuiJsPreserveAllSemiColons&quot;, defaultValue = &quot;false&quot;)
     private boolean yuiJsPreserveAllSemiColons;
 
     /** --line-break param for Yahoo YUI Compressor. */
-<span class="fc" id="L163">    @Parameter(property=&quot;htmlcompressor.yuiJsLineBreak&quot;, defaultValue=&quot;-1&quot;)</span>
+<span class="fc" id="L163">    @Parameter(property = &quot;htmlcompressor.yuiJsLineBreak&quot;, defaultValue = &quot;-1&quot;)</span>
     private int yuiJsLineBreak = -1;
 
     /** closureOptLevel = &quot;simple&quot;, &quot;advanced&quot; or &quot;whitespace&quot;. */
-<span class="fc" id="L167">    @Parameter(property=&quot;htmlcompressor.closureOptLevel&quot;, defaultValue=&quot;simple&quot;)</span>
+<span class="fc" id="L167">    @Parameter(property = &quot;htmlcompressor.closureOptLevel&quot;, defaultValue = &quot;simple&quot;)</span>
     private String closureOptLevel = &quot;simple&quot;;
 
     /** --disable-optimizations param for Yahoo YUI Compressor. */
-    @Parameter(property=&quot;htmlcompressor.yuiJsDisableOptimizations&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.yuiJsDisableOptimizations&quot;, defaultValue = &quot;false&quot;)
     private boolean yuiJsDisableOptimizations;
 
     /**
      * predefined patterns for most often used custom preservation rules: PHP_TAG_PATTERN and SERVER_SCRIPT_TAG_PATTERN.
      */
-    @Parameter(property=&quot;htmlcompressor.predefinedPreservePatterns&quot;)
+    @Parameter(property = &quot;htmlcompressor.predefinedPreservePatterns&quot;)
     private String[] predefinedPreservePatterns;
 
     /** preserve patterns. */
-    @Parameter(property=&quot;htmlcompressor.preservePatterns&quot;)
+    @Parameter(property = &quot;htmlcompressor.preservePatterns&quot;)
     private String[] preservePatterns;
 
     /** list of files containing preserve patterns. */
-    @Parameter(property=&quot;htmlcompressor.preservePatternFiles&quot;)
+    @Parameter(property = &quot;htmlcompressor.preservePatternFiles&quot;)
     private File[] preservePatternFiles;
 
     /** HTML compression statistics. */
-<span class="fc" id="L189">    @Parameter(property=&quot;htmlcompressor.generateStatistics&quot;, defaultValue=&quot;true&quot;)</span>
+<span class="fc" id="L189">    @Parameter(property = &quot;htmlcompressor.generateStatistics&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean generateStatistics = true;
 
     /**
      * source folder where html files are located.
      */
-<span class="fc" id="L195">    @Parameter(property=&quot;htmlcompressor.srcFolder&quot;, defaultValue=&quot;${basedir}/src/main/resources&quot;)</span>
+<span class="fc" id="L195">    @Parameter(property = &quot;htmlcompressor.srcFolder&quot;, defaultValue = &quot;${basedir}/src/main/resources&quot;)</span>
     private String srcFolder = &quot;src/main/resources&quot;;
 
     /**
      * target folder where compressed html files will be placed.
      */
-<span class="fc" id="L201">    @Parameter(property=&quot;htmlcompressor.targetFolder&quot;, defaultValue=&quot;${project.build.directory}/classes&quot;)</span>
+<span class="fc" id="L201">    @Parameter(property = &quot;htmlcompressor.targetFolder&quot;, defaultValue = &quot;${project.build.directory}/classes&quot;)</span>
     private String targetFolder = &quot;target/classes&quot;;
 
     /**
-     * Create javascript file which includes all compressed html files as json object. If set to true then javascriptHtmlSpriteIntegrationFile param is required, otherwise it will throw exception.
+     * Create javascript file which includes all compressed html files as json object. If set to true then
+     * javascriptHtmlSpriteIntegrationFile param is required, otherwise it will throw exception.
      */
-<span class="fc" id="L207">    @Parameter(property=&quot;htmlcompressor.javascriptHtmlSprite&quot;, defaultValue=&quot;true&quot;)</span>
+<span class="fc" id="L208">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSprite&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean javascriptHtmlSprite = true;
 
-    /** JavaScript sprite integration file (first occurrence of &quot;%s&quot; will be substituted by json with all compressed html strings). */
-<span class="fc" id="L211">    @Parameter(property=&quot;htmlcompressor.javascriptHtmlSpriteIntegrationFile&quot;, defaultValue=&quot;${basedir}/src/main/resources/html/integration.js&quot;)</span>
+    /**
+     * JavaScript sprite integration file (first occurrence of &quot;%s&quot; will be substituted by json with all compressed html
+     * strings).
+     */
+<span class="fc" id="L215">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSpriteIntegrationFile&quot;, defaultValue = &quot;${basedir}/src/main/resources/html/integration.js&quot;)</span>
     private String javascriptHtmlSpriteIntegrationFile = &quot;src/main/resources/html/integration.js&quot;;
 
     /**
      * The target JavaScript sprite file with compressed html files as json object.
      */
-<span class="fc" id="L217">    @Parameter(property=&quot;htmlcompressor.javascriptHtmlSpriteTargetFile&quot;, defaultValue=&quot;${project.build.directory}/htmlcompressor/html/integration.js&quot;)</span>
+<span class="fc" id="L221">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSpriteTargetFile&quot;, defaultValue = &quot;${project.build.directory}/htmlcompressor/html/integration.js&quot;)</span>
     private String javascriptHtmlSpriteTargetFile = &quot;target/htmlcompressor/html/integration.js&quot;;
 
     /** Charset encoding for files to read and create. */
-<span class="fc" id="L221">    @Parameter(property=&quot;htmlcompressor.encoding&quot;, defaultValue=&quot;UTF-8&quot;)</span>
+<span class="fc" id="L225">    @Parameter(property = &quot;htmlcompressor.encoding&quot;, defaultValue = &quot;UTF-8&quot;)</span>
     private String encoding = &quot;UTF-8&quot;;
 
     /**
      * Disable default built-in closure externs.
      */
-    @Parameter(property=&quot;htmlcompressor.closureCustomExternsOnly&quot;, defaultValue=&quot;false&quot;)
+    @Parameter(property = &quot;htmlcompressor.closureCustomExternsOnly&quot;, defaultValue = &quot;false&quot;)
     private boolean closureCustomExternsOnly;
 
     /**
      * Sets custom closure externs file list.
      */
-    @Parameter(property=&quot;htmlcompressor.closureExterns&quot;)
+    @Parameter(property = &quot;htmlcompressor.closureExterns&quot;)
     private String[] closureExterns;
 
     @Override
     public void execute() throws MojoExecutionException {
         // Check if plugin run should be skipped
-<span class="pc bpc" id="L239" title="1 of 2 branches missed.">        if (this.skip) {</span>
-<span class="nc" id="L240">            getLog().info(&quot;HtmlCompressor is skipped&quot;);</span>
-<span class="nc" id="L241">            return;</span>
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">        if (this.skip) {</span>
+<span class="nc" id="L244">            getLog().info(&quot;HtmlCompressor is skipped&quot;);</span>
+<span class="nc" id="L245">            return;</span>
         }
 
-<span class="pc bpc" id="L244" title="1 of 2 branches missed.">        if (!enabled) {</span>
-<span class="nc" id="L245">            getLog().info(&quot;HTML compression was turned off.&quot;);</span>
-<span class="nc" id="L246">            return;</span>
+<span class="pc bpc" id="L248" title="1 of 2 branches missed.">        if (!enabled) {</span>
+<span class="nc" id="L249">            getLog().info(&quot;HTML compression was turned off.&quot;);</span>
+<span class="nc" id="L250">            return;</span>
         }
 
-<span class="pc bpc" id="L249" title="1 of 2 branches missed.">        if (!new File(srcFolder).exists()) {</span>
-<span class="nc" id="L250">            getLog().warn(&quot;Compressor folder does not exist, skipping compression of &quot; + srcFolder);</span>
-<span class="nc" id="L251">            return;</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (!new File(srcFolder).exists()) {</span>
+<span class="nc" id="L254">            getLog().warn(&quot;Compressor folder does not exist, skipping compression of &quot; + srcFolder);</span>
+<span class="nc" id="L255">            return;</span>
         }
 
-<span class="fc" id="L254">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
-<span class="fc" id="L255">        HtmlCompressor htmlCompressor = new HtmlCompressor(srcFolder, targetFolder);</span>
+<span class="fc" id="L258">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
+<span class="fc" id="L259">        HtmlCompressor htmlCompressor = new HtmlCompressor(srcFolder, targetFolder);</span>
 
-<span class="fc" id="L257">        htmlCompressor.setFileExt(fileExt);</span>
-<span class="fc" id="L258">        htmlCompressor.setFileEncoding(Charset.forName(encoding));</span>
-<span class="fc" id="L259">        htmlCompressor.setCreateJsonFile(javascriptHtmlSprite);</span>
-<span class="fc" id="L260">        htmlCompressor.setJsonIntegrationFilePath(javascriptHtmlSpriteIntegrationFile);</span>
-<span class="fc" id="L261">        htmlCompressor.setTargetJsonFilePath(javascriptHtmlSpriteTargetFile);</span>
+<span class="fc" id="L261">        htmlCompressor.setFileExt(fileExt);</span>
+<span class="fc" id="L262">        htmlCompressor.setFileEncoding(Charset.forName(encoding));</span>
+<span class="fc" id="L263">        htmlCompressor.setCreateJsonFile(javascriptHtmlSprite);</span>
+<span class="fc" id="L264">        htmlCompressor.setJsonIntegrationFilePath(javascriptHtmlSpriteIntegrationFile);</span>
+<span class="fc" id="L265">        htmlCompressor.setTargetJsonFilePath(javascriptHtmlSpriteTargetFile);</span>
 
-<span class="fc" id="L263">        com.googlecode.htmlcompressor.compressor.HtmlCompressor htmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.HtmlCompressor();</span>
-<span class="fc" id="L264">        htmlCompressorHandler.setEnabled(enabled);</span>
-<span class="fc" id="L265">        htmlCompressorHandler.setRemoveComments(removeComments);</span>
-<span class="fc" id="L266">        htmlCompressorHandler.setRemoveMultiSpaces(removeMultiSpaces);</span>
-<span class="fc" id="L267">        htmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
-<span class="fc" id="L268">        htmlCompressorHandler.setRemoveQuotes(removeQuotes);</span>
-<span class="fc" id="L269">        htmlCompressorHandler.setSimpleDoctype(simpleDoctype);</span>
-<span class="fc" id="L270">        htmlCompressorHandler.setRemoveScriptAttributes(removeScriptAttributes);</span>
-<span class="fc" id="L271">        htmlCompressorHandler.setRemoveStyleAttributes(removeStyleAttributes);</span>
-<span class="fc" id="L272">        htmlCompressorHandler.setRemoveLinkAttributes(removeLinkAttributes);</span>
-<span class="fc" id="L273">        htmlCompressorHandler.setRemoveFormAttributes(removeFormAttributes);</span>
-<span class="fc" id="L274">        htmlCompressorHandler.setRemoveInputAttributes(removeInputAttributes);</span>
-<span class="fc" id="L275">        htmlCompressorHandler.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
-<span class="fc" id="L276">        htmlCompressorHandler.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
-<span class="fc" id="L277">        htmlCompressorHandler.setRemoveHttpProtocol(removeHttpProtocol);</span>
-<span class="fc" id="L278">        htmlCompressorHandler.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
-<span class="fc" id="L279">        htmlCompressorHandler.setCompressCss(compressCss);</span>
-<span class="fc" id="L280">        htmlCompressorHandler.setPreserveLineBreaks(preserveLineBreaks);</span>
-<span class="fc" id="L281">        htmlCompressorHandler.setYuiCssLineBreak(yuiCssLineBreak);</span>
-<span class="fc" id="L282">        htmlCompressorHandler.setCompressJavaScript(compressJavaScript);</span>
-<span class="fc" id="L283">        htmlCompressorHandler.setYuiJsNoMunge(yuiJsNoMunge);</span>
-<span class="fc" id="L284">        htmlCompressorHandler.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
-<span class="fc" id="L285">        htmlCompressorHandler.setYuiJsLineBreak(yuiJsLineBreak);</span>
-<span class="fc" id="L286">        htmlCompressorHandler.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
-<span class="fc" id="L287">        htmlCompressorHandler.setGenerateStatistics(generateStatistics);</span>
+<span class="fc" id="L267">        com.googlecode.htmlcompressor.compressor.HtmlCompressor htmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.HtmlCompressor();</span>
+<span class="fc" id="L268">        htmlCompressorHandler.setEnabled(enabled);</span>
+<span class="fc" id="L269">        htmlCompressorHandler.setRemoveComments(removeComments);</span>
+<span class="fc" id="L270">        htmlCompressorHandler.setRemoveMultiSpaces(removeMultiSpaces);</span>
+<span class="fc" id="L271">        htmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
+<span class="fc" id="L272">        htmlCompressorHandler.setRemoveQuotes(removeQuotes);</span>
+<span class="fc" id="L273">        htmlCompressorHandler.setSimpleDoctype(simpleDoctype);</span>
+<span class="fc" id="L274">        htmlCompressorHandler.setRemoveScriptAttributes(removeScriptAttributes);</span>
+<span class="fc" id="L275">        htmlCompressorHandler.setRemoveStyleAttributes(removeStyleAttributes);</span>
+<span class="fc" id="L276">        htmlCompressorHandler.setRemoveLinkAttributes(removeLinkAttributes);</span>
+<span class="fc" id="L277">        htmlCompressorHandler.setRemoveFormAttributes(removeFormAttributes);</span>
+<span class="fc" id="L278">        htmlCompressorHandler.setRemoveInputAttributes(removeInputAttributes);</span>
+<span class="fc" id="L279">        htmlCompressorHandler.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
+<span class="fc" id="L280">        htmlCompressorHandler.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
+<span class="fc" id="L281">        htmlCompressorHandler.setRemoveHttpProtocol(removeHttpProtocol);</span>
+<span class="fc" id="L282">        htmlCompressorHandler.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
+<span class="fc" id="L283">        htmlCompressorHandler.setCompressCss(compressCss);</span>
+<span class="fc" id="L284">        htmlCompressorHandler.setPreserveLineBreaks(preserveLineBreaks);</span>
+<span class="fc" id="L285">        htmlCompressorHandler.setYuiCssLineBreak(yuiCssLineBreak);</span>
+<span class="fc" id="L286">        htmlCompressorHandler.setCompressJavaScript(compressJavaScript);</span>
+<span class="fc" id="L287">        htmlCompressorHandler.setYuiJsNoMunge(yuiJsNoMunge);</span>
+<span class="fc" id="L288">        htmlCompressorHandler.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="fc" id="L289">        htmlCompressorHandler.setYuiJsLineBreak(yuiJsLineBreak);</span>
+<span class="fc" id="L290">        htmlCompressorHandler.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="fc" id="L291">        htmlCompressorHandler.setGenerateStatistics(generateStatistics);</span>
 
-<span class="pc bpc" id="L289" title="1 of 2 branches missed.">        if (jsCompressor.equalsIgnoreCase(&quot;closure&quot;)) {</span>
-<span class="nc" id="L290">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
-<span class="nc bnc" id="L291" title="All 4 branches missed.">            if (closureOptLevel != null &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
-<span class="nc" id="L292">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
-<span class="nc" id="L293">                closureCompressor.setCustomExternsOnly(closureCustomExternsOnly);</span>
-<span class="nc bnc" id="L294" title="All 2 branches missed.">                if(closureExterns.length  &gt; 0) {</span>
-<span class="nc" id="L295">                    List&lt;SourceFile&gt; externs = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L296" title="All 2 branches missed.">                    for(String externFile : closureExterns) {</span>
-<span class="nc" id="L297">                        externs.add(SourceFile.fromFile(externFile));</span>
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">        if (jsCompressor.equalsIgnoreCase(&quot;closure&quot;)) {</span>
+<span class="nc" id="L294">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">            if (closureOptLevel != null</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">                    &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
+<span class="nc" id="L297">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
+<span class="nc" id="L298">                closureCompressor.setCustomExternsOnly(closureCustomExternsOnly);</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">                if (closureExterns.length &gt; 0) {</span>
+<span class="nc" id="L300">                    List&lt;SourceFile&gt; externs = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">                    for (String externFile : closureExterns) {</span>
+<span class="nc" id="L302">                        externs.add(SourceFile.fromFile(externFile));</span>
                     }
-<span class="nc" id="L299">                    closureCompressor.setExterns(externs);</span>
-<span class="nc" id="L300">                }</span>
-<span class="nc bnc" id="L301" title="All 4 branches missed.">            } else if (closureOptLevel != null &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
-<span class="nc" id="L302">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
+<span class="nc" id="L304">                    closureCompressor.setExterns(externs);</span>
+<span class="nc" id="L305">                }</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">            } else if (closureOptLevel != null</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">                    &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
+<span class="nc" id="L308">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
             } else {
-<span class="nc" id="L304">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
+<span class="nc" id="L310">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
             }
 
-<span class="nc" id="L307">            htmlCompressorHandler.setJavaScriptCompressor(closureCompressor);</span>
+<span class="nc" id="L313">            htmlCompressorHandler.setJavaScriptCompressor(closureCompressor);</span>
         }
 
-<span class="fc" id="L310">        List&lt;Pattern&gt; preservePatternList = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L311">        boolean phpTagPatternAdded = false;</span>
-<span class="fc" id="L312">        boolean serverScriptTagPatternAdded = false;</span>
-<span class="pc bpc" id="L313" title="1 of 2 branches missed.">        if (predefinedPreservePatterns != null) {</span>
-<span class="nc bnc" id="L314" title="All 2 branches missed.">            for (String pattern : predefinedPreservePatterns) {</span>
-<span class="nc bnc" id="L315" title="All 4 branches missed.">                if (!phpTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;PHP_TAG_PATTERN&quot;)) {</span>
-<span class="nc" id="L316">                    preservePatternList.add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.PHP_TAG_PATTERN);</span>
-<span class="nc" id="L317">                    phpTagPatternAdded = true;</span>
-<span class="nc bnc" id="L318" title="All 4 branches missed.">                } else if (!serverScriptTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;SERVER_SCRIPT_TAG_PATTERN&quot;)) {</span>
-<span class="nc" id="L319">                    preservePatternList.add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN);</span>
-<span class="nc" id="L320">                    serverScriptTagPatternAdded = true;</span>
+<span class="fc" id="L316">        List&lt;Pattern&gt; preservePatternList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L317">        boolean phpTagPatternAdded = false;</span>
+<span class="fc" id="L318">        boolean serverScriptTagPatternAdded = false;</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">        if (predefinedPreservePatterns != null) {</span>
+<span class="nc bnc" id="L320" title="All 2 branches missed.">            for (String pattern : predefinedPreservePatterns) {</span>
+<span class="nc bnc" id="L321" title="All 4 branches missed.">                if (!phpTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;PHP_TAG_PATTERN&quot;)) {</span>
+<span class="nc" id="L322">                    preservePatternList.add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.PHP_TAG_PATTERN);</span>
+<span class="nc" id="L323">                    phpTagPatternAdded = true;</span>
+<span class="nc bnc" id="L324" title="All 4 branches missed.">                } else if (!serverScriptTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;SERVER_SCRIPT_TAG_PATTERN&quot;)) {</span>
+<span class="nc" id="L325">                    preservePatternList</span>
+<span class="nc" id="L326">                            .add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN);</span>
+<span class="nc" id="L327">                    serverScriptTagPatternAdded = true;</span>
                 }
             }
         }
-<span class="pc bpc" id="L324" title="1 of 2 branches missed.">        if (preservePatterns != null) {</span>
-<span class="nc bnc" id="L325" title="All 2 branches missed.">            for (String preservePatternString : preservePatterns) {</span>
-<span class="nc bnc" id="L326" title="All 2 branches missed.">                if (!preservePatternString.isEmpty()) {</span>
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">        if (preservePatterns != null) {</span>
+<span class="nc bnc" id="L332" title="All 2 branches missed.">            for (String preservePatternString : preservePatterns) {</span>
+<span class="nc bnc" id="L333" title="All 2 branches missed.">                if (!preservePatternString.isEmpty()) {</span>
                     try {
-<span class="nc" id="L328">                        preservePatternList.add(Pattern.compile(preservePatternString));</span>
-<span class="nc" id="L329">                    } catch (PatternSyntaxException e) {</span>
-<span class="nc" id="L330">                        throw new MojoExecutionException(e.getMessage());</span>
-<span class="nc" id="L331">                    }</span>
+<span class="nc" id="L335">                        preservePatternList.add(Pattern.compile(preservePatternString));</span>
+<span class="nc" id="L336">                    } catch (PatternSyntaxException e) {</span>
+<span class="nc" id="L337">                        throw new MojoExecutionException(e.getMessage());</span>
+<span class="nc" id="L338">                    }</span>
                 }
             }
         }
-<span class="pc bpc" id="L335" title="1 of 2 branches missed.">        if (preservePatternFiles != null) {</span>
-<span class="nc bnc" id="L336" title="All 2 branches missed.">            for (File file : preservePatternFiles) {</span>
+<span class="pc bpc" id="L342" title="1 of 2 branches missed.">        if (preservePatternFiles != null) {</span>
+<span class="nc bnc" id="L343" title="All 2 branches missed.">            for (File file : preservePatternFiles) {</span>
                 try {
-<span class="nc" id="L338">                    List&lt;String&gt; fileLines = Files.readAllLines(file.toPath(), Charset.forName(encoding));</span>
-<span class="nc bnc" id="L339" title="All 2 branches missed.">                    for (String line : fileLines) {</span>
-<span class="nc bnc" id="L340" title="All 2 branches missed.">                        if (!line.isEmpty()) {</span>
-<span class="nc" id="L341">                            preservePatternList.add(Pattern.compile(line));</span>
+<span class="nc" id="L345">                    List&lt;String&gt; fileLines = Files.readAllLines(file.toPath(), Charset.forName(encoding));</span>
+<span class="nc bnc" id="L346" title="All 2 branches missed.">                    for (String line : fileLines) {</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">                        if (!line.isEmpty()) {</span>
+<span class="nc" id="L348">                            preservePatternList.add(Pattern.compile(line));</span>
                         }
-<span class="nc" id="L343">                    }</span>
-<span class="nc" id="L344">                } catch (IOException | PatternSyntaxException e) {</span>
-<span class="nc" id="L345">                    throw new MojoExecutionException(e.getMessage());</span>
-<span class="nc" id="L346">                }</span>
+<span class="nc" id="L350">                    }</span>
+<span class="nc" id="L351">                } catch (IOException | PatternSyntaxException e) {</span>
+<span class="nc" id="L352">                    throw new MojoExecutionException(e.getMessage());</span>
+<span class="nc" id="L353">                }</span>
             }
         }
-<span class="fc" id="L349">        htmlCompressorHandler.setPreservePatterns(preservePatternList);</span>
-<span class="fc" id="L350">        htmlCompressor.setHtmlCompressor(htmlCompressorHandler);</span>
+<span class="fc" id="L356">        htmlCompressorHandler.setPreservePatterns(preservePatternList);</span>
+<span class="fc" id="L357">        htmlCompressor.setHtmlCompressor(htmlCompressorHandler);</span>
 
         try {
-<span class="fc" id="L353">            htmlCompressor.compress();</span>
-<span class="nc" id="L354">        } catch(IOException e) {</span>
-<span class="nc" id="L355">            throw new MojoExecutionException(e.getMessage());</span>
-<span class="fc" id="L356">        }</span>
+<span class="fc" id="L360">            htmlCompressor.compress();</span>
+<span class="nc" id="L361">        } catch (IOException e) {</span>
+<span class="nc" id="L362">            throw new MojoExecutionException(e.getMessage());</span>
+<span class="fc" id="L363">        }</span>
 
-<span class="fc" id="L358">        boolean si = true;</span>
+<span class="fc" id="L365">        boolean si = true;</span>
 
-<span class="fc" id="L360">        int origFilesizeBytes = -1;</span>
+<span class="fc" id="L367">        int origFilesizeBytes = -1;</span>
         try {
-<span class="fc" id="L362">            htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getFilesize();</span>
-<span class="nc" id="L363">        } catch (NullPointerException e) {</span>
-<span class="nc" id="L364">            getLog().info(&quot;No files found to compress, HTML compression completed.&quot;);</span>
-<span class="nc" id="L365">            return;</span>
-<span class="fc" id="L366">        }</span>
+<span class="fc" id="L369">            htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getFilesize();</span>
+<span class="nc" id="L370">        } catch (NullPointerException e) {</span>
+<span class="nc" id="L371">            getLog().info(&quot;No files found to compress, HTML compression completed.&quot;);</span>
+<span class="nc" id="L372">            return;</span>
+<span class="fc" id="L373">        }</span>
 
-<span class="fc" id="L368">        String origFilesize = FileTool.humanReadableByteCount(origFilesizeBytes, si);</span>
-<span class="fc" id="L369">        String origEmptyChars = String.valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getEmptyChars());</span>
-<span class="fc" id="L370">        String origInlineEventSize = FileTool.humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineEventSize(), si);</span>
-<span class="fc" id="L371">        String origInlineScriptSize = FileTool.humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineScriptSize(), si);</span>
-<span class="fc" id="L372">        String origInlineStyleSize = FileTool.humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineStyleSize(), si);</span>
+<span class="fc" id="L375">        String origFilesize = FileTool.humanReadableByteCount(origFilesizeBytes, si);</span>
+<span class="fc" id="L376">        String origEmptyChars = String</span>
+<span class="fc" id="L377">                .valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getEmptyChars());</span>
+<span class="fc" id="L378">        String origInlineEventSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L379">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineEventSize(), si);</span>
+<span class="fc" id="L380">        String origInlineScriptSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L381">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineScriptSize(), si);</span>
+<span class="fc" id="L382">        String origInlineStyleSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L383">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineStyleSize(), si);</span>
 
-<span class="fc" id="L374">        int compFilesizeBytes = htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getFilesize();</span>
-<span class="fc" id="L375">        String compFilesize = FileTool.humanReadableByteCount(compFilesizeBytes, si);</span>
-<span class="fc" id="L376">        String compEmptyChars = String.valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getEmptyChars());</span>
-<span class="fc" id="L377">        String compInlineEventSize = FileTool.humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineEventSize(), si);</span>
-<span class="fc" id="L378">        String compInlineScriptSize = FileTool.humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineScriptSize(), si);</span>
-<span class="fc" id="L379">        String compInlineStyleSize = FileTool.humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineStyleSize(), si);</span>
+<span class="fc" id="L385">        int compFilesizeBytes = htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getFilesize();</span>
+<span class="fc" id="L386">        String compFilesize = FileTool.humanReadableByteCount(compFilesizeBytes, si);</span>
+<span class="fc" id="L387">        String compEmptyChars = String</span>
+<span class="fc" id="L388">                .valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getEmptyChars());</span>
+<span class="fc" id="L389">        String compInlineEventSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L390">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineEventSize(), si);</span>
+<span class="fc" id="L391">        String compInlineScriptSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L392">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineScriptSize(), si);</span>
+<span class="fc" id="L393">        String compInlineStyleSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L394">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineStyleSize(), si);</span>
 
-<span class="fc" id="L381">        String elapsedTime = FileTool.getElapsedHMSTime(htmlCompressor.getHtmlCompressor().getStatistics().getTime());</span>
-<span class="fc" id="L382">        String preservedSize = FileTool.humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getPreservedSize(), si);</span>
-<span class="fc" id="L383">        Float compressionRatio = Float.valueOf(compFilesizeBytes) / Float.valueOf(origFilesizeBytes);</span>
-<span class="fc" id="L384">        Float spaceSavings = Float.valueOf(1) - compressionRatio;</span>
+<span class="fc" id="L396">        String elapsedTime = FileTool.getElapsedHMSTime(htmlCompressor.getHtmlCompressor().getStatistics().getTime());</span>
+<span class="fc" id="L397">        String preservedSize = FileTool</span>
+<span class="fc" id="L398">                .humanReadableByteCount(htmlCompressor.getHtmlCompressor().getStatistics().getPreservedSize(), si);</span>
+<span class="fc" id="L399">        Float compressionRatio = Float.valueOf(compFilesizeBytes) / Float.valueOf(origFilesizeBytes);</span>
+<span class="fc" id="L400">        Float spaceSavings = Float.valueOf(1) - compressionRatio;</span>
 
-<span class="fc" id="L386">        String format = &quot;%-30s%-30s%-30s%-2s&quot;;</span>
-<span class="fc" id="L387">        NumberFormat formatter = new DecimalFormat(&quot;#0.00&quot;);</span>
-<span class="fc" id="L388">        String eol = &quot;\n&quot;;</span>
-<span class="fc" id="L389">        String hr = &quot;+-----------------------------+-----------------------------+-----------------------------+&quot;;</span>
-<span class="fc" id="L390">        StringBuilder sb = new StringBuilder(&quot;HTML compression statistics:&quot;).append(eol);</span>
-<span class="fc" id="L391">        sb.append(hr).append(eol);</span>
-<span class="fc" id="L392">        sb.append(String.format(format, &quot;| Category&quot;, &quot;| Original&quot;, &quot;| Compressed&quot;, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L393">        sb.append(hr).append(eol);</span>
-<span class="fc" id="L394">        sb.append(String.format(format, &quot;| Filesize&quot;, &quot;| &quot; + origFilesize, &quot;| &quot; + compFilesize, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L395">        sb.append(String.format(format, &quot;| Empty Chars&quot;, &quot;| &quot; + origEmptyChars, &quot;| &quot; + compEmptyChars, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L396">        sb.append(String.format(format, &quot;| Script Size&quot;, &quot;| &quot; + origInlineScriptSize, &quot;| &quot; + compInlineScriptSize, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L397">        sb.append(String.format(format, &quot;| Style Size&quot;, &quot;| &quot; + origInlineStyleSize, &quot;| &quot; + compInlineStyleSize, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L398">        sb.append(String.format(format, &quot;| Event Handler Size&quot;, &quot;| &quot; + origInlineEventSize, &quot;| &quot; + compInlineEventSize, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L399">        sb.append(hr).append(eol);</span>
-<span class="fc" id="L400">        sb.append(String.format(&quot;%-90s%-2s&quot;,</span>
-<span class="fc" id="L401">                String.format(&quot;| Time: %s, Preserved: %s, Compression Ratio: %s, Savings: %s%%&quot;,</span>
-<span class="fc" id="L402">                        elapsedTime, preservedSize, formatter.format(compressionRatio), formatter.format(spaceSavings*100)),</span>
-<span class="fc" id="L403">                &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L404">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L402">        String format = &quot;%-30s%-30s%-30s%-2s&quot;;</span>
+<span class="fc" id="L403">        NumberFormat formatter = new DecimalFormat(&quot;#0.00&quot;);</span>
+<span class="fc" id="L404">        String eol = &quot;\n&quot;;</span>
+<span class="fc" id="L405">        String hr = &quot;+-----------------------------+-----------------------------+-----------------------------+&quot;;</span>
+<span class="fc" id="L406">        StringBuilder sb = new StringBuilder(&quot;HTML compression statistics:&quot;).append(eol);</span>
+<span class="fc" id="L407">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L408">        sb.append(String.format(format, &quot;| Category&quot;, &quot;| Original&quot;, &quot;| Compressed&quot;, &quot;|&quot;)).append(eol);</span>
+<span class="fc" id="L409">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L410">        sb.append(String.format(format, &quot;| Filesize&quot;, &quot;| &quot; + origFilesize, &quot;| &quot; + compFilesize, &quot;|&quot;)).append(eol);</span>
+<span class="fc" id="L411">        sb.append(String.format(format, &quot;| Empty Chars&quot;, &quot;| &quot; + origEmptyChars, &quot;| &quot; + compEmptyChars, &quot;|&quot;))</span>
+<span class="fc" id="L412">                .append(eol);</span>
+<span class="fc" id="L413">        sb.append(String.format(format, &quot;| Script Size&quot;, &quot;| &quot; + origInlineScriptSize, &quot;| &quot; + compInlineScriptSize, &quot;|&quot;))</span>
+<span class="fc" id="L414">                .append(eol);</span>
+<span class="fc" id="L415">        sb.append(String.format(format, &quot;| Style Size&quot;, &quot;| &quot; + origInlineStyleSize, &quot;| &quot; + compInlineStyleSize, &quot;|&quot;))</span>
+<span class="fc" id="L416">                .append(eol);</span>
+<span class="fc" id="L417">        sb.append(String.format(format, &quot;| Event Handler Size&quot;, &quot;| &quot; + origInlineEventSize, &quot;| &quot; + compInlineEventSize,</span>
+<span class="fc" id="L418">                &quot;|&quot;)).append(eol);</span>
+<span class="fc" id="L419">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L420">        sb.append(String.format(&quot;%-90s%-2s&quot;,</span>
+<span class="fc" id="L421">                String.format(&quot;| Time: %s, Preserved: %s, Compression Ratio: %s, Savings: %s%%&quot;, elapsedTime,</span>
+<span class="fc" id="L422">                        preservedSize, formatter.format(compressionRatio), formatter.format(spaceSavings * 100)),</span>
+<span class="fc" id="L423">                &quot;|&quot;)).append(eol);</span>
+<span class="fc" id="L424">        sb.append(hr).append(eol);</span>
 
-<span class="fc" id="L406">        String statistics = sb.toString();</span>
-<span class="fc" id="L407">        getLog().info(statistics);</span>
+<span class="fc" id="L426">        String statistics = sb.toString();</span>
+<span class="fc" id="L427">        getLog().info(statistics);</span>
         try {
-<span class="fc" id="L409">            Files.writeString(Path.of(htmlCompressionStatistics), statistics, Charset.forName(encoding));</span>
-<span class="nc" id="L410">        } catch (IOException e) {</span>
-<span class="nc" id="L411">            throw new MojoExecutionException(e.getMessage());</span>
-<span class="fc" id="L412">        }</span>
+<span class="fc" id="L429">            Files.createDirectories(Path.of(htmlCompressionStatistics).getParent());</span>
+<span class="fc" id="L430">            Files.writeString(Path.of(htmlCompressionStatistics), statistics, Charset.forName(encoding));</span>
+<span class="nc" id="L431">        } catch (IOException e) {</span>
+<span class="nc" id="L432">            throw new MojoExecutionException(e.getMessage());</span>
+<span class="fc" id="L433">        }</span>
 
-<span class="fc" id="L414">        getLog().info(&quot;HTML compression completed.&quot;);</span>
-<span class="fc" id="L415">    }</span>
+<span class="fc" id="L435">        getLog().info(&quot;HTML compression completed.&quot;);</span>
+<span class="fc" id="L436">    }</span>
 
     /**
      * Gets the html compression statistics.
@@ -420,17 +441,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the html compression statistics
      */
     public String getHtmlCompressionStatistics() {
-<span class="nc" id="L423">        return htmlCompressionStatistics;</span>
+<span class="nc" id="L444">        return htmlCompressionStatistics;</span>
     }
 
     /**
      * Sets the html compression statistics.
      *
-     * @param htmlCompressionStatistics the new html compression statistics
+     * @param htmlCompressionStatistics
+     *            the new html compression statistics
      */
     public void setHtmlCompressionStatistics(String htmlCompressionStatistics) {
-<span class="nc" id="L432">        this.htmlCompressionStatistics = htmlCompressionStatistics;</span>
-<span class="nc" id="L433">    }</span>
+<span class="nc" id="L454">        this.htmlCompressionStatistics = htmlCompressionStatistics;</span>
+<span class="nc" id="L455">    }</span>
 
     /**
      * Gets the file ext.
@@ -438,35 +460,37 @@ import java.util.regex.PatternSyntaxException;
      * @return the file ext
      */
     public String[] getFileExt() {
-<span class="nc" id="L441">        return fileExt;</span>
+<span class="nc" id="L463">        return fileExt;</span>
     }
 
     /**
      * Sets the file ext.
      *
-     * @param fileExt the new file ext
+     * @param fileExt
+     *            the new file ext
      */
     public void setFileExt(String[] fileExt) {
-<span class="nc" id="L450">        this.fileExt = fileExt;</span>
-<span class="nc" id="L451">    }</span>
-    
+<span class="nc" id="L473">        this.fileExt = fileExt;</span>
+<span class="nc" id="L474">    }</span>
+
     /**
      * Gets the enabled.
      *
      * @return the enabled
      */
     public Boolean getEnabled() {
-<span class="nc" id="L459">        return enabled;</span>
+<span class="nc" id="L482">        return enabled;</span>
     }
 
     /**
      * Sets the enabled.
      *
-     * @param enabled the new enabled
+     * @param enabled
+     *            the new enabled
      */
     public void setEnabled(Boolean enabled) {
-<span class="nc" id="L468">        this.enabled = enabled;</span>
-<span class="nc" id="L469">    }</span>
+<span class="nc" id="L492">        this.enabled = enabled;</span>
+<span class="nc" id="L493">    }</span>
 
     /**
      * Gets the removes the comments.
@@ -474,17 +498,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the comments
      */
     public Boolean getRemoveComments() {
-<span class="nc" id="L477">        return removeComments;</span>
+<span class="nc" id="L501">        return removeComments;</span>
     }
 
     /**
      * Sets the removes the comments.
      *
-     * @param removeComments the new removes the comments
+     * @param removeComments
+     *            the new removes the comments
      */
     public void setRemoveComments(Boolean removeComments) {
-<span class="nc" id="L486">        this.removeComments = removeComments;</span>
-<span class="nc" id="L487">    }</span>
+<span class="nc" id="L511">        this.removeComments = removeComments;</span>
+<span class="nc" id="L512">    }</span>
 
     /**
      * Gets the removes the multi spaces.
@@ -492,17 +517,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the multi spaces
      */
     public Boolean getRemoveMultiSpaces() {
-<span class="nc" id="L495">        return removeMultiSpaces;</span>
+<span class="nc" id="L520">        return removeMultiSpaces;</span>
     }
 
     /**
      * Sets the removes the multi spaces.
      *
-     * @param removeMultiSpaces the new removes the multi spaces
+     * @param removeMultiSpaces
+     *            the new removes the multi spaces
      */
     public void setRemoveMultiSpaces(Boolean removeMultiSpaces) {
-<span class="nc" id="L504">        this.removeMultiSpaces = removeMultiSpaces;</span>
-<span class="nc" id="L505">    }</span>
+<span class="nc" id="L530">        this.removeMultiSpaces = removeMultiSpaces;</span>
+<span class="nc" id="L531">    }</span>
 
     /**
      * Gets the removes the intertag spaces.
@@ -510,17 +536,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the intertag spaces
      */
     public Boolean getRemoveIntertagSpaces() {
-<span class="nc" id="L513">        return removeIntertagSpaces;</span>
+<span class="nc" id="L539">        return removeIntertagSpaces;</span>
     }
 
     /**
      * Sets the removes the intertag spaces.
      *
-     * @param removeIntertagSpaces the new removes the intertag spaces
+     * @param removeIntertagSpaces
+     *            the new removes the intertag spaces
      */
     public void setRemoveIntertagSpaces(Boolean removeIntertagSpaces) {
-<span class="nc" id="L522">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
-<span class="nc" id="L523">    }</span>
+<span class="nc" id="L549">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
+<span class="nc" id="L550">    }</span>
 
     /**
      * Gets the removes the quotes.
@@ -528,17 +555,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the quotes
      */
     public Boolean getRemoveQuotes() {
-<span class="nc" id="L531">        return removeQuotes;</span>
+<span class="nc" id="L558">        return removeQuotes;</span>
     }
 
     /**
      * Sets the removes the quotes.
      *
-     * @param removeQuotes the new removes the quotes
+     * @param removeQuotes
+     *            the new removes the quotes
      */
     public void setRemoveQuotes(Boolean removeQuotes) {
-<span class="nc" id="L540">        this.removeQuotes = removeQuotes;</span>
-<span class="nc" id="L541">    }</span>
+<span class="nc" id="L568">        this.removeQuotes = removeQuotes;</span>
+<span class="nc" id="L569">    }</span>
 
     /**
      * Gets the simple doctype.
@@ -546,17 +574,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the simple doctype
      */
     public Boolean getSimpleDoctype() {
-<span class="nc" id="L549">        return simpleDoctype;</span>
+<span class="nc" id="L577">        return simpleDoctype;</span>
     }
 
     /**
      * Sets the simple doctype.
      *
-     * @param simpleDoctype the new simple doctype
+     * @param simpleDoctype
+     *            the new simple doctype
      */
     public void setSimpleDoctype(Boolean simpleDoctype) {
-<span class="nc" id="L558">        this.simpleDoctype = simpleDoctype;</span>
-<span class="nc" id="L559">    }</span>
+<span class="nc" id="L587">        this.simpleDoctype = simpleDoctype;</span>
+<span class="nc" id="L588">    }</span>
 
     /**
      * Gets the removes the script attributes.
@@ -564,17 +593,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the script attributes
      */
     public Boolean getRemoveScriptAttributes() {
-<span class="nc" id="L567">        return removeScriptAttributes;</span>
+<span class="nc" id="L596">        return removeScriptAttributes;</span>
     }
 
     /**
      * Sets the removes the script attributes.
      *
-     * @param removeScriptAttributes the new removes the script attributes
+     * @param removeScriptAttributes
+     *            the new removes the script attributes
      */
     public void setRemoveScriptAttributes(Boolean removeScriptAttributes) {
-<span class="nc" id="L576">        this.removeScriptAttributes = removeScriptAttributes;</span>
-<span class="nc" id="L577">    }</span>
+<span class="nc" id="L606">        this.removeScriptAttributes = removeScriptAttributes;</span>
+<span class="nc" id="L607">    }</span>
 
     /**
      * Gets the removes the style attributes.
@@ -582,17 +612,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the style attributes
      */
     public Boolean getRemoveStyleAttributes() {
-<span class="nc" id="L585">        return removeStyleAttributes;</span>
+<span class="nc" id="L615">        return removeStyleAttributes;</span>
     }
 
     /**
      * Sets the removes the style attributes.
      *
-     * @param removeStyleAttributes the new removes the style attributes
+     * @param removeStyleAttributes
+     *            the new removes the style attributes
      */
     public void setRemoveStyleAttributes(Boolean removeStyleAttributes) {
-<span class="nc" id="L594">        this.removeStyleAttributes = removeStyleAttributes;</span>
-<span class="nc" id="L595">    }</span>
+<span class="nc" id="L625">        this.removeStyleAttributes = removeStyleAttributes;</span>
+<span class="nc" id="L626">    }</span>
 
     /**
      * Gets the removes the link attributes.
@@ -600,17 +631,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the link attributes
      */
     public Boolean getRemoveLinkAttributes() {
-<span class="nc" id="L603">        return removeLinkAttributes;</span>
+<span class="nc" id="L634">        return removeLinkAttributes;</span>
     }
 
     /**
      * Sets the removes the link attributes.
      *
-     * @param removeLinkAttributes the new removes the link attributes
+     * @param removeLinkAttributes
+     *            the new removes the link attributes
      */
     public void setRemoveLinkAttributes(Boolean removeLinkAttributes) {
-<span class="nc" id="L612">        this.removeLinkAttributes = removeLinkAttributes;</span>
-<span class="nc" id="L613">    }</span>
+<span class="nc" id="L644">        this.removeLinkAttributes = removeLinkAttributes;</span>
+<span class="nc" id="L645">    }</span>
 
     /**
      * Gets the removes the form attributes.
@@ -618,17 +650,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the form attributes
      */
     public Boolean getRemoveFormAttributes() {
-<span class="nc" id="L621">        return removeFormAttributes;</span>
+<span class="nc" id="L653">        return removeFormAttributes;</span>
     }
 
     /**
      * Sets the removes the form attributes.
      *
-     * @param removeFormAttributes the new removes the form attributes
+     * @param removeFormAttributes
+     *            the new removes the form attributes
      */
     public void setRemoveFormAttributes(Boolean removeFormAttributes) {
-<span class="nc" id="L630">        this.removeFormAttributes = removeFormAttributes;</span>
-<span class="nc" id="L631">    }</span>
+<span class="nc" id="L663">        this.removeFormAttributes = removeFormAttributes;</span>
+<span class="nc" id="L664">    }</span>
 
     /**
      * Gets the removes the input attributes.
@@ -636,17 +669,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the input attributes
      */
     public Boolean getRemoveInputAttributes() {
-<span class="nc" id="L639">        return removeInputAttributes;</span>
+<span class="nc" id="L672">        return removeInputAttributes;</span>
     }
 
     /**
      * Sets the removes the input attributes.
      *
-     * @param removeInputAttributes the new removes the input attributes
+     * @param removeInputAttributes
+     *            the new removes the input attributes
      */
     public void setRemoveInputAttributes(Boolean removeInputAttributes) {
-<span class="nc" id="L648">        this.removeInputAttributes = removeInputAttributes;</span>
-<span class="nc" id="L649">    }</span>
+<span class="nc" id="L682">        this.removeInputAttributes = removeInputAttributes;</span>
+<span class="nc" id="L683">    }</span>
 
     /**
      * Gets the simple boolean attributes.
@@ -654,17 +688,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the simple boolean attributes
      */
     public Boolean getSimpleBooleanAttributes() {
-<span class="nc" id="L657">        return simpleBooleanAttributes;</span>
+<span class="nc" id="L691">        return simpleBooleanAttributes;</span>
     }
 
     /**
      * Sets the simple boolean attributes.
      *
-     * @param simpleBooleanAttributes the new simple boolean attributes
+     * @param simpleBooleanAttributes
+     *            the new simple boolean attributes
      */
     public void setSimpleBooleanAttributes(Boolean simpleBooleanAttributes) {
-<span class="nc" id="L666">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
-<span class="nc" id="L667">    }</span>
+<span class="nc" id="L701">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
+<span class="nc" id="L702">    }</span>
 
     /**
      * Gets the removes the java script protocol.
@@ -672,17 +707,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the java script protocol
      */
     public Boolean getRemoveJavaScriptProtocol() {
-<span class="nc" id="L675">        return removeJavaScriptProtocol;</span>
+<span class="nc" id="L710">        return removeJavaScriptProtocol;</span>
     }
 
     /**
      * Sets the removes the java script protocol.
      *
-     * @param removeJavaScriptProtocol the new removes the java script protocol
+     * @param removeJavaScriptProtocol
+     *            the new removes the java script protocol
      */
     public void setRemoveJavaScriptProtocol(Boolean removeJavaScriptProtocol) {
-<span class="nc" id="L684">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
-<span class="nc" id="L685">    }</span>
+<span class="nc" id="L720">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
+<span class="nc" id="L721">    }</span>
 
     /**
      * Gets the removes the http protocol.
@@ -690,17 +726,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the http protocol
      */
     public Boolean getRemoveHttpProtocol() {
-<span class="nc" id="L693">        return removeHttpProtocol;</span>
+<span class="nc" id="L729">        return removeHttpProtocol;</span>
     }
 
     /**
      * Sets the removes the http protocol.
      *
-     * @param removeHttpProtocol the new removes the http protocol
+     * @param removeHttpProtocol
+     *            the new removes the http protocol
      */
     public void setRemoveHttpProtocol(Boolean removeHttpProtocol) {
-<span class="nc" id="L702">        this.removeHttpProtocol = removeHttpProtocol;</span>
-<span class="nc" id="L703">    }</span>
+<span class="nc" id="L739">        this.removeHttpProtocol = removeHttpProtocol;</span>
+<span class="nc" id="L740">    }</span>
 
     /**
      * Gets the removes the https protocol.
@@ -708,17 +745,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the removes the https protocol
      */
     public Boolean getRemoveHttpsProtocol() {
-<span class="nc" id="L711">        return removeHttpsProtocol;</span>
+<span class="nc" id="L748">        return removeHttpsProtocol;</span>
     }
 
     /**
      * Sets the removes the https protocol.
      *
-     * @param removeHttpsProtocol the new removes the https protocol
+     * @param removeHttpsProtocol
+     *            the new removes the https protocol
      */
     public void setRemoveHttpsProtocol(Boolean removeHttpsProtocol) {
-<span class="nc" id="L720">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
-<span class="nc" id="L721">    }</span>
+<span class="nc" id="L758">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
+<span class="nc" id="L759">    }</span>
 
     /**
      * Gets the compress css.
@@ -726,17 +764,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the compress css
      */
     public Boolean getCompressCss() {
-<span class="nc" id="L729">        return compressCss;</span>
+<span class="nc" id="L767">        return compressCss;</span>
     }
 
     /**
      * Sets the compress css.
      *
-     * @param compressCss the new compress css
+     * @param compressCss
+     *            the new compress css
      */
     public void setCompressCss(Boolean compressCss) {
-<span class="nc" id="L738">        this.compressCss = compressCss;</span>
-<span class="nc" id="L739">    }</span>
+<span class="nc" id="L777">        this.compressCss = compressCss;</span>
+<span class="nc" id="L778">    }</span>
 
     /**
      * Gets the preserve line breaks.
@@ -744,17 +783,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the preserve line breaks
      */
     public Boolean getPreserveLineBreaks() {
-<span class="nc" id="L747">        return preserveLineBreaks;</span>
+<span class="nc" id="L786">        return preserveLineBreaks;</span>
     }
 
     /**
      * Sets the preserve line breaks.
      *
-     * @param preserveLineBreaks the new preserve line breaks
+     * @param preserveLineBreaks
+     *            the new preserve line breaks
      */
     public void setPreserveLineBreaks(Boolean preserveLineBreaks) {
-<span class="nc" id="L756">        this.preserveLineBreaks = preserveLineBreaks;</span>
-<span class="nc" id="L757">    }</span>
+<span class="nc" id="L796">        this.preserveLineBreaks = preserveLineBreaks;</span>
+<span class="nc" id="L797">    }</span>
 
     /**
      * Gets the yui css line break.
@@ -762,17 +802,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the yui css line break
      */
     public Integer getYuiCssLineBreak() {
-<span class="nc" id="L765">        return yuiCssLineBreak;</span>
+<span class="nc" id="L805">        return yuiCssLineBreak;</span>
     }
 
     /**
      * Sets the yui css line break.
      *
-     * @param yuiCssLineBreak the new yui css line break
+     * @param yuiCssLineBreak
+     *            the new yui css line break
      */
     public void setYuiCssLineBreak(Integer yuiCssLineBreak) {
-<span class="nc" id="L774">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
-<span class="nc" id="L775">    }</span>
+<span class="nc" id="L815">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
+<span class="nc" id="L816">    }</span>
 
     /**
      * Gets the compress java script.
@@ -780,17 +821,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the compress java script
      */
     public Boolean getCompressJavaScript() {
-<span class="nc" id="L783">        return compressJavaScript;</span>
+<span class="nc" id="L824">        return compressJavaScript;</span>
     }
 
     /**
      * Sets the compress java script.
      *
-     * @param compressJavaScript the new compress java script
+     * @param compressJavaScript
+     *            the new compress java script
      */
     public void setCompressJavaScript(Boolean compressJavaScript) {
-<span class="nc" id="L792">        this.compressJavaScript = compressJavaScript;</span>
-<span class="nc" id="L793">    }</span>
+<span class="nc" id="L834">        this.compressJavaScript = compressJavaScript;</span>
+<span class="nc" id="L835">    }</span>
 
     /**
      * Gets the js compressor.
@@ -798,17 +840,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the js compressor
      */
     public String getJsCompressor() {
-<span class="nc" id="L801">        return jsCompressor;</span>
+<span class="nc" id="L843">        return jsCompressor;</span>
     }
 
     /**
      * Sets the js compressor.
      *
-     * @param jsCompressor the new js compressor
+     * @param jsCompressor
+     *            the new js compressor
      */
     public void setJsCompressor(String jsCompressor) {
-<span class="nc" id="L810">        this.jsCompressor = jsCompressor;</span>
-<span class="nc" id="L811">    }</span>
+<span class="nc" id="L853">        this.jsCompressor = jsCompressor;</span>
+<span class="nc" id="L854">    }</span>
 
     /**
      * Gets the yui js no munge.
@@ -816,17 +859,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the yui js no munge
      */
     public Boolean getYuiJsNoMunge() {
-<span class="nc" id="L819">        return yuiJsNoMunge;</span>
+<span class="nc" id="L862">        return yuiJsNoMunge;</span>
     }
 
     /**
      * Sets the yui js no munge.
      *
-     * @param yuiJsNoMunge the new yui js no munge
+     * @param yuiJsNoMunge
+     *            the new yui js no munge
      */
     public void setYuiJsNoMunge(Boolean yuiJsNoMunge) {
-<span class="nc" id="L828">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
-<span class="nc" id="L829">    }</span>
+<span class="nc" id="L872">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
+<span class="nc" id="L873">    }</span>
 
     /**
      * Gets the yui js preserve all semi colons.
@@ -834,17 +878,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the yui js preserve all semi colons
      */
     public Boolean getYuiJsPreserveAllSemiColons() {
-<span class="nc" id="L837">        return yuiJsPreserveAllSemiColons;</span>
+<span class="nc" id="L881">        return yuiJsPreserveAllSemiColons;</span>
     }
 
     /**
      * Sets the yui js preserve all semi colons.
      *
-     * @param yuiJsPreserveAllSemiColons the new yui js preserve all semi colons
+     * @param yuiJsPreserveAllSemiColons
+     *            the new yui js preserve all semi colons
      */
     public void setYuiJsPreserveAllSemiColons(Boolean yuiJsPreserveAllSemiColons) {
-<span class="nc" id="L846">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
-<span class="nc" id="L847">    }</span>
+<span class="nc" id="L891">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
+<span class="nc" id="L892">    }</span>
 
     /**
      * Gets the yui js line break.
@@ -852,17 +897,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the yui js line break
      */
     public Integer getYuiJsLineBreak() {
-<span class="nc" id="L855">        return yuiJsLineBreak;</span>
+<span class="nc" id="L900">        return yuiJsLineBreak;</span>
     }
 
     /**
      * Sets the yui js line break.
      *
-     * @param yuiJsLineBreak the new yui js line break
+     * @param yuiJsLineBreak
+     *            the new yui js line break
      */
     public void setYuiJsLineBreak(Integer yuiJsLineBreak) {
-<span class="nc" id="L864">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
-<span class="nc" id="L865">    }</span>
+<span class="nc" id="L910">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
+<span class="nc" id="L911">    }</span>
 
     /**
      * Gets the closure opt level.
@@ -870,17 +916,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the closure opt level
      */
     public String getClosureOptLevel() {
-<span class="nc" id="L873">        return closureOptLevel;</span>
+<span class="nc" id="L919">        return closureOptLevel;</span>
     }
 
     /**
      * Sets the closure opt level.
      *
-     * @param closureOptLevel the new closure opt level
+     * @param closureOptLevel
+     *            the new closure opt level
      */
     public void setClosureOptLevel(String closureOptLevel) {
-<span class="nc" id="L882">        this.closureOptLevel = closureOptLevel;</span>
-<span class="nc" id="L883">    }</span>
+<span class="nc" id="L929">        this.closureOptLevel = closureOptLevel;</span>
+<span class="nc" id="L930">    }</span>
 
     /**
      * Gets the yui js disable optimizations.
@@ -888,17 +935,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the yui js disable optimizations
      */
     public Boolean getYuiJsDisableOptimizations() {
-<span class="nc" id="L891">        return yuiJsDisableOptimizations;</span>
+<span class="nc" id="L938">        return yuiJsDisableOptimizations;</span>
     }
 
     /**
      * Sets the yui js disable optimizations.
      *
-     * @param yuiJsDisableOptimizations the new yui js disable optimizations
+     * @param yuiJsDisableOptimizations
+     *            the new yui js disable optimizations
      */
     public void setYuiJsDisableOptimizations(Boolean yuiJsDisableOptimizations) {
-<span class="nc" id="L900">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
-<span class="nc" id="L901">    }</span>
+<span class="nc" id="L948">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
+<span class="nc" id="L949">    }</span>
 
     /**
      * Gets the predefined preserve patterns.
@@ -906,17 +954,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the predefined preserve patterns
      */
     public String[] getPredefinedPreservePatterns() {
-<span class="nc" id="L909">        return predefinedPreservePatterns;</span>
+<span class="nc" id="L957">        return predefinedPreservePatterns;</span>
     }
 
     /**
      * Sets the predefined preserve patterns.
      *
-     * @param predefinedPreservePatterns the new predefined preserve patterns
+     * @param predefinedPreservePatterns
+     *            the new predefined preserve patterns
      */
     public void setPredefinedPreservePatterns(String[] predefinedPreservePatterns) {
-<span class="nc" id="L918">        this.predefinedPreservePatterns = predefinedPreservePatterns;</span>
-<span class="nc" id="L919">    }</span>
+<span class="nc" id="L967">        this.predefinedPreservePatterns = predefinedPreservePatterns;</span>
+<span class="nc" id="L968">    }</span>
 
     /**
      * Gets the preserve patterns.
@@ -924,17 +973,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the preserve patterns
      */
     public String[] getPreservePatterns() {
-<span class="nc" id="L927">        return preservePatterns;</span>
+<span class="nc" id="L976">        return preservePatterns;</span>
     }
 
     /**
      * Sets the preserve patterns.
      *
-     * @param preservePatterns the new preserve patterns
+     * @param preservePatterns
+     *            the new preserve patterns
      */
     public void setPreservePatterns(String[] preservePatterns) {
-<span class="nc" id="L936">        this.preservePatterns = preservePatterns;</span>
-<span class="nc" id="L937">    }</span>
+<span class="nc" id="L986">        this.preservePatterns = preservePatterns;</span>
+<span class="nc" id="L987">    }</span>
 
     /**
      * Gets the preserve pattern files.
@@ -942,17 +992,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the preserve pattern files
      */
     public File[] getPreservePatternFiles() {
-<span class="nc" id="L945">        return preservePatternFiles;</span>
+<span class="nc" id="L995">        return preservePatternFiles;</span>
     }
 
     /**
      * Sets the preserve pattern files.
      *
-     * @param preservePatternFiles the new preserve pattern files
+     * @param preservePatternFiles
+     *            the new preserve pattern files
      */
     public void setPreservePatternFiles(File[] preservePatternFiles) {
-<span class="nc" id="L954">        this.preservePatternFiles = preservePatternFiles;</span>
-<span class="nc" id="L955">    }</span>
+<span class="nc" id="L1005">        this.preservePatternFiles = preservePatternFiles;</span>
+<span class="nc" id="L1006">    }</span>
 
     /**
      * Gets the generate statistics.
@@ -960,17 +1011,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the generate statistics
      */
     public Boolean getGenerateStatistics() {
-<span class="nc" id="L963">        return generateStatistics;</span>
+<span class="nc" id="L1014">        return generateStatistics;</span>
     }
 
     /**
      * Sets the generate statistics.
      *
-     * @param generateStatistics the new generate statistics
+     * @param generateStatistics
+     *            the new generate statistics
      */
     public void setGenerateStatistics(Boolean generateStatistics) {
-<span class="nc" id="L972">        this.generateStatistics = generateStatistics;</span>
-<span class="nc" id="L973">    }</span>
+<span class="nc" id="L1024">        this.generateStatistics = generateStatistics;</span>
+<span class="nc" id="L1025">    }</span>
 
     /**
      * Gets the src folder.
@@ -978,17 +1030,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the src folder
      */
     public String getSrcFolder() {
-<span class="nc" id="L981">        return srcFolder;</span>
+<span class="nc" id="L1033">        return srcFolder;</span>
     }
 
     /**
      * Sets the src folder.
      *
-     * @param srcFolder the new src folder
+     * @param srcFolder
+     *            the new src folder
      */
     public void setSrcFolder(String srcFolder) {
-<span class="fc" id="L990">        this.srcFolder = srcFolder;</span>
-<span class="fc" id="L991">    }</span>
+<span class="fc" id="L1043">        this.srcFolder = srcFolder;</span>
+<span class="fc" id="L1044">    }</span>
 
     /**
      * Gets the target folder.
@@ -996,17 +1049,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the target folder
      */
     public String getTargetFolder() {
-<span class="nc" id="L999">        return targetFolder;</span>
+<span class="nc" id="L1052">        return targetFolder;</span>
     }
 
     /**
      * Sets the target folder.
      *
-     * @param targetFolder the new target folder
+     * @param targetFolder
+     *            the new target folder
      */
     public void setTargetFolder(String targetFolder) {
-<span class="fc" id="L1008">        this.targetFolder = targetFolder;</span>
-<span class="fc" id="L1009">    }</span>
+<span class="fc" id="L1062">        this.targetFolder = targetFolder;</span>
+<span class="fc" id="L1063">    }</span>
 
     /**
      * Gets the javascript html sprite.
@@ -1014,17 +1068,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the javascript html sprite
      */
     public Boolean getJavascriptHtmlSprite() {
-<span class="nc" id="L1017">        return javascriptHtmlSprite;</span>
+<span class="nc" id="L1071">        return javascriptHtmlSprite;</span>
     }
 
     /**
      * Sets the javascript html sprite.
      *
-     * @param javascriptHtmlSprite the new javascript html sprite
+     * @param javascriptHtmlSprite
+     *            the new javascript html sprite
      */
     public void setJavascriptHtmlSprite(Boolean javascriptHtmlSprite) {
-<span class="nc" id="L1026">        this.javascriptHtmlSprite = javascriptHtmlSprite;</span>
-<span class="nc" id="L1027">    }</span>
+<span class="nc" id="L1081">        this.javascriptHtmlSprite = javascriptHtmlSprite;</span>
+<span class="nc" id="L1082">    }</span>
 
     /**
      * Gets the javascript html sprite integration file.
@@ -1032,17 +1087,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the javascript html sprite integration file
      */
     public String getJavascriptHtmlSpriteIntegrationFile() {
-<span class="nc" id="L1035">        return javascriptHtmlSpriteIntegrationFile;</span>
+<span class="nc" id="L1090">        return javascriptHtmlSpriteIntegrationFile;</span>
     }
 
     /**
      * Sets the javascript html sprite integration file.
      *
-     * @param javascriptHtmlSpriteIntegrationFile the new javascript html sprite integration file
+     * @param javascriptHtmlSpriteIntegrationFile
+     *            the new javascript html sprite integration file
      */
     public void setJavascriptHtmlSpriteIntegrationFile(String javascriptHtmlSpriteIntegrationFile) {
-<span class="fc" id="L1044">        this.javascriptHtmlSpriteIntegrationFile = javascriptHtmlSpriteIntegrationFile;</span>
-<span class="fc" id="L1045">    }</span>
+<span class="fc" id="L1100">        this.javascriptHtmlSpriteIntegrationFile = javascriptHtmlSpriteIntegrationFile;</span>
+<span class="fc" id="L1101">    }</span>
 
     /**
      * Gets the javascript html sprite target file.
@@ -1050,17 +1106,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the javascript html sprite target file
      */
     public String getJavascriptHtmlSpriteTargetFile() {
-<span class="nc" id="L1053">        return javascriptHtmlSpriteTargetFile;</span>
+<span class="nc" id="L1109">        return javascriptHtmlSpriteTargetFile;</span>
     }
 
     /**
      * Sets the javascript html sprite target file.
      *
-     * @param javascriptHtmlSpriteTargetFile the new javascript html sprite target file
+     * @param javascriptHtmlSpriteTargetFile
+     *            the new javascript html sprite target file
      */
     public void setJavascriptHtmlSpriteTargetFile(String javascriptHtmlSpriteTargetFile) {
-<span class="nc" id="L1062">        this.javascriptHtmlSpriteTargetFile = javascriptHtmlSpriteTargetFile;</span>
-<span class="nc" id="L1063">    }</span>
+<span class="nc" id="L1119">        this.javascriptHtmlSpriteTargetFile = javascriptHtmlSpriteTargetFile;</span>
+<span class="nc" id="L1120">    }</span>
 
     /**
      * Gets the encoding.
@@ -1068,17 +1125,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the encoding
      */
     public String getEncoding() {
-<span class="nc" id="L1071">        return encoding;</span>
+<span class="nc" id="L1128">        return encoding;</span>
     }
 
     /**
      * Sets the encoding.
      *
-     * @param encoding the new encoding
+     * @param encoding
+     *            the new encoding
      */
     public void setEncoding(String encoding) {
-<span class="nc" id="L1080">        this.encoding = encoding;</span>
-<span class="nc" id="L1081">    }</span>
+<span class="nc" id="L1138">        this.encoding = encoding;</span>
+<span class="nc" id="L1139">    }</span>
 
     /**
      * Gets the closure custom externs only.
@@ -1086,17 +1144,18 @@ import java.util.regex.PatternSyntaxException;
      * @return the closure custom externs only
      */
     public Boolean getClosureCustomExternsOnly() {
-<span class="nc" id="L1089">        return closureCustomExternsOnly;</span>
+<span class="nc" id="L1147">        return closureCustomExternsOnly;</span>
     }
 
     /**
      * Sets the closure custom externs only.
      *
-     * @param closureCustomExternsOnly the new closure custom externs only
+     * @param closureCustomExternsOnly
+     *            the new closure custom externs only
      */
     public void setClosureCustomExternsOnly(Boolean closureCustomExternsOnly) {
-<span class="nc" id="L1098">        this.closureCustomExternsOnly = closureCustomExternsOnly;</span>
-<span class="nc" id="L1099">    }</span>
+<span class="nc" id="L1157">        this.closureCustomExternsOnly = closureCustomExternsOnly;</span>
+<span class="nc" id="L1158">    }</span>
 
     /**
      * Gets the closure externs.
@@ -1104,16 +1163,17 @@ import java.util.regex.PatternSyntaxException;
      * @return the closure externs
      */
     public String[] getClosureExterns() {
-<span class="nc" id="L1107">        return closureExterns;</span>
+<span class="nc" id="L1166">        return closureExterns;</span>
     }
 
     /**
      * Sets the closure externs.
      *
-     * @param closureExterns the new closure externs
+     * @param closureExterns
+     *            the new closure externs
      */
     public void setClosureExterns(String[] closureExterns) {
-<span class="nc" id="L1116">        this.closureExterns = closureExterns;</span>
-<span class="nc" id="L1117">    }</span>
+<span class="nc" id="L1176">        this.closureExterns = closureExterns;</span>
+<span class="nc" id="L1177">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

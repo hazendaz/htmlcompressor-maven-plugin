@@ -7,13 +7,13 @@
 <body>
 <div id="overview"><a href="../../../../../../testapidocs/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojoTest.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright (c) 2011 Alex Tunyk &lt;alex at tunyk.com&gt;.</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright (c) 2011-2023 Alex Tunyk &lt;alex at tunyk.com&gt;.</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> *</em>
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *   <a href="https://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">https://www.apache.org/licenses/LICENSE-2.0</a></em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
@@ -28,8 +28,8 @@
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.maven.plugin.MojoExecutionException;
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.AfterAll;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.BeforeEach;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.BeforeAll;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.BeforeAll;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.BeforeEach;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
@@ -69,23 +69,24 @@
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment">     * Test execute.</em>
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     * @throws MojoExecutionException the mojo execution exception</em>
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>      @Test
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">void</strong> testExecute() <strong class="jxr_keyword">throws</strong> MojoExecutionException {
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>          LOG.info(<span class="jxr_string">"Testing mojo execution..."</span>);
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>          HtmlCompressorMojo htmlCompressorMojo = <strong class="jxr_keyword">new</strong> HtmlCompressorMojo();
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>          htmlCompressorMojo.setSrcFolder(<span class="jxr_string">"src/test/resources/html"</span>);
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>          htmlCompressorMojo.setJavascriptHtmlSpriteIntegrationFile(<span class="jxr_string">"src/test/resources/html/integration.js"</span>);
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>          htmlCompressorMojo.setTargetFolder(<span class="jxr_string">"target/htmlcompressor/html"</span>);
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>          htmlCompressorMojo.execute();
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>          <em class="jxr_comment">// TODO: test results</em>
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>          LOG.info(<span class="jxr_string">"Passed"</span>);
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>      }
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  }
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     * @throws MojoExecutionException</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">     *             the mojo execution exception</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      @Test
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">void</strong> testExecute() <strong class="jxr_keyword">throws</strong> MojoExecutionException {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          LOG.info(<span class="jxr_string">"Testing mojo execution..."</span>);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          HtmlCompressorMojo htmlCompressorMojo = <strong class="jxr_keyword">new</strong> HtmlCompressorMojo();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          htmlCompressorMojo.setSrcFolder(<span class="jxr_string">"src/test/resources/html"</span>);
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>          htmlCompressorMojo.setJavascriptHtmlSpriteIntegrationFile(<span class="jxr_string">"src/test/resources/html/integration.js"</span>);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>          htmlCompressorMojo.setTargetFolder(<span class="jxr_string">"target/htmlcompressor/html"</span>);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          htmlCompressorMojo.execute();
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          <em class="jxr_comment">// TODO: test results</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          LOG.info(<span class="jxr_string">"Passed"</span>);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      }
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2011&#x2013;2023 <a href="https://github.com/alextunyk/">alextunyk</a>. All rights reserved.</div>
