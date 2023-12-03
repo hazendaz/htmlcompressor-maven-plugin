@@ -160,21 +160,22 @@ public class FileTool {
      *
      * @param bytes
      *            the bytes
-     * @param si
-     *            the si
+     * @param systemOfUnits
+     *            the systemOfUnits
      *
      * @return the string
      */
     // TODO JWL 4/22/2023 Didn't see a good way to handle as it gets flagged to remove unnecessary cast if I fix this
     // per error-prone, so ignoring it
     @SuppressWarnings(&quot;LongDoubleConversion&quot;)
-    public static String humanReadableByteCount(long bytes, boolean si) {
-<span class="pc bpc" id="L172" title="1 of 2 branches missed.">        int unit = si ? 1000 : 1024;</span>
-<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        if (bytes &lt; unit)</span>
+    public static String humanReadableByteCount(long bytes, boolean systemOfUnits) {
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">        int unit = systemOfUnits ? 1000 : 1024;</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        if (bytes &lt; unit) {</span>
 <span class="fc" id="L174">            return bytes + &quot; B&quot;;</span>
-<span class="nc" id="L175">        int exp = (int) (Math.log(bytes) / Math.log(unit));</span>
-<span class="nc bnc" id="L176" title="All 4 branches missed.">        String pre = (si ? &quot;kMGTPE&quot; : &quot;KMGTPE&quot;).charAt(exp - 1) + (si ? &quot;&quot; : &quot;i&quot;);</span>
-<span class="nc" id="L177">        return String.format(&quot;%.1f %sB&quot;, bytes / Math.pow(unit, exp), pre);</span>
+        }
+<span class="nc" id="L176">        int exp = (int) (Math.log(bytes) / Math.log(unit));</span>
+<span class="nc bnc" id="L177" title="All 4 branches missed.">        String pre = (systemOfUnits ? &quot;kMGTPE&quot; : &quot;KMGTPE&quot;).charAt(exp - 1) + (systemOfUnits ? &quot;&quot; : &quot;i&quot;);</span>
+<span class="nc" id="L178">        return String.format(&quot;%.1f %sB&quot;, bytes / Math.pow(unit, exp), pre);</span>
     }
 
     /**
@@ -186,12 +187,12 @@ public class FileTool {
      * @return the elapsed HMS time
      */
     public static String getElapsedHMSTime(long elapsedTime) {
-<span class="fc" id="L189">        String format = String.format(&quot;%%0%dd&quot;, 2);</span>
-<span class="fc" id="L190">        elapsedTime = elapsedTime / 1000;</span>
-<span class="fc" id="L191">        String seconds = String.format(format, elapsedTime % 60);</span>
-<span class="fc" id="L192">        String minutes = String.format(format, (elapsedTime % 3600) / 60);</span>
-<span class="fc" id="L193">        String hours = String.format(format, elapsedTime / 3600);</span>
-<span class="fc" id="L194">        return hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds;</span>
+<span class="fc" id="L190">        String format = String.format(&quot;%%0%dd&quot;, 2);</span>
+<span class="fc" id="L191">        elapsedTime = elapsedTime / 1000;</span>
+<span class="fc" id="L192">        String seconds = String.format(format, elapsedTime % 60);</span>
+<span class="fc" id="L193">        String minutes = String.format(format, (elapsedTime % 3600) / 60);</span>
+<span class="fc" id="L194">        String hours = String.format(format, elapsedTime / 3600);</span>
+<span class="fc" id="L195">        return hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds;</span>
     }
 
     /**
@@ -200,7 +201,7 @@ public class FileTool {
      * @return the root dir path
      */
     public String getRootDirPath() {
-<span class="nc" id="L203">        return rootDirPath;</span>
+<span class="nc" id="L204">        return rootDirPath;</span>
     }
 
     /**
@@ -213,9 +214,9 @@ public class FileTool {
      *             Signals that an I/O exception has occurred.
      */
     public void setRootDirPath(String rootDirPath) throws IOException {
-<span class="fc" id="L216">        File file = new File(rootDirPath);</span>
-<span class="fc" id="L217">        this.rootDirPath = file.getCanonicalPath().replace(&quot;\\&quot;, &quot;/&quot;).replaceAll(&quot;/$&quot;, &quot;&quot;);</span>
-<span class="fc" id="L218">    }</span>
+<span class="fc" id="L217">        File file = new File(rootDirPath);</span>
+<span class="fc" id="L218">        this.rootDirPath = file.getCanonicalPath().replace(&quot;\\&quot;, &quot;/&quot;).replaceAll(&quot;/$&quot;, &quot;&quot;);</span>
+<span class="fc" id="L219">    }</span>
 
     /**
      * Gets the file ext.
@@ -223,7 +224,7 @@ public class FileTool {
      * @return the file ext
      */
     public String[] getFileExt() {
-<span class="nc" id="L226">        return fileExt;</span>
+<span class="nc" id="L227">        return fileExt;</span>
     }
 
     /**
@@ -233,8 +234,8 @@ public class FileTool {
      *            the new file ext
      */
     public void setFileExt(String[] fileExt) {
-<span class="nc" id="L236">        this.fileExt = fileExt;</span>
-<span class="nc" id="L237">    }</span>
+<span class="nc" id="L237">        this.fileExt = fileExt;</span>
+<span class="nc" id="L238">    }</span>
 
     /**
      * Checks if is recursive.
@@ -242,7 +243,7 @@ public class FileTool {
      * @return true, if is recursive
      */
     public boolean isRecursive() {
-<span class="nc" id="L245">        return recursive;</span>
+<span class="nc" id="L246">        return recursive;</span>
     }
 
     /**
@@ -252,8 +253,8 @@ public class FileTool {
      *            the new recursive
      */
     public void setRecursive(boolean recursive) {
-<span class="nc" id="L255">        this.recursive = recursive;</span>
-<span class="nc" id="L256">    }</span>
+<span class="nc" id="L256">        this.recursive = recursive;</span>
+<span class="nc" id="L257">    }</span>
 
     /**
      * Gets the file encoding.
@@ -261,7 +262,7 @@ public class FileTool {
      * @return the file encoding
      */
     public Charset getFileEncoding() {
-<span class="fc bfc" id="L264" title="All 2 branches covered.">        return fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        return fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
     }
 
     /**
@@ -271,7 +272,7 @@ public class FileTool {
      *            the new file encoding
      */
     public void setFileEncoding(Charset fileEncoding) {
-<span class="fc bfc" id="L274" title="All 2 branches covered.">        this.fileEncoding = fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
-<span class="fc" id="L275">    }</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">        this.fileEncoding = fileEncoding == null ? Charset.defaultCharset() : fileEncoding;</span>
+<span class="fc" id="L276">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

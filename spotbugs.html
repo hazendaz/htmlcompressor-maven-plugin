@@ -91,7 +91,7 @@
           <ul class="breadcrumb">
         <li id="publishDate">Last Published: 2023-12-02<span class="divider">|</span>
 </li>
-          <li id="projectVersion">Version: 1.9.2</li>
+          <li id="projectVersion">Version: 1.9.2.1</li>
           </ul>
         </div>
       </header>
@@ -209,7 +209,7 @@
 <td>com.tunyk.mvn.plugins.htmlcompressor.FileTool.getFileExt() may expose internal representation by returning FileTool.fileExt</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L226">226</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L227">227</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>new com.tunyk.mvn.plugins.htmlcompressor.FileTool(String, String[], boolean) may expose internal representation by storing an externally mutable object into FileTool.fileExt</td>
@@ -221,7 +221,7 @@
 <td>com.tunyk.mvn.plugins.htmlcompressor.FileTool.setFileExt(String[]) may expose internal representation by storing an externally mutable object into FileTool.fileExt</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L236">236</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L237">237</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Possible null pointer dereference in com.tunyk.mvn.plugins.htmlcompressor.FileTool.writeFiles(Map, String) due to return value of called method</td>
@@ -239,7 +239,7 @@
 <td>This API (java/io/File.&lt;init&gt;(Ljava/lang/String;)V) reads a file whose location might be specified by user input</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#PATH_TRAVERSAL_IN">PATH_TRAVERSAL_IN</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L216">216</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L217">217</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Constructor new com.tunyk.mvn.plugins.htmlcompressor.FileTool(String, String[], boolean) makes call to non-final method</td>
@@ -257,7 +257,7 @@
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.FileTool.setRootDirPath(String) passes constant String of length 1 to character overridden method</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L217">217</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L218">218</a></td>
 <td>Medium</td></tr></table></section><a name="com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressor"></a><section>
 <h3><a name="com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressor"></a>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressor</h3>
 <table border="0" class="table table-striped">
@@ -303,67 +303,67 @@
 <td>Do not catch NullPointerException like in com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute()</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#DCN_NULLPOINTER_EXCEPTION">DCN_NULLPOINTER_EXCEPTION</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L370">370</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L371">371</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.getClosureExterns() may expose internal representation by returning HtmlCompressorMojo.closureExterns</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L1166">1166</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L1173">1173</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.getFileExt() may expose internal representation by returning HtmlCompressorMojo.fileExt</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L463">463</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L470">470</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.getPredefinedPreservePatterns() may expose internal representation by returning HtmlCompressorMojo.predefinedPreservePatterns</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L957">957</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L964">964</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.getPreservePatternFiles() may expose internal representation by returning HtmlCompressorMojo.preservePatternFiles</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L995">995</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L1002">1002</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.getPreservePatterns() may expose internal representation by returning HtmlCompressorMojo.preservePatterns</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L976">976</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L983">983</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.setClosureExterns(String[]) may expose internal representation by storing an externally mutable object into HtmlCompressorMojo.closureExterns</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L1176">1176</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L1183">1183</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.setFileExt(String[]) may expose internal representation by storing an externally mutable object into HtmlCompressorMojo.fileExt</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L473">473</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L480">480</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.setPredefinedPreservePatterns(String[]) may expose internal representation by storing an externally mutable object into HtmlCompressorMojo.predefinedPreservePatterns</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L967">967</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L974">974</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.setPreservePatternFiles(File[]) may expose internal representation by storing an externally mutable object into HtmlCompressorMojo.preservePatternFiles</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L1005">1005</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L1012">1012</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.setPreservePatterns(String[]) may expose internal representation by storing an externally mutable object into HtmlCompressorMojo.preservePatterns</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L986">986</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L993">993</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Class com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo defines fields that are used only as locals</td>
@@ -399,7 +399,7 @@
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() throws alternative exception from catch block without history</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#LEST_LOST_EXCEPTION_STACK_TRACE">LEST_LOST_EXCEPTION_STACK_TRACE</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L432">432</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L439">439</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() makes literal string comparisons passing the literal as an argument</td>
@@ -435,19 +435,19 @@
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() creates Boxed primitive from primitive only to get primitive value</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#NAB_NEEDLESS_BOX_TO_UNBOX">NAB_NEEDLESS_BOX_TO_UNBOX</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L399">399</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L406">406</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() creates Boxed primitive from primitive only to get primitive value</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#NAB_NEEDLESS_BOX_TO_UNBOX">NAB_NEEDLESS_BOX_TO_UNBOX</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L400">400</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L407">407</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Possible null pointer dereference in com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() due to return value of called method</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L429">429</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L436">436</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>This API (java/io/File.&lt;init&gt;(Ljava/lang/String;)V) reads a file whose location might be specified by user input</td>
@@ -465,37 +465,13 @@
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L407">407</a></td>
-<td>Medium</td></tr>
-<tr class="b">
-<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
-<td>PERFORMANCE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L408">408</a></td>
-<td>Medium</td></tr>
-<tr class="a">
-<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
-<td>PERFORMANCE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L409">409</a></td>
-<td>Medium</td></tr>
-<tr class="b">
-<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
-<td>PERFORMANCE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L410">410</a></td>
-<td>Medium</td></tr>
-<tr class="a">
-<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
-<td>PERFORMANCE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L412">412</a></td>
-<td>Medium</td></tr>
-<tr class="b">
-<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
-<td>PERFORMANCE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
 <td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L414">414</a></td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L415">415</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
@@ -507,7 +483,7 @@
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L418">418</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L417">417</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
@@ -519,13 +495,37 @@
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L423">423</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L421">421</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L424">424</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L423">423</a></td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L425">425</a></td>
+<td>Medium</td></tr>
+<tr class="a">
+<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L426">426</a></td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L430">430</a></td>
+<td>Medium</td></tr>
+<tr class="a">
+<td>Method com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo.execute() passes constant String of length 1 to character overridden method</td>
+<td>PERFORMANCE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#UCPM_USE_CHARACTER_PARAMETERIZED_METHOD">UCPM_USE_CHARACTER_PARAMETERIZED_METHOD</a></td>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L431">431</a></td>
 <td>Medium</td></tr></table></section><a name="com.tunyk.mvn.plugins.htmlcompressor.XmlCompressor"></a><section>
 <h3><a name="com.tunyk.mvn.plugins.htmlcompressor.XmlCompressor"></a>com.tunyk.mvn.plugins.htmlcompressor.XmlCompressor</h3>
 <table border="0" class="table table-striped">
