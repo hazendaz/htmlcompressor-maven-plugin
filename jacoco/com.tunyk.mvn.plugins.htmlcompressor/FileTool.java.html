@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileTool.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor-maven-plugin</a> &gt; <a href="index.source.html" class="el_package">com.tunyk.mvn.plugins.htmlcompressor</a> &gt; <span class="el_source">FileTool.java</span></div><h1>FileTool.java</h1><pre class="source lang-java linenums">/*
- * Copyright (c) 2011-2023 Alex Tunyk &lt;alex at tunyk.com&gt;.
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileTool.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor-maven-plugin</a> &gt; <a href="index.source.html" class="el_package">com.tunyk.mvn.plugins.htmlcompressor</a> &gt; <span class="el_source">FileTool.java</span></div><h1>FileTool.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2011-2024 Alex Tunyk &lt;alex at tunyk.com&gt;.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -44,8 +44,8 @@ public class FileTool {
     /** The root dir path. */
     private String rootDirPath;
 
-    /** The file ext. */
-    private String[] fileExt;
+    /** The file extensions. */
+    private String[] fileExtensions;
 
     /** The recursive. */
     private boolean recursive;
@@ -58,7 +58,7 @@ public class FileTool {
      *
      * @param rootDir
      *            the root dir
-     * @param fileExt
+     * @param fileExtensions
      *            the file ext
      * @param recursive
      *            the recursive
@@ -66,9 +66,9 @@ public class FileTool {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-<span class="fc" id="L69">    public FileTool(String rootDir, String[] fileExt, boolean recursive) throws IOException {</span>
+<span class="fc" id="L69">    public FileTool(String rootDir, String[] fileExtensions, boolean recursive) throws IOException {</span>
 <span class="fc" id="L70">        this.setRootDirPath(rootDir);</span>
-<span class="fc" id="L71">        this.fileExt = fileExt;</span>
+<span class="fc" id="L71">        this.fileExtensions = fileExtensions;</span>
 <span class="fc" id="L72">        this.recursive = recursive;</span>
 <span class="fc" id="L73">    }</span>
 
@@ -86,7 +86,7 @@ public class FileTool {
         List&lt;Path&gt; paths;
 <span class="fc" id="L87">        try (Stream&lt;Path&gt; walk = Files.walk(rootDir)) {</span>
 <span class="fc" id="L88">            paths = walk.map(Path::normalize).filter(Files::isRegularFile)</span>
-<span class="fc" id="L89">                    .filter(path -&gt; Arrays.stream(fileExt).anyMatch(path.getFileName().toString()::endsWith))</span>
+<span class="fc" id="L89">                    .filter(path -&gt; Arrays.stream(fileExtensions).anyMatch(path.getFileName().toString()::endsWith))</span>
 <span class="fc" id="L90">                    .collect(Collectors.toList());</span>
         }
 <span class="fc" id="L92">        int truncationIndex = 0;</span>
@@ -219,22 +219,22 @@ public class FileTool {
 <span class="fc" id="L219">    }</span>
 
     /**
-     * Gets the file ext.
+     * Gets the file extensions.
      *
-     * @return the file ext
+     * @return the file extensions
      */
-    public String[] getFileExt() {
-<span class="nc" id="L227">        return fileExt;</span>
+    public String[] getFileExtensions() {
+<span class="nc" id="L227">        return fileExtensions;</span>
     }
 
     /**
-     * Sets the file ext.
+     * Sets the file extensions.
      *
-     * @param fileExt
-     *            the new file ext
+     * @param fileExtensions
+     *            the new file extensions
      */
-    public void setFileExt(String[] fileExt) {
-<span class="nc" id="L237">        this.fileExt = fileExt;</span>
+    public void setFileExtensions(String[] fileExtensions) {
+<span class="nc" id="L237">        this.fileExtensions = fileExtensions;</span>
 <span class="nc" id="L238">    }</span>
 
     /**
