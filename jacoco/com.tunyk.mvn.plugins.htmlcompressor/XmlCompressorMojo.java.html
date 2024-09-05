@@ -37,6 +37,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      *
      * @deprecated use fileExtensions
      */
+    @Deprecated
     @Parameter(property = &quot;htmlcompressor.fileExt&quot;)
     private String[] fileExt;
 
@@ -45,7 +46,7 @@ import org.apache.maven.plugins.annotations.Parameter;
     private String[] fileExtensions;
 
     /** if false all compression is off (default is true). */
-<span class="fc" id="L48">    @Parameter(property = &quot;htmlcompressor.enabled&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L49">    @Parameter(property = &quot;htmlcompressor.enabled&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean enabled = true;
 
     /** Skip run of plugin. */
@@ -53,66 +54,66 @@ import org.apache.maven.plugins.annotations.Parameter;
     private boolean skip;
 
     /** if false keeps XML comments (default is true). */
-<span class="fc" id="L56">    @Parameter(property = &quot;htmlcompressor.removeComments&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L57">    @Parameter(property = &quot;htmlcompressor.removeComments&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean removeComments = true;
 
     /** removes iter-tag whitespace characters (default is true). */
-<span class="fc" id="L60">    @Parameter(property = &quot;htmlcompressor.removeIntertagSpaces&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L61">    @Parameter(property = &quot;htmlcompressor.removeIntertagSpaces&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean removeIntertagSpaces = true;
 
     /**
      * source folder where xml files are located.
      */
-<span class="fc" id="L66">    @Parameter(property = &quot;htmlcompressor.srcFolder&quot;, defaultValue = &quot;${project.basedir}/src/main/resources&quot;)</span>
+<span class="fc" id="L67">    @Parameter(property = &quot;htmlcompressor.srcFolder&quot;, defaultValue = &quot;${project.basedir}/src/main/resources&quot;)</span>
     private String srcFolder = &quot;src/main/resources&quot;;
 
     /**
      * target folder where compressed xml files will be placed.
      */
-<span class="fc" id="L72">    @Parameter(property = &quot;htmlcompressor.targetFolder&quot;, defaultValue = &quot;${project.build.directory}/classes&quot;)</span>
+<span class="fc" id="L73">    @Parameter(property = &quot;htmlcompressor.targetFolder&quot;, defaultValue = &quot;${project.build.directory}/classes&quot;)</span>
     private String targetFolder = &quot;target/classes&quot;;
 
     /** Charset encoding for files to read and create. */
-<span class="fc" id="L76">    @Parameter(property = &quot;htmlcompressor.encoding&quot;, defaultValue = &quot;UTF-8&quot;)</span>
+<span class="fc" id="L77">    @Parameter(property = &quot;htmlcompressor.encoding&quot;, defaultValue = &quot;UTF-8&quot;)</span>
     private String encoding = &quot;UTF-8&quot;;
 
     @Override
     public void execute() throws MojoExecutionException {
         // Check if plugin run should be skipped
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        if (this.skip) {</span>
-<span class="nc" id="L83">            getLog().info(&quot;XMLCompressor is skipped&quot;);</span>
-<span class="nc" id="L84">            return;</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (this.skip) {</span>
+<span class="nc" id="L84">            getLog().info(&quot;XMLCompressor is skipped&quot;);</span>
+<span class="nc" id="L85">            return;</span>
         }
 
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (!enabled) {</span>
-<span class="nc" id="L88">            getLog().info(&quot;XML compression was turned off.&quot;);</span>
-<span class="nc" id="L89">            return;</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (!enabled) {</span>
+<span class="nc" id="L89">            getLog().info(&quot;XML compression was turned off.&quot;);</span>
+<span class="nc" id="L90">            return;</span>
         }
 
         // Deprecated
-<span class="pc bpc" id="L93" title="3 of 4 branches missed.">        if (fileExt != null &amp;&amp; fileExtensions == null) {</span>
-<span class="nc" id="L94">            fileExtensions = fileExt;</span>
+<span class="pc bpc" id="L94" title="3 of 4 branches missed.">        if (fileExt != null &amp;&amp; fileExtensions == null) {</span>
+<span class="nc" id="L95">            fileExtensions = fileExt;</span>
         }
 
-<span class="fc" id="L97">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
-<span class="fc" id="L98">        XmlCompressor xmlCompressor = new XmlCompressor(srcFolder, targetFolder);</span>
-<span class="fc" id="L99">        xmlCompressor.setFileExtensions(fileExtensions);</span>
-<span class="fc" id="L100">        xmlCompressor.setFileEncoding(Charset.forName(encoding));</span>
+<span class="fc" id="L98">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
+<span class="fc" id="L99">        XmlCompressor xmlCompressor = new XmlCompressor(srcFolder, targetFolder);</span>
+<span class="fc" id="L100">        xmlCompressor.setFileExtensions(fileExtensions);</span>
+<span class="fc" id="L101">        xmlCompressor.setFileEncoding(Charset.forName(encoding));</span>
 
-<span class="fc" id="L102">        com.googlecode.htmlcompressor.compressor.XmlCompressor xmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.XmlCompressor();</span>
-<span class="fc" id="L103">        xmlCompressorHandler.setEnabled(enabled);</span>
-<span class="fc" id="L104">        xmlCompressorHandler.setRemoveComments(removeComments);</span>
-<span class="fc" id="L105">        xmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
-<span class="fc" id="L106">        xmlCompressor.setXmlCompressor(xmlCompressorHandler);</span>
+<span class="fc" id="L103">        com.googlecode.htmlcompressor.compressor.XmlCompressor xmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.XmlCompressor();</span>
+<span class="fc" id="L104">        xmlCompressorHandler.setEnabled(enabled);</span>
+<span class="fc" id="L105">        xmlCompressorHandler.setRemoveComments(removeComments);</span>
+<span class="fc" id="L106">        xmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
+<span class="fc" id="L107">        xmlCompressor.setXmlCompressor(xmlCompressorHandler);</span>
 
         try {
-<span class="fc" id="L109">            xmlCompressor.compress();</span>
-<span class="nc" id="L110">        } catch (Exception e) {</span>
-<span class="nc" id="L111">            throw new MojoExecutionException(e.getMessage());</span>
-<span class="fc" id="L112">        }</span>
+<span class="fc" id="L110">            xmlCompressor.compress();</span>
+<span class="nc" id="L111">        } catch (Exception e) {</span>
+<span class="nc" id="L112">            throw new MojoExecutionException(e.getMessage());</span>
+<span class="fc" id="L113">        }</span>
 
-<span class="fc" id="L114">        getLog().info(&quot;XML compression completed.&quot;);</span>
-<span class="fc" id="L115">    }</span>
+<span class="fc" id="L115">        getLog().info(&quot;XML compression completed.&quot;);</span>
+<span class="fc" id="L116">    }</span>
 
     /**
      * Gets the file ext.
@@ -121,8 +122,9 @@ import org.apache.maven.plugins.annotations.Parameter;
      *
      * @deprecated use getFileExtensions
      */
+    @Deprecated
     public String[] getFileExt() {
-<span class="nc" id="L125">        return fileExt;</span>
+<span class="nc" id="L127">        return fileExt;</span>
     }
 
     /**
@@ -133,9 +135,10 @@ import org.apache.maven.plugins.annotations.Parameter;
      *
      * @deprecated use setFileExtensions
      */
+    @Deprecated
     public void setFileExt(String[] fileExt) {
-<span class="nc" id="L137">        this.fileExt = fileExt;</span>
-<span class="nc" id="L138">    }</span>
+<span class="nc" id="L140">        this.fileExt = fileExt;</span>
+<span class="nc" id="L141">    }</span>
 
     /**
      * Gets the file extensions.
@@ -143,7 +146,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the file extensions
      */
     public String[] getFileExtensions() {
-<span class="nc" id="L146">        return fileExtensions;</span>
+<span class="nc" id="L149">        return fileExtensions;</span>
     }
 
     /**
@@ -153,8 +156,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new file extensions
      */
     public void setFileExtensions(String[] fileExtensions) {
-<span class="nc" id="L156">        this.fileExtensions = fileExtensions;</span>
-<span class="nc" id="L157">    }</span>
+<span class="nc" id="L159">        this.fileExtensions = fileExtensions;</span>
+<span class="nc" id="L160">    }</span>
 
     /**
      * Gets the enabled.
@@ -162,7 +165,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the enabled
      */
     public Boolean getEnabled() {
-<span class="nc" id="L165">        return enabled;</span>
+<span class="nc" id="L168">        return enabled;</span>
     }
 
     /**
@@ -172,8 +175,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new enabled
      */
     public void setEnabled(Boolean enabled) {
-<span class="nc" id="L175">        this.enabled = enabled;</span>
-<span class="nc" id="L176">    }</span>
+<span class="nc" id="L178">        this.enabled = enabled;</span>
+<span class="nc" id="L179">    }</span>
 
     /**
      * Gets the removes the comments.
@@ -181,7 +184,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the comments
      */
     public Boolean getRemoveComments() {
-<span class="nc" id="L184">        return removeComments;</span>
+<span class="nc" id="L187">        return removeComments;</span>
     }
 
     /**
@@ -191,8 +194,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the comments
      */
     public void setRemoveComments(Boolean removeComments) {
-<span class="nc" id="L194">        this.removeComments = removeComments;</span>
-<span class="nc" id="L195">    }</span>
+<span class="nc" id="L197">        this.removeComments = removeComments;</span>
+<span class="nc" id="L198">    }</span>
 
     /**
      * Gets the removes the intertag spaces.
@@ -200,7 +203,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the intertag spaces
      */
     public Boolean getRemoveIntertagSpaces() {
-<span class="nc" id="L203">        return removeIntertagSpaces;</span>
+<span class="nc" id="L206">        return removeIntertagSpaces;</span>
     }
 
     /**
@@ -210,8 +213,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the intertag spaces
      */
     public void setRemoveIntertagSpaces(Boolean removeIntertagSpaces) {
-<span class="nc" id="L213">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
-<span class="nc" id="L214">    }</span>
+<span class="nc" id="L216">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
+<span class="nc" id="L217">    }</span>
 
     /**
      * Gets the src folder.
@@ -219,7 +222,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the src folder
      */
     public String getSrcFolder() {
-<span class="nc" id="L222">        return srcFolder;</span>
+<span class="nc" id="L225">        return srcFolder;</span>
     }
 
     /**
@@ -229,8 +232,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new src folder
      */
     public void setSrcFolder(String srcFolder) {
-<span class="fc" id="L232">        this.srcFolder = srcFolder;</span>
-<span class="fc" id="L233">    }</span>
+<span class="fc" id="L235">        this.srcFolder = srcFolder;</span>
+<span class="fc" id="L236">    }</span>
 
     /**
      * Gets the target folder.
@@ -238,7 +241,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the target folder
      */
     public String getTargetFolder() {
-<span class="nc" id="L241">        return targetFolder;</span>
+<span class="nc" id="L244">        return targetFolder;</span>
     }
 
     /**
@@ -248,7 +251,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new target folder
      */
     public void setTargetFolder(String targetFolder) {
-<span class="fc" id="L251">        this.targetFolder = targetFolder;</span>
-<span class="fc" id="L252">    }</span>
+<span class="fc" id="L254">        this.targetFolder = targetFolder;</span>
+<span class="fc" id="L255">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
