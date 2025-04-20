@@ -54,22 +54,6 @@
         </license>
     </licenses>
 
-    <developers>
-        <developer>
-            <id>alextunyk</id>
-            <name>alextunyk</name>
-            <email>alex@tunyk.com</email>
-            <url>https://github.com/alextunyk/</url>
-            <organization>alextunyk</organization>
-            <organizationUrl>https://github.com/alextunyk/</organizationUrl>
-            <roles>
-                <role>owner</role>
-                <role>developer</role>
-            </roles>
-            <timezone>2</timezone>
-        </developer>
-    </developers>
-
     <prerequisites>
         <maven>3.6.3</maven>
     </prerequisites>
