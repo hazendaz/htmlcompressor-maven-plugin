@@ -27,6 +27,13 @@
         </a>
             <ul class="nav">
       <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">Plugin Documentation <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="plugin-info.html">Documentation</a></li>
+            <li><a href="examples.html">Examples</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">Project Documentation <b class="caret"></b></a>
         <ul class="dropdown-menu">
             <li class="dropdown-submenu">
@@ -74,14 +81,22 @@
         </ul>
       </li>
             </ul>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">External Links <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+    <li><a href="..">Hazendaz</a></li>
+                </ul>
+              </li>
+            </ul>
         </div>
       </div>
     </header>
     <div class="container-fluid container-fluid-top">
       <header>
         <div id="banner">
-          <div class="pull-left"></div>
-          <div class="pull-right"></div>
+          <div class="pull-left"><div id="bannerLeft"><h1><a href=".."><img src="images/hazendaz-banner.jpg" /></a></h1></div></div>
+          <div class="pull-right"><div id="bannerRight"><h1><a href=".."><img src="images/hazendaz.png" /></a></h1></div></div>
           <div class="clear"><hr/></div>
         </div>
 
@@ -89,7 +104,7 @@
           <ul class="breadcrumb">
         <li id="publishDate">Last Published: 2025-04-20<span class="divider">|</span>
 </li>
-          <li id="projectVersion">Version: 2.1.1</li>
+          <li id="projectVersion">Version: 1.10.2</li>
           </ul>
         </div>
       </header>
@@ -97,6 +112,9 @@
         <header id="leftColumn" class="span2">
           <nav class="well sidebar-nav">
   <ul class="nav nav-list">
+   <li class="nav-header">Plugin Documentation</li>
+    <li><a href="plugin-info.html">Documentation</a></li>
+    <li><a href="examples.html">Examples</a></li>
    <li class="nav-header">Project Documentation</li>
     <li><a href="project-info.html"><span class="icon-chevron-right"></span>Project Information</a></li>
     <li><a href="project-reports.html"><span class="icon-chevron-down"></span>Project Reports</a>
@@ -162,25 +180,25 @@
 <th>Line</th></tr>
 <tr class="b">
 <td>use fileExtensions</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L57">57</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L54">54</a></td></tr>
 <tr class="a">
 <td>use getFileExtensions</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L485">485</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L482">482</a></td></tr>
 <tr class="b">
 <td>use setFileExtensions</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L498">498</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L495">495</a></td></tr>
 <tr class="a">
 <th>com.tunyk.mvn.plugins.htmlcompressor.XmlCompressorMojo</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>use fileExtensions</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojo.html#L38">38</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojo.html#L35">35</a></td></tr>
 <tr class="a">
 <td>use getFileExtensions</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojo.html#L123">123</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojo.html#L120">120</a></td></tr>
 <tr class="b">
 <td>use setFileExtensions</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojo.html#L136">136</a></td></tr></table></section><section><a id="tag_class_2"></a>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojo.html#L133">133</a></td></tr></table></section><section><a id="tag_class_2"></a>
 <h2>Todo Work</h2>
 <p>Number of occurrences found in the code: 16</p>
 <table class="table table-striped">
@@ -189,70 +207,70 @@
 <th>Line</th></tr>
 <tr class="b">
 <td>JWL 4/22/2023 Didn't see a good way to handle as it gets flagged to remove unnecessary cast if I fix this per error-prone, so ignoring it</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L167">167</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/FileTool.html#L164">164</a></td></tr>
 <tr class="a">
 <th>com.tunyk.mvn.plugins.htmlcompressor.FileToolTest</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>check if any other files aren't included</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L83">83</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L80">80</a></td></tr>
 <tr class="a">
 <td>check if file ext filter works</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L84">84</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L81">81</a></td></tr>
 <tr class="b">
 <td>check if recursion is forking</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L85">85</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L82">82</a></td></tr>
 <tr class="a">
 <td>test file encoding</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L86">86</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L83">83</a></td></tr>
 <tr class="b">
 <td>check file exists and its contents is written correctly</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L120">120</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L117">117</a></td></tr>
 <tr class="a">
 <td>check if file created and contents is right</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L146">146</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/FileToolTest.html#L143">143</a></td></tr>
 <tr class="b">
 <th>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojo</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>JWL 4/22/2023 Unsupported</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L146">146</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L143">143</a></td></tr>
 <tr class="b">
 <td>JWL 4/22/2023Unsupported</td>
-<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L160">160</a></td></tr>
+<td><a href="./xref/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojo.html#L157">157</a></td></tr>
 <tr class="a">
 <th>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorMojoTest</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>test results</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojoTest.html#L77">77</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorMojoTest.html#L74">74</a></td></tr>
 <tr class="a">
 <th>com.tunyk.mvn.plugins.htmlcompressor.HtmlCompressorTest</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>test files where created and every one has the right contents</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorTest.html#L72">72</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorTest.html#L69">69</a></td></tr>
 <tr class="a">
 <td>test json file was created and it has right contents</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorTest.html#L77">77</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorTest.html#L74">74</a></td></tr>
 <tr class="b">
 <td>verify if provided compression params are picked up</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorTest.html#L84">84</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/HtmlCompressorTest.html#L81">81</a></td></tr>
 <tr class="a">
 <th>com.tunyk.mvn.plugins.htmlcompressor.XmlCompressorMojoTest</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>test results</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojoTest.html#L76">76</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorMojoTest.html#L73">73</a></td></tr>
 <tr class="a">
 <th>com.tunyk.mvn.plugins.htmlcompressor.XmlCompressorTest</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>test files where created and every one has the right contents</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorTest.html#L72">72</a></td></tr>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorTest.html#L69">69</a></td></tr>
 <tr class="a">
 <td>verify if provided compression params are picked up</td>
-<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorTest.html#L79">79</a></td></tr></table></section></section>        </main>
+<td><a href="./xref-test/com/tunyk/mvn/plugins/htmlcompressor/XmlCompressorTest.html#L76">76</a></td></tr></table></section></section>        </main>
       </div>
     </div>
     <hr/>
@@ -260,7 +278,7 @@
       <div class="container-fluid">
         <div class="row-fluid">
             <p>©      2011–2025
-<a href="https://github.com/alextunyk/">alextunyk</a>
+<a href="https://github.com/hazendaz/">hazendaz</a>
 </p>
         </div>
       </div>
