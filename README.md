@@ -19,7 +19,7 @@ Notice
 
 Project is currently built and release from following [fork](https://github.com/hazendaz/htmlcompressor-maven-plugin).
 
-It is no longer maintained at https://github.com/hazendaz/htmlcompressor-maven-plugin/ as of 4/20/2025, please see fork for all issues as this location is no longer monitored.
+It is no longer maintained at https://github.com/alextunyk/htmlcompressor-maven-plugin/ as of 4/20/2025, please see fork for all issues as this location is no longer monitored.
 
 Getting started
 ---------------
