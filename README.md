@@ -10,7 +10,7 @@ Overview
 --------
 
 Maven HTMLCompressor Plugin allows to compress HTML/XML files by adding a few lines to the pom file.
-This plugin uses [htmlcompressor][] library.
+This plugin uses [htmlcompressor](https://github.com/hazendaz/htmlcompressor) library.
 
 See site page for configuration usage and plugin setup [here](https://hazendaz.github.io/htmlcompressor-maven-plugin/)
 
@@ -19,7 +19,7 @@ Getting started
 
 The simplest way to start using this plugin is:
 
-1.Enable plugin in your pom.xml
+1. Enable plugin in your pom.xml
 
 a. javax namespace jsp usage
 
@@ -55,12 +55,12 @@ b. jakarta namespace jsp usage or any other usage if not using jsp's
 </build>
 ```
 
-2.Put XML and HTML files under `src/main/resources` into any underlying
+2. Put XML and HTML files under `src/main/resources` into any underlying
 structure as HTMLCompressor will recursively process files
 
-3.For HTML compression, create `integration.js` file under
+3. For HTML compression, create `integration.js` file under
 `src/main/resources` where html is stored with the contents like below.
-It will integrate HTML templates into JavaScript (%s will be replaced
+It will integrate HTML templates into JavaScript ("%s" will be replaced
 with JSON object and copied to the target folder).
 
 ``` java
@@ -69,15 +69,13 @@ var htmlTemplatesInjector = {
 };
 ```
 
-4.Run maven goals:
+4. Run maven goals:
 
 ```
 mvn htmlcompressor:html
 mvn htmlcompressor:xml
 ```
 
-5.Check the target folder for output where resources are stored.
+5. Check the target folder for output where resources are stored.
 
 Bug reports, feature requests, and general inquiries welcome.
-
-  [htmlcompressor]: https://github.com/hazendaz/htmlcompressor
