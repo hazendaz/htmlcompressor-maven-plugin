@@ -39,8 +39,9 @@
         <links>
             <item name="Hazendaz" href="https://github.com/hazendaz" />
         </links>
-        <menu name="Configuration">
-            <item href="configuration.html" name="README" />
+        <menu name="Plugin Documentation">
+            <item href="plugin-info.html" name="Documentation" />
+            <item href="examples.html" name="Examples" />
         </menu>
         <menu ref="reports" />
     </body>

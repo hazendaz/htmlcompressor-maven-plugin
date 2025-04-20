@@ -1,4 +1,4 @@
-Maven HTMLCompressor Plugin
+HTMLCompressor Maven Plugin
 ===========================
 
 [![Java CI](https://github.com/hazendaz/htmlcompressor-maven-plugin/workflows/Java%20CI/badge.svg)](https://github.com/hazendaz/htmlcompressor-maven-plugin/actions?query=workflow%3A%22Java+CI%22)
