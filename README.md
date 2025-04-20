@@ -15,7 +15,7 @@ This plugin uses [htmlcompressor](https://github.com/hazendaz/htmlcompressor) li
 Configuration Site
 ------------------
 
-See site page for configuration usage and plugin setup [here](https://hazendaz.github.io/htmlcompressor-maven-plugin/)
+See site page for configuration usage and plugin setup [here](https://hazendaz.github.io/htmlcompressor-maven-plugin/).
 
 Getting started
 ---------------
