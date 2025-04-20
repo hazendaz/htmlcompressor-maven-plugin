@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011-2025 Alex Tunyk <alex at tunyk.com>.
+       Copyright 2011-2025 the original author or authors.
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
 
-      https://www.apache.org/licenses/LICENSE-2.0
+          https://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-    See the NOTICE file distributed with this work for additional information
-    regarding copyright ownership.
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -36,12 +34,12 @@
 
     <name>htmlcompressor-maven-plugin</name>
     <description>Maven HTMLCompressor Plugin allows to compress html/xml by adding a few lines to the pom file.</description>
-    <url>https://github.com/alextunyk/htmlcompressor-maven-plugin</url>
+    <url>https://github.com/hazendaz/htmlcompressor-maven-plugin</url>
     <inceptionYear>2011</inceptionYear>
 
     <organization>
-        <name>alextunyk</name>
-        <url>https://github.com/alextunyk/</url>
+        <name>hazendaz</name>
+        <url>https://github.com/hazendaz/</url>
     </organization>
     <licenses>
         <license>
@@ -52,35 +50,19 @@
         </license>
     </licenses>
 
-    <developers>
-        <developer>
-            <id>alextunyk</id>
-            <name>alextunyk</name>
-            <email>alex@tunyk.com</email>
-            <url>https://github.com/alextunyk/</url>
-            <organization>alextunyk</organization>
-            <organizationUrl>https://github.com/alextunyk/</organizationUrl>
-            <roles>
-                <role>owner</role>
-                <role>developer</role>
-            </roles>
-            <timezone>2</timezone>
-        </developer>
-    </developers>
-
     <prerequisites>
         <maven>3.6.3</maven>
     </prerequisites>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com/alextunyk/htmlcompressor-maven-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/alextunyk/htmlcompressor-maven-plugin.git</developerConnection>
+        <connection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor-maven-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor-maven-plugin.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/alextunyk/htmlcompressor-maven-plugin</url>
+        <url>https://github.com/hazendaz/htmlcompressor-maven-plugin</url>
     </scm>
     <issueManagement>
         <system>GitHub Issue Tracking</system>
-        <url>https://github.com/alextunyk/htmlcompressor-maven-plugin/issues</url>
+        <url>https://github.com/hazendaz/htmlcompressor-maven-plugin/issues</url>
     </issueManagement>
     <ciManagement>
         <system>Github</system>
@@ -99,14 +81,15 @@
         <java.version>11</java.version>
         <java.release.version>11</java.release.version>
 
-        <!-- Future need for javadocs, we are at 8 now but org.jspecify export issue haven't figured out. -->
-        <javadoc.java.release.version>8</javadoc.java.release.version>
+        <!-- Keep javadocs in legacy mode as various issues in oss modules preventing update. -->
+        <javadoc.java.release.version>11</javadoc.java.release.version>
+        <legacyMode>true</legacyMode>
 
         <!-- Automatic Module Name -->
         <module.name>com.github.hazendaz.htmlcompressor.maven.plugin</module.name>
 
         <!-- Reproducible Builds -->
-        <project.build.outputTimestamp>1735936183</project.build.outputTimestamp>
+        <project.build.outputTimestamp>1745172691</project.build.outputTimestamp>
 
         <!-- External Modules -->
         <maven-plugin.version>3.15.1</maven-plugin.version>
@@ -117,7 +100,7 @@
         <dependency>
             <groupId>com.github.hazendaz</groupId>
             <artifactId>htmlcompressor</artifactId>
-            <version>1.9.4</version>
+            <version>1.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.javascript</groupId>
@@ -128,6 +111,17 @@
             <groupId>com.yahoo.platform.yui</groupId>
             <artifactId>yuicompressor</artifactId>
             <version>2.4.8</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>rhino</groupId>
+                    <artifactId>js</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino</artifactId>
+            <version>1.8.0</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet.jsp</groupId>
@@ -168,7 +162,7 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>5.12.2</version>
             <scope>test</scope>
         </dependency>

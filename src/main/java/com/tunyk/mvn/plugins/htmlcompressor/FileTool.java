@@ -1,24 +1,20 @@
 /*
- * Copyright (c) 2011-2024 Alex Tunyk <alex at tunyk.com>.
+ *    Copyright 2011-2025 the original author or authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 package com.tunyk.mvn.plugins.htmlcompressor;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -138,7 +134,7 @@ public class FileTool {
      */
     public void writeToJsonFile(Map<String, String> map, String targetFile, String integrationCode)
             throws IOException, JSONException {
-        String replacePattern = "%s";
+        String replacePattern = "\"%s\"";
         Path path = Path.of(targetFile);
         JSONObject json = new JSONObject();
         for (Entry<String, String> entry : map.entrySet()) {
@@ -214,8 +210,8 @@ public class FileTool {
      *             Signals that an I/O exception has occurred.
      */
     public void setRootDirPath(String rootDirPath) throws IOException {
-        File file = new File(rootDirPath);
-        this.rootDirPath = file.getCanonicalPath().replace("\\", "/").replaceAll("/$", "");
+        Path path = Path.of(rootDirPath);
+        this.rootDirPath = path.toFile().getCanonicalPath().replace("\\", "/").replaceAll("/$", "");
     }
 
     /**
