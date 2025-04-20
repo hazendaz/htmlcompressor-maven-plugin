@@ -138,7 +138,7 @@ public class FileTool {
      */
     public void writeToJsonFile(Map<String, String> map, String targetFile, String integrationCode)
             throws IOException, JSONException {
-        String replacePattern = "%s";
+        String replacePattern = "\"%s\"";
         Path path = Path.of(targetFile);
         JSONObject json = new JSONObject();
         for (Entry<String, String> entry : map.entrySet()) {

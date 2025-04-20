@@ -92,3 +92,4 @@ Bug reports, feature requests, and general inquiries welcome.
 
   [htmlcompressor]: https://github.com/hazendaz/htmlcompressor
   [wiki page]: https://github.com/alextunyk/htmlcompressor-maven-plugin/wiki/configuration
+Fix to test to make sure generated content is valid
