@@ -1,10 +1,12 @@
 HTMLCompressor Maven Plugin
 ===========================
 
-[![Java CI](https://github.com/hazendaz/htmlcompressor-maven-plugin/workflows/Java%20CI/badge.svg)](https://github.com/hazendaz/htmlcompressor-maven-plugin/actions?query=workflow%3A%22Java+CI%22)
+[![Java CI](https://github.com/hazendaz/htmlcompressor-maven-plugin/actions/workflows/ci.yaml/badge.svg)](https://github.com/hazendaz/htmlcompressor-maven-plugin/actions/workflows/ci.yaml)
 [![Coverage Status](https://coveralls.io/repos/github/hazendaz/htmlcompressor-maven-plugin/badge.svg?branch=master)](https://coveralls.io/github/hazendaz/htmlcompressor-maven-plugin?branch=master)
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz.maven/htmlcompressor-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz.maven/htmlcompressor-maven-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.hazendaz.maven/htmlcompressor-maven-plugin.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/com.github.hazendaz.maven/htmlcompressor-maven-plugin)
 [![Apache2](<http://img.shields.io/badge/license-Apache%202-blue.svg>)](<http://www.apache.org/licenses/LICENSE-2.0>)
+
+![hazendaz](src/site/resources/images/hazendaz-banner.jpg)
 
 Overview
 --------
