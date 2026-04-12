@@ -456,6 +456,25 @@ public class HtmlCompressorMojo extends AbstractMojo {
     }
 
     /**
+     * Checks if plugin run is skipped.
+     *
+     * @return true, if plugin run is skipped
+     */
+    public boolean isSkip() {
+        return skip;
+    }
+
+    /**
+     * Sets the skip flag to control whether plugin execution is skipped.
+     *
+     * @param skip
+     *            the new skip value
+     */
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+
+    /**
      * Gets the html compression statistics.
      *
      * @return the html compression statistics

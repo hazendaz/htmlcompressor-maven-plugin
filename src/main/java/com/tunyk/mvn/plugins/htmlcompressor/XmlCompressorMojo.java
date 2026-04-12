@@ -113,6 +113,25 @@ public class XmlCompressorMojo extends AbstractMojo {
     }
 
     /**
+     * Checks if plugin run is skipped.
+     *
+     * @return true, if plugin run is skipped
+     */
+    public boolean isSkip() {
+        return skip;
+    }
+
+    /**
+     * Sets the skip flag to control whether plugin execution is skipped.
+     *
+     * @param skip
+     *            the new skip value
+     */
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+
+    /**
      * Gets the file ext.
      *
      * @return the file ext
