@@ -105,7 +105,7 @@
                <artifactId>checker-qual</artifactId>
                <version>${checker-qual.version}</version>
            </dependency>
-       
+
            <!-- SLF4J API -->
            <dependency>
                <groupId>org.slf4j</groupId>
@@ -114,7 +114,7 @@
            </dependency>
        </dependencies>
     </dependencyManagement>
-       
+
     <dependencies>
         <dependency>
             <groupId>com.github.hazendaz</groupId>
@@ -183,6 +183,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>6.0.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-testing</groupId>
+            <artifactId>maven-plugin-testing-harness</artifactId>
+            <version>3.5.1</version>
             <scope>test</scope>
         </dependency>
 
