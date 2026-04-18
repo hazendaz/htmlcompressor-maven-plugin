@@ -365,13 +365,45 @@ class HtmlCompressorMojoTest {
         Assertions.assertEquals("target/stats.txt", mojo.getHtmlCompressionStatistics());
 
         // File extensions
+        mojo.setFileExt(new String[] { "xhtml" });
+        Assertions.assertArrayEquals(new String[] { "xhtml" }, mojo.getFileExt());
         mojo.setFileExtensions(new String[] { "html", "htm" });
         Assertions.assertArrayEquals(new String[] { "html", "htm" }, mojo.getFileExtensions());
+
+        // YUI CSS line break
+        Assertions.assertEquals(-1, mojo.getYuiCssLineBreak());
+        mojo.setYuiCssLineBreak(120);
+        Assertions.assertEquals(120, mojo.getYuiCssLineBreak());
 
         // Closure custom externs only
         Assertions.assertFalse(mojo.getClosureCustomExternsOnly());
         mojo.setClosureCustomExternsOnly(true);
         Assertions.assertTrue(mojo.getClosureCustomExternsOnly());
+
+        // YUI JS configuration
+        Assertions.assertFalse(mojo.getYuiJsNoMunge());
+        mojo.setYuiJsNoMunge(true);
+        Assertions.assertTrue(mojo.getYuiJsNoMunge());
+
+        Assertions.assertFalse(mojo.getYuiJsPreserveAllSemiColons());
+        mojo.setYuiJsPreserveAllSemiColons(true);
+        Assertions.assertTrue(mojo.getYuiJsPreserveAllSemiColons());
+
+        Assertions.assertEquals(-1, mojo.getYuiJsLineBreak());
+        mojo.setYuiJsLineBreak(200);
+        Assertions.assertEquals(200, mojo.getYuiJsLineBreak());
+
+        Assertions.assertFalse(mojo.getYuiJsDisableOptimizations());
+        mojo.setYuiJsDisableOptimizations(true);
+        Assertions.assertTrue(mojo.getYuiJsDisableOptimizations());
+
+        // Preserve pattern arrays
+        mojo.setPreservePatterns(new String[] { "<span>.*?</span>" });
+        Assertions.assertArrayEquals(new String[] { "<span>.*?</span>" }, mojo.getPreservePatterns());
+
+        // Closure externs
+        mojo.setClosureExterns(new String[] { "externs1.js", "externs2.js" });
+        Assertions.assertArrayEquals(new String[] { "externs1.js", "externs2.js" }, mojo.getClosureExterns());
 
         LOG.info("Passed");
     }
