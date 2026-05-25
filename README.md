@@ -36,7 +36,7 @@ a. javax namespace jsp usage
         <plugin>
             <groupId>com.github.hazendaz.maven</groupId>
             <artifactId>htmlcompressor-maven-plugin</artifactId>
-            <version>1.10.1</version>
+            <version>1.13.0</version>
             <configuration>
                 <goalPrefix>htmlcompressor</goalPrefix>
             </configuration>
@@ -53,7 +53,7 @@ b. jakarta namespace jsp usage or any other usage if not using jsp's
         <plugin>
             <groupId>com.github.hazendaz.maven</groupId>
             <artifactId>htmlcompressor-maven-plugin</artifactId>
-            <version>2.1.1</version>
+            <version>2.4.0</version>
             <configuration>
                 <goalPrefix>htmlcompressor</goalPrefix>
             </configuration>

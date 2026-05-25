@@ -89,7 +89,7 @@
         <module.name>com.github.hazendaz.htmlcompressor.maven.plugin</module.name>
 
         <!-- Reproducible Builds -->
-        <project.build.outputTimestamp>1765063946</project.build.outputTimestamp>
+        <project.build.outputTimestamp>1765063624</project.build.outputTimestamp>
 
         <!-- External Modules -->
         <checker-qual.version>4.1.0</checker-qual.version>
@@ -105,7 +105,7 @@
                <artifactId>checker-qual</artifactId>
                <version>${checker-qual.version}</version>
            </dependency>
-       
+
            <!-- SLF4J API -->
            <dependency>
                <groupId>org.slf4j</groupId>
@@ -114,7 +114,7 @@
            </dependency>
        </dependencies>
     </dependencyManagement>
-       
+
     <dependencies>
         <dependency>
             <groupId>com.github.hazendaz</groupId>
@@ -183,6 +183,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>6.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-testing</groupId>
+            <artifactId>maven-plugin-testing-harness</artifactId>
+            <version>3.5.1</version>
             <scope>test</scope>
         </dependency>
 

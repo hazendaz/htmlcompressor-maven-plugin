@@ -1,5 +1,5 @@
 /*
- *    Copyright 2011-2025 the original author or authors.
+ *    Copyright 2011-2026 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -110,6 +110,25 @@ public class XmlCompressorMojo extends AbstractMojo {
         }
 
         getLog().info("XML compression completed.");
+    }
+
+    /**
+     * Checks if plugin run is skipped.
+     *
+     * @return true, if plugin run is skipped
+     */
+    public boolean isSkip() {
+        return skip;
+    }
+
+    /**
+     * Sets the skip flag to control whether plugin execution is skipped.
+     *
+     * @param skip
+     *            the new skip value
+     */
+    public void setSkip(boolean skip) {
+        this.skip = skip;
     }
 
     /**
