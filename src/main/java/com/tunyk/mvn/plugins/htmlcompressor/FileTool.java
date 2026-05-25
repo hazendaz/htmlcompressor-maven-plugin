@@ -171,7 +171,7 @@ public class FileTool {
         }
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         String pre = (systemOfUnits ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (systemOfUnits ? "" : "i");
-        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+        return "%.1f %sB".formatted(bytes / Math.pow(unit, exp), pre);
     }
 
     /**
@@ -183,11 +183,11 @@ public class FileTool {
      * @return the elapsed HMS time
      */
     public static String getElapsedHMSTime(long elapsedTime) {
-        String format = String.format("%%0%dd", 2);
+        String format = "%%0%dd".formatted(2);
         elapsedTime = elapsedTime / 1000;
-        String seconds = String.format(format, elapsedTime % 60);
-        String minutes = String.format(format, (elapsedTime % 3600) / 60);
-        String hours = String.format(format, elapsedTime / 3600);
+        String seconds = format.formatted(elapsedTime % 60);
+        String minutes = format.formatted((elapsedTime % 3600) / 60);
+        String hours = format.formatted(elapsedTime / 3600);
         return hours + ":" + minutes + ":" + seconds;
     }
 

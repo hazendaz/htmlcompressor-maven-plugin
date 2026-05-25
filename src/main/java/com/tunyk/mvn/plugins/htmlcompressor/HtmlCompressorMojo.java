@@ -425,20 +425,20 @@ public class HtmlCompressorMojo extends AbstractMojo {
         String hr = "+-----------------------------+-----------------------------+-----------------------------+";
         StringBuilder sb = new StringBuilder("HTML compression statistics:").append(eol);
         sb.append(hr).append(eol);
-        sb.append(String.format(format, "| Category", "| Original", "| Compressed", "|")).append(eol);
+        sb.append(format.formatted("| Category", "| Original", "| Compressed", "|")).append(eol);
         sb.append(hr).append(eol);
-        sb.append(String.format(format, "| Filesize", "| " + origFilesize, "| " + compFilesize, "|")).append(eol);
-        sb.append(String.format(format, "| Empty Chars", "| " + origEmptyChars, "| " + compEmptyChars, "|"))
+        sb.append(format.formatted("| Filesize", "| " + origFilesize, "| " + compFilesize, "|")).append(eol);
+        sb.append(format.formatted("| Empty Chars", "| " + origEmptyChars, "| " + compEmptyChars, "|"))
                 .append(eol);
-        sb.append(String.format(format, "| Script Size", "| " + origInlineScriptSize, "| " + compInlineScriptSize, "|"))
+        sb.append(format.formatted("| Script Size", "| " + origInlineScriptSize, "| " + compInlineScriptSize, "|"))
                 .append(eol);
-        sb.append(String.format(format, "| Style Size", "| " + origInlineStyleSize, "| " + compInlineStyleSize, "|"))
+        sb.append(format.formatted("| Style Size", "| " + origInlineStyleSize, "| " + compInlineStyleSize, "|"))
                 .append(eol);
-        sb.append(String.format(format, "| Event Handler Size", "| " + origInlineEventSize, "| " + compInlineEventSize,
+        sb.append(format.formatted("| Event Handler Size", "| " + origInlineEventSize, "| " + compInlineEventSize,
                 "|")).append(eol);
         sb.append(hr).append(eol);
-        sb.append(String.format("%-90s%-2s",
-                String.format("| Time: %s, Preserved: %s, Compression Ratio: %s, Savings: %s%%", elapsedTime,
+        sb.append("%-90s%-2s".formatted(
+                "| Time: %s, Preserved: %s, Compression Ratio: %s, Savings: %s%%".formatted(elapsedTime,
                         preservedSize, formatter.format(compressionRatio), formatter.format(spaceSavings * 100)),
                 "|")).append(eol);
         sb.append(hr).append(eol);
