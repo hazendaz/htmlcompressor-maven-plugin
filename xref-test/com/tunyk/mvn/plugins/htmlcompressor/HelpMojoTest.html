@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>HelpMojoTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../testapidocs/com/tunyk/mvn/plugins/htmlcompressor/HelpMojoTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * SPDX-License-Identifier: Apache-2.0</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * See LICENSE file for details.</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * Copyright 2018-2026 Hazendaz</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * Copyright 2011-2018 tunyk</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">package</strong> com.tunyk.mvn.plugins.htmlcompressor;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.io.StringReader;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.Field;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.InvocationTargetException;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.Method;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> javax.xml.parsers.DocumentBuilderFactory;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.apache.maven.plugin.Mojo;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.apache.maven.plugin.MojoExecutionException;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Assertions;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.w3c.dom.Document;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.w3c.dom.Node;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.xml.sax.InputSource;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * Tests for generated plugin help mojo utilities.</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">class</strong> <a name="HelpMojoTest" href="../../../../../com/tunyk/mvn/plugins/htmlcompressor/HelpMojoTest.html#HelpMojoTest">HelpMojoTest</a> {
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <em class="jxr_javadoccomment">/** The generated help mojo class name. */</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String HELP_MOJO_CLASS = <span class="jxr_string">"com.github.hazendaz.maven.htmlcompressor_maven_plugin.HelpMojo"</span>;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      @Test
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">void</strong> testExecuteNormalizesInvalidFormattingParameters() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>          Mojo mojo = (Mojo) newHelpMojo();
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>          setField(mojo, <span class="jxr_string">"lineLength"</span>, -1);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>          setField(mojo, <span class="jxr_string">"indentSize"</span>, 0);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>          setField(mojo, <span class="jxr_string">"detail"</span>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          Assertions.assertDoesNotThrow(mojo::execute);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>          Assertions.assertEquals(80, getField(mojo, <span class="jxr_string">"lineLength"</span>));
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          Assertions.assertEquals(2, getField(mojo, <span class="jxr_string">"indentSize"</span>));
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      }
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      @Test
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      <strong class="jxr_keyword">void</strong> testGetPropertyFromExpressionVariants() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>          Assertions.assertEquals(<span class="jxr_string">"user.prop"</span>,
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>                  invokeStatic(<span class="jxr_string">"getPropertyFromExpression"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { String.<strong class="jxr_keyword">class</strong> }, <span class="jxr_string">"${user.prop}"</span>));
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>          Assertions.assertNull(invokeStatic(<span class="jxr_string">"getPropertyFromExpression"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { String.<strong class="jxr_keyword">class</strong> }, <span class="jxr_string">"user.prop"</span>));
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>          Assertions.assertNull(
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>                  invokeStatic(<span class="jxr_string">"getPropertyFromExpression"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { String.<strong class="jxr_keyword">class</strong> }, <span class="jxr_string">"${outer${inner}}"</span>));
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          Assertions
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>                  .assertNull(invokeStatic(<span class="jxr_string">"getPropertyFromExpression"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { String.<strong class="jxr_keyword">class</strong> }, (Object) <strong class="jxr_keyword">null</strong>));
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      }
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      @Test
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">void</strong> testNodeLookupUtilityBranches() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          Document doc = parse(<span class="jxr_string">"&lt;root&gt;&lt;item&gt;first&lt;/item&gt;&lt;item&gt;second&lt;/item&gt;&lt;/root&gt;"</span>);
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          Node root = doc.getDocumentElement();
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>          Assertions
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>                  .assertNull(invokeStatic(<span class="jxr_string">"findSingleChild"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { Node.<strong class="jxr_keyword">class</strong>, String.<strong class="jxr_keyword">class</strong> }, root, <span class="jxr_string">"none"</span>));
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>          ReflectiveOperationException duplicateSingleChild = Assertions.assertThrows(ReflectiveOperationException.<strong class="jxr_keyword">class</strong>,
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>                  () -&gt; invokeStatic(<span class="jxr_string">"findSingleChild"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { Node.<strong class="jxr_keyword">class</strong>, String.<strong class="jxr_keyword">class</strong> }, root, <span class="jxr_string">"item"</span>));
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          Assertions.assertInstanceOf(MojoExecutionException.<strong class="jxr_keyword">class</strong>, duplicateSingleChild.getCause());
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          ReflectiveOperationException missingGetSingleChild = Assertions.assertThrows(ReflectiveOperationException.<strong class="jxr_keyword">class</strong>,
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>                  () -&gt; invokeStatic(<span class="jxr_string">"getSingleChild"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { Node.<strong class="jxr_keyword">class</strong>, String.<strong class="jxr_keyword">class</strong> }, root, <span class="jxr_string">"missing"</span>));
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          Assertions.assertInstanceOf(MojoExecutionException.<strong class="jxr_keyword">class</strong>, missingGetSingleChild.getCause());
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      @Test
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">void</strong> testTextFormattingHelpers() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          List&lt;String&gt; lines = (List&lt;String&gt;) invokeStatic(<span class="jxr_string">"toLines"</span>,
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>                  <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { String.<strong class="jxr_keyword">class</strong>, <strong class="jxr_keyword">int</strong>.<strong class="jxr_keyword">class</strong>, <strong class="jxr_keyword">int</strong>.<strong class="jxr_keyword">class</strong>, <strong class="jxr_keyword">int</strong>.<strong class="jxr_keyword">class</strong> },
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>                  <span class="jxr_string">"\talpha beta gamma\u00A0delta epsilon"</span>, 1, 2, 14);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          Assertions.assertTrue(lines.size() &gt; 1, <span class="jxr_string">"Long text should wrap to multiple lines"</span>);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          Assertions.assertTrue(lines.stream().noneMatch(line -&gt; line.contains(<span class="jxr_string">"\u00A0"</span>)),
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>                  <span class="jxr_string">"Non-breaking spaces should be normalized"</span>);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          Assertions.assertEquals(2, invokeStatic(<span class="jxr_string">"getIndentLevel"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { String.<strong class="jxr_keyword">class</strong> }, <span class="jxr_string">"\t  \tvalue"</span>));
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      }
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>      @Test
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>      <strong class="jxr_keyword">void</strong> testWriteParameterIncludesMetadata() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>          Object mojo = newHelpMojo();
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          setField(mojo, <span class="jxr_string">"lineLength"</span>, 40);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>          setField(mojo, <span class="jxr_string">"indentSize"</span>, 2);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>          Document doc = parse(
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>                  <span class="jxr_string">"&lt;mojo&gt;"</span> + <span class="jxr_string">"&lt;configuration&gt;&lt;sample default-value=\&quot;42\&quot;&gt;${sample.property}&lt;/sample&gt;&lt;/configuration&gt;"</span>
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>                          + <span class="jxr_string">"&lt;parameter&gt;&lt;name&gt;sample&lt;/name&gt;&lt;description&gt;parameter description&lt;/description&gt;"</span>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>                          + <span class="jxr_string">"&lt;required&gt;true&lt;/required&gt;&lt;deprecated&gt;use replacement&lt;/deprecated&gt;&lt;/parameter&gt;"</span> + <span class="jxr_string">"&lt;/mojo&gt;"</span>);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>          StringBuilder sb = <strong class="jxr_keyword">new</strong> StringBuilder();
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>          Node parameter = doc.getElementsByTagName(<span class="jxr_string">"parameter"</span>).item(0);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         Node configuration = doc.getElementsByTagName(<span class="jxr_string">"configuration"</span>).item(0);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         invokeInstance(mojo, <span class="jxr_string">"writeParameter"</span>, <strong class="jxr_keyword">new</strong> Class&lt;?&gt;[] { StringBuilder.<strong class="jxr_keyword">class</strong>, Node.<strong class="jxr_keyword">class</strong>, Node.<strong class="jxr_keyword">class</strong> }, sb,
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>                 parameter, configuration);
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>         String output = sb.toString();
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         Assertions.assertTrue(output.contains(<span class="jxr_string">"sample (Default: 42)"</span>));
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         Assertions.assertTrue(output.contains(<span class="jxr_string">"Deprecated. use replacement"</span>));
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>         Assertions.assertTrue(output.contains(<span class="jxr_string">"Required: Yes"</span>));
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         Assertions.assertTrue(output.contains(<span class="jxr_string">"User property: sample.property"</span>));
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>         Assertions.assertTrue(output.contains(<span class="jxr_string">"parameter description"</span>));
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>     }
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Object newHelpMojo() <strong class="jxr_keyword">throws</strong> ReflectiveOperationException {
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <strong class="jxr_keyword">return</strong> helpMojoClass().getDeclaredConstructor().newInstance();
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>     }
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Class&lt;?&gt; helpMojoClass() <strong class="jxr_keyword">throws</strong> ClassNotFoundException {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>         <strong class="jxr_keyword">return</strong> Class.forName(HELP_MOJO_CLASS);
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>     }
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> setField(Object target, String fieldName, Object value) <strong class="jxr_keyword">throws</strong> ReflectiveOperationException {
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>         Field field = target.getClass().getDeclaredField(fieldName);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>         field.setAccessible(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>         field.set(target, value);
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     }
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Object getField(Object target, String fieldName) <strong class="jxr_keyword">throws</strong> ReflectiveOperationException {
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>         Field field = target.getClass().getDeclaredField(fieldName);
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>         field.setAccessible(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>         <strong class="jxr_keyword">return</strong> field.get(target);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>     }
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Object invokeStatic(String methodName, Class&lt;?&gt;[] parameterTypes, Object... args)
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>             <strong class="jxr_keyword">throws</strong> ReflectiveOperationException {
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>         Method method = helpMojoClass().getDeclaredMethod(methodName, parameterTypes);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>         method.setAccessible(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>             <strong class="jxr_keyword">return</strong> method.invoke(<strong class="jxr_keyword">null</strong>, args);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>         } <strong class="jxr_keyword">catch</strong> (InvocationTargetException e) {
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ReflectiveOperationException(e.getCause());
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>         }
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>     }
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Object invokeInstance(Object target, String methodName, Class&lt;?&gt;[] parameterTypes, Object... args)
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>             <strong class="jxr_keyword">throws</strong> ReflectiveOperationException {
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         Method method = target.getClass().getDeclaredMethod(methodName, parameterTypes);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>         method.setAccessible(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>             <strong class="jxr_keyword">return</strong> method.invoke(target, args);
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>         } <strong class="jxr_keyword">catch</strong> (InvocationTargetException e) {
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> ReflectiveOperationException(e.getCause());
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>         }
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>     }
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Document parse(String xml) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">return</strong> DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(<strong class="jxr_keyword">new</strong> InputSource(<strong class="jxr_keyword">new</strong> StringReader(xml)));
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     }
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> }
+</pre>
+<hr/>
+<div id="footer">© 2011–2026 <a href="https://github.com/hazendaz/">hazendaz</a></div>
+</body>
+</html>

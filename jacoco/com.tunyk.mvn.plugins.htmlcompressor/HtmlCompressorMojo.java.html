@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressorMojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor-maven-plugin</a> &gt; <a href="index.source.html" class="el_package">com.tunyk.mvn.plugins.htmlcompressor</a> &gt; <span class="el_source">HtmlCompressorMojo.java</span></div><h1>HtmlCompressorMojo.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2011-2025 the original author or authors.
+ * SPDX-License-Identifier: Apache-2.0
+ * See LICENSE file for details.
  *
- *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       https://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2018-2026 Hazendaz
+ * Copyright 2011-2018 tunyk
  */
 package com.tunyk.mvn.plugins.htmlcompressor;
 
@@ -42,10 +34,10 @@ import org.apache.maven.plugins.annotations.Parameter;
  * Compress HTML files.
  */
 @Mojo(name = &quot;html&quot;, defaultPhase = LifecyclePhase.COMPILE, requiresProject = false, threadSafe = true)
-<span class="fc" id="L45">public class HtmlCompressorMojo extends AbstractMojo {</span>
+<span class="fc" id="L37">public class HtmlCompressorMojo extends AbstractMojo {</span>
 
     /** file where statistics of html compression is stored. */
-<span class="fc" id="L48">    @Parameter(property = &quot;htmlcompressor.htmlCompressionStatistics&quot;, defaultValue = &quot;${project.build.directory}/htmlcompressor/html-compression-statistics.txt&quot;)</span>
+<span class="fc" id="L40">    @Parameter(property = &quot;htmlcompressor.htmlCompressionStatistics&quot;, defaultValue = &quot;${project.build.directory}/htmlcompressor/html-compression-statistics.txt&quot;)</span>
     private String htmlCompressionStatistics = &quot;target/htmlcompressor/html-compression-statistics.txt&quot;;
 
     /**
@@ -64,7 +56,7 @@ import org.apache.maven.plugins.annotations.Parameter;
     private String[] fileExtensions;
 
     /** if false all compression is off (default is true). */
-<span class="fc" id="L67">    @Parameter(property = &quot;htmlcompressor.enabled&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L59">    @Parameter(property = &quot;htmlcompressor.enabled&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean enabled = true;
 
     /** Skip run of plugin. */
@@ -72,11 +64,11 @@ import org.apache.maven.plugins.annotations.Parameter;
     private boolean skip;
 
     /** if false keeps HTML comments (default is true). */
-<span class="fc" id="L75">    @Parameter(property = &quot;htmlcompressor.removeComments&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L67">    @Parameter(property = &quot;htmlcompressor.removeComments&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean removeComments = true;
 
     /** if false keeps multiple whitespace characters (default is true). */
-<span class="fc" id="L79">    @Parameter(property = &quot;htmlcompressor.removeMultiSpaces&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L71">    @Parameter(property = &quot;htmlcompressor.removeMultiSpaces&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean removeMultiSpaces = true;
 
     /** removes iter-tag whitespace characters. */
@@ -136,7 +128,7 @@ import org.apache.maven.plugins.annotations.Parameter;
     private boolean preserveLineBreaks;
 
     /** --line-break param for Yahoo YUI Compressor. */
-<span class="fc" id="L139">    @Parameter(property = &quot;htmlcompressor.yuiCssLineBreak&quot;, defaultValue = &quot;-1&quot;)</span>
+<span class="fc" id="L131">    @Parameter(property = &quot;htmlcompressor.yuiCssLineBreak&quot;, defaultValue = &quot;-1&quot;)</span>
     private int yuiCssLineBreak = -1;
 
     /** css compressor. */
@@ -150,7 +142,7 @@ import org.apache.maven.plugins.annotations.Parameter;
     private boolean compressJavaScript;
 
     /** javascript compression: &quot;yui&quot; or &quot;closure&quot;. */
-<span class="fc" id="L153">    @Parameter(property = &quot;htmlcompressor.jsCompressor&quot;, defaultValue = &quot;yui&quot;)</span>
+<span class="fc" id="L145">    @Parameter(property = &quot;htmlcompressor.jsCompressor&quot;, defaultValue = &quot;yui&quot;)</span>
     private String jsCompressor = &quot;yui&quot;;
 
     /** javascript compression. */
@@ -168,11 +160,11 @@ import org.apache.maven.plugins.annotations.Parameter;
     private boolean yuiJsPreserveAllSemiColons;
 
     /** --line-break param for Yahoo YUI Compressor. */
-<span class="fc" id="L171">    @Parameter(property = &quot;htmlcompressor.yuiJsLineBreak&quot;, defaultValue = &quot;-1&quot;)</span>
+<span class="fc" id="L163">    @Parameter(property = &quot;htmlcompressor.yuiJsLineBreak&quot;, defaultValue = &quot;-1&quot;)</span>
     private int yuiJsLineBreak = -1;
 
     /** closureOptLevel = &quot;simple&quot;, &quot;advanced&quot; or &quot;whitespace&quot;. */
-<span class="fc" id="L175">    @Parameter(property = &quot;htmlcompressor.closureOptLevel&quot;, defaultValue = &quot;simple&quot;)</span>
+<span class="fc" id="L167">    @Parameter(property = &quot;htmlcompressor.closureOptLevel&quot;, defaultValue = &quot;simple&quot;)</span>
     private String closureOptLevel = &quot;simple&quot;;
 
     /** --disable-optimizations param for Yahoo YUI Compressor. */
@@ -194,43 +186,43 @@ import org.apache.maven.plugins.annotations.Parameter;
     private File[] preservePatternFiles;
 
     /** HTML compression statistics. */
-<span class="fc" id="L197">    @Parameter(property = &quot;htmlcompressor.generateStatistics&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L189">    @Parameter(property = &quot;htmlcompressor.generateStatistics&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean generateStatistics = true;
 
     /**
      * source folder where html files are located.
      */
-<span class="fc" id="L203">    @Parameter(property = &quot;htmlcompressor.srcFolder&quot;, defaultValue = &quot;${basedir}/src/main/resources&quot;)</span>
+<span class="fc" id="L195">    @Parameter(property = &quot;htmlcompressor.srcFolder&quot;, defaultValue = &quot;${basedir}/src/main/resources&quot;)</span>
     private String srcFolder = &quot;src/main/resources&quot;;
 
     /**
      * target folder where compressed html files will be placed.
      */
-<span class="fc" id="L209">    @Parameter(property = &quot;htmlcompressor.targetFolder&quot;, defaultValue = &quot;${project.build.directory}/classes&quot;)</span>
+<span class="fc" id="L201">    @Parameter(property = &quot;htmlcompressor.targetFolder&quot;, defaultValue = &quot;${project.build.directory}/classes&quot;)</span>
     private String targetFolder = &quot;target/classes&quot;;
 
     /**
      * Create javascript file which includes all compressed html files as json object. If set to true then
      * javascriptHtmlSpriteIntegrationFile param is required, otherwise it will throw exception.
      */
-<span class="fc" id="L216">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSprite&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L208">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSprite&quot;, defaultValue = &quot;true&quot;)</span>
     private boolean javascriptHtmlSprite = true;
 
     /**
      * JavaScript sprite integration file (first occurrence of &quot;%s&quot; will be substituted by json with all compressed html
      * strings).
      */
-<span class="fc" id="L223">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSpriteIntegrationFile&quot;, defaultValue = &quot;${basedir}/src/main/resources/html/integration.js&quot;)</span>
+<span class="fc" id="L215">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSpriteIntegrationFile&quot;, defaultValue = &quot;${basedir}/src/main/resources/html/integration.js&quot;)</span>
     private String javascriptHtmlSpriteIntegrationFile = &quot;src/main/resources/html/integration.js&quot;;
 
     /**
      * The target JavaScript sprite file with compressed html files as json object.
      */
-<span class="fc" id="L229">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSpriteTargetFile&quot;, defaultValue = &quot;${project.build.directory}/htmlcompressor/html/integration.js&quot;)</span>
+<span class="fc" id="L221">    @Parameter(property = &quot;htmlcompressor.javascriptHtmlSpriteTargetFile&quot;, defaultValue = &quot;${project.build.directory}/htmlcompressor/html/integration.js&quot;)</span>
     private String javascriptHtmlSpriteTargetFile = &quot;target/htmlcompressor/html/integration.js&quot;;
 
     /** Charset encoding for files to read and create. */
-<span class="fc" id="L233">    @Parameter(property = &quot;htmlcompressor.encoding&quot;, defaultValue = &quot;UTF-8&quot;)</span>
+<span class="fc" id="L225">    @Parameter(property = &quot;htmlcompressor.encoding&quot;, defaultValue = &quot;UTF-8&quot;)</span>
     private String encoding = &quot;UTF-8&quot;;
 
     /**
@@ -248,212 +240,230 @@ import org.apache.maven.plugins.annotations.Parameter;
     @Override
     public void execute() throws MojoExecutionException {
         // Check if plugin run should be skipped
-<span class="pc bpc" id="L251" title="1 of 2 branches missed.">        if (this.skip) {</span>
-<span class="nc" id="L252">            getLog().info(&quot;HtmlCompressor is skipped&quot;);</span>
-<span class="nc" id="L253">            return;</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">        if (this.skip) {</span>
+<span class="fc" id="L244">            getLog().info(&quot;HtmlCompressor is skipped&quot;);</span>
+<span class="fc" id="L245">            return;</span>
         }
 
-<span class="pc bpc" id="L256" title="1 of 2 branches missed.">        if (!enabled) {</span>
-<span class="nc" id="L257">            getLog().info(&quot;HTML compression was turned off.&quot;);</span>
-<span class="nc" id="L258">            return;</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">        if (!enabled) {</span>
+<span class="fc" id="L249">            getLog().info(&quot;HTML compression was turned off.&quot;);</span>
+<span class="fc" id="L250">            return;</span>
         }
 
-<span class="pc bpc" id="L261" title="1 of 2 branches missed.">        if (!Files.exists(Path.of(srcFolder))) {</span>
-<span class="nc" id="L262">            getLog().warn(&quot;Compressor folder does not exist, skipping compression of &quot; + srcFolder);</span>
-<span class="nc" id="L263">            return;</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">        if (!Files.exists(Path.of(srcFolder))) {</span>
+<span class="fc" id="L254">            getLog().warn(&quot;Compressor folder does not exist, skipping compression of &quot; + srcFolder);</span>
+<span class="fc" id="L255">            return;</span>
         }
 
-<span class="fc" id="L266">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
-<span class="fc" id="L267">        HtmlCompressor htmlCompressor = new HtmlCompressor(srcFolder, targetFolder);</span>
+<span class="fc" id="L258">        getLog().info(&quot;Compressing &quot; + srcFolder);</span>
+<span class="fc" id="L259">        HtmlCompressor htmlCompressor = new HtmlCompressor(srcFolder, targetFolder);</span>
 
         // Deprecated
-<span class="pc bpc" id="L270" title="3 of 4 branches missed.">        if (fileExt != null &amp;&amp; fileExtensions == null) {</span>
-<span class="nc" id="L271">            fileExtensions = fileExt;</span>
+<span class="pc bpc" id="L262" title="1 of 4 branches missed.">        if (fileExt != null &amp;&amp; fileExtensions == null) {</span>
+<span class="fc" id="L263">            fileExtensions = fileExt;</span>
         }
 
-<span class="fc" id="L274">        htmlCompressor.setFileExtensions(fileExtensions);</span>
-<span class="fc" id="L275">        htmlCompressor.setFileEncoding(Charset.forName(encoding));</span>
-<span class="fc" id="L276">        htmlCompressor.setCreateJsonFile(javascriptHtmlSprite);</span>
-<span class="fc" id="L277">        htmlCompressor.setJsonIntegrationFilePath(javascriptHtmlSpriteIntegrationFile);</span>
-<span class="fc" id="L278">        htmlCompressor.setTargetJsonFilePath(javascriptHtmlSpriteTargetFile);</span>
+<span class="fc" id="L266">        htmlCompressor.setFileExtensions(fileExtensions);</span>
+<span class="fc" id="L267">        htmlCompressor.setFileEncoding(Charset.forName(encoding));</span>
+<span class="fc" id="L268">        htmlCompressor.setCreateJsonFile(javascriptHtmlSprite);</span>
+<span class="fc" id="L269">        htmlCompressor.setJsonIntegrationFilePath(javascriptHtmlSpriteIntegrationFile);</span>
+<span class="fc" id="L270">        htmlCompressor.setTargetJsonFilePath(javascriptHtmlSpriteTargetFile);</span>
 
-<span class="fc" id="L280">        com.googlecode.htmlcompressor.compressor.HtmlCompressor htmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.HtmlCompressor();</span>
-<span class="fc" id="L281">        htmlCompressorHandler.setEnabled(enabled);</span>
-<span class="fc" id="L282">        htmlCompressorHandler.setRemoveComments(removeComments);</span>
-<span class="fc" id="L283">        htmlCompressorHandler.setRemoveMultiSpaces(removeMultiSpaces);</span>
-<span class="fc" id="L284">        htmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
-<span class="fc" id="L285">        htmlCompressorHandler.setRemoveQuotes(removeQuotes);</span>
-<span class="fc" id="L286">        htmlCompressorHandler.setSimpleDoctype(simpleDoctype);</span>
-<span class="fc" id="L287">        htmlCompressorHandler.setRemoveScriptAttributes(removeScriptAttributes);</span>
-<span class="fc" id="L288">        htmlCompressorHandler.setRemoveStyleAttributes(removeStyleAttributes);</span>
-<span class="fc" id="L289">        htmlCompressorHandler.setRemoveLinkAttributes(removeLinkAttributes);</span>
-<span class="fc" id="L290">        htmlCompressorHandler.setRemoveFormAttributes(removeFormAttributes);</span>
-<span class="fc" id="L291">        htmlCompressorHandler.setRemoveInputAttributes(removeInputAttributes);</span>
-<span class="fc" id="L292">        htmlCompressorHandler.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
-<span class="fc" id="L293">        htmlCompressorHandler.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
-<span class="fc" id="L294">        htmlCompressorHandler.setRemoveHttpProtocol(removeHttpProtocol);</span>
-<span class="fc" id="L295">        htmlCompressorHandler.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
-<span class="fc" id="L296">        htmlCompressorHandler.setCompressCss(compressCss);</span>
-<span class="fc" id="L297">        htmlCompressorHandler.setPreserveLineBreaks(preserveLineBreaks);</span>
-<span class="fc" id="L298">        htmlCompressorHandler.setYuiCssLineBreak(yuiCssLineBreak);</span>
-<span class="fc" id="L299">        htmlCompressorHandler.setCompressJavaScript(compressJavaScript);</span>
-<span class="fc" id="L300">        htmlCompressorHandler.setYuiJsNoMunge(yuiJsNoMunge);</span>
-<span class="fc" id="L301">        htmlCompressorHandler.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
-<span class="fc" id="L302">        htmlCompressorHandler.setYuiJsLineBreak(yuiJsLineBreak);</span>
-<span class="fc" id="L303">        htmlCompressorHandler.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
-<span class="fc" id="L304">        htmlCompressorHandler.setGenerateStatistics(generateStatistics);</span>
+<span class="fc" id="L272">        com.googlecode.htmlcompressor.compressor.HtmlCompressor htmlCompressorHandler = new com.googlecode.htmlcompressor.compressor.HtmlCompressor();</span>
+<span class="fc" id="L273">        htmlCompressorHandler.setEnabled(enabled);</span>
+<span class="fc" id="L274">        htmlCompressorHandler.setRemoveComments(removeComments);</span>
+<span class="fc" id="L275">        htmlCompressorHandler.setRemoveMultiSpaces(removeMultiSpaces);</span>
+<span class="fc" id="L276">        htmlCompressorHandler.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
+<span class="fc" id="L277">        htmlCompressorHandler.setRemoveQuotes(removeQuotes);</span>
+<span class="fc" id="L278">        htmlCompressorHandler.setSimpleDoctype(simpleDoctype);</span>
+<span class="fc" id="L279">        htmlCompressorHandler.setRemoveScriptAttributes(removeScriptAttributes);</span>
+<span class="fc" id="L280">        htmlCompressorHandler.setRemoveStyleAttributes(removeStyleAttributes);</span>
+<span class="fc" id="L281">        htmlCompressorHandler.setRemoveLinkAttributes(removeLinkAttributes);</span>
+<span class="fc" id="L282">        htmlCompressorHandler.setRemoveFormAttributes(removeFormAttributes);</span>
+<span class="fc" id="L283">        htmlCompressorHandler.setRemoveInputAttributes(removeInputAttributes);</span>
+<span class="fc" id="L284">        htmlCompressorHandler.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
+<span class="fc" id="L285">        htmlCompressorHandler.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
+<span class="fc" id="L286">        htmlCompressorHandler.setRemoveHttpProtocol(removeHttpProtocol);</span>
+<span class="fc" id="L287">        htmlCompressorHandler.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
+<span class="fc" id="L288">        htmlCompressorHandler.setCompressCss(compressCss);</span>
+<span class="fc" id="L289">        htmlCompressorHandler.setPreserveLineBreaks(preserveLineBreaks);</span>
+<span class="fc" id="L290">        htmlCompressorHandler.setYuiCssLineBreak(yuiCssLineBreak);</span>
+<span class="fc" id="L291">        htmlCompressorHandler.setCompressJavaScript(compressJavaScript);</span>
+<span class="fc" id="L292">        htmlCompressorHandler.setYuiJsNoMunge(yuiJsNoMunge);</span>
+<span class="fc" id="L293">        htmlCompressorHandler.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="fc" id="L294">        htmlCompressorHandler.setYuiJsLineBreak(yuiJsLineBreak);</span>
+<span class="fc" id="L295">        htmlCompressorHandler.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="fc" id="L296">        htmlCompressorHandler.setGenerateStatistics(generateStatistics);</span>
 
-<span class="pc bpc" id="L306" title="1 of 2 branches missed.">        if (jsCompressor.equalsIgnoreCase(&quot;closure&quot;)) {</span>
-<span class="nc" id="L307">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
-<span class="nc bnc" id="L308" title="All 2 branches missed.">            if (closureOptLevel != null</span>
-<span class="nc bnc" id="L309" title="All 2 branches missed.">                    &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
-<span class="nc" id="L310">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
-<span class="nc" id="L311">                closureCompressor.setCustomExternsOnly(closureCustomExternsOnly);</span>
-<span class="nc bnc" id="L312" title="All 2 branches missed.">                if (closureExterns.length &gt; 0) {</span>
-<span class="nc" id="L313">                    List&lt;SourceFile&gt; externs = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L314" title="All 2 branches missed.">                    for (String externFile : closureExterns) {</span>
-<span class="nc" id="L315">                        externs.add(SourceFile.fromFile(externFile));</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">        if (jsCompressor.equalsIgnoreCase(&quot;closure&quot;)) {</span>
+<span class="nc" id="L299">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">            if (closureOptLevel != null</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">                    &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
+<span class="nc" id="L302">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
+<span class="nc" id="L303">                closureCompressor.setCustomExternsOnly(closureCustomExternsOnly);</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">                if (closureExterns.length &gt; 0) {</span>
+<span class="nc" id="L305">                    List&lt;SourceFile&gt; externs = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">                    for (String externFile : closureExterns) {</span>
+<span class="nc" id="L307">                        externs.add(SourceFile.fromFile(externFile));</span>
                     }
-<span class="nc" id="L317">                    closureCompressor.setExterns(externs);</span>
-<span class="nc" id="L318">                }</span>
-<span class="nc bnc" id="L319" title="All 2 branches missed.">            } else if (closureOptLevel != null</span>
-<span class="nc bnc" id="L320" title="All 2 branches missed.">                    &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
-<span class="nc" id="L321">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
+<span class="nc" id="L309">                    closureCompressor.setExterns(externs);</span>
+<span class="nc" id="L310">                }</span>
+<span class="nc bnc" id="L311" title="All 2 branches missed.">            } else if (closureOptLevel != null</span>
+<span class="nc bnc" id="L312" title="All 2 branches missed.">                    &amp;&amp; closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
+<span class="nc" id="L313">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
             } else {
-<span class="nc" id="L323">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
+<span class="nc" id="L315">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
             }
 
-<span class="nc" id="L326">            htmlCompressorHandler.setJavaScriptCompressor(closureCompressor);</span>
+<span class="nc" id="L318">            htmlCompressorHandler.setJavaScriptCompressor(closureCompressor);</span>
         }
 
-<span class="fc" id="L329">        List&lt;Pattern&gt; preservePatternList = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L330">        boolean phpTagPatternAdded = false;</span>
-<span class="fc" id="L331">        boolean serverScriptTagPatternAdded = false;</span>
-<span class="pc bpc" id="L332" title="1 of 2 branches missed.">        if (predefinedPreservePatterns != null) {</span>
-<span class="nc bnc" id="L333" title="All 2 branches missed.">            for (String pattern : predefinedPreservePatterns) {</span>
-<span class="nc bnc" id="L334" title="All 4 branches missed.">                if (!phpTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;PHP_TAG_PATTERN&quot;)) {</span>
-<span class="nc" id="L335">                    preservePatternList.add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.PHP_TAG_PATTERN);</span>
-<span class="nc" id="L336">                    phpTagPatternAdded = true;</span>
-<span class="nc bnc" id="L337" title="All 4 branches missed.">                } else if (!serverScriptTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;SERVER_SCRIPT_TAG_PATTERN&quot;)) {</span>
-<span class="nc" id="L338">                    preservePatternList</span>
-<span class="nc" id="L339">                            .add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN);</span>
-<span class="nc" id="L340">                    serverScriptTagPatternAdded = true;</span>
+<span class="fc" id="L321">        List&lt;Pattern&gt; preservePatternList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L322">        boolean phpTagPatternAdded = false;</span>
+<span class="fc" id="L323">        boolean serverScriptTagPatternAdded = false;</span>
+<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (predefinedPreservePatterns != null) {</span>
+<span class="fc bfc" id="L325" title="All 2 branches covered.">            for (String pattern : predefinedPreservePatterns) {</span>
+<span class="pc bpc" id="L326" title="1 of 4 branches missed.">                if (!phpTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;PHP_TAG_PATTERN&quot;)) {</span>
+<span class="fc" id="L327">                    preservePatternList.add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.PHP_TAG_PATTERN);</span>
+<span class="fc" id="L328">                    phpTagPatternAdded = true;</span>
+<span class="pc bpc" id="L329" title="2 of 4 branches missed.">                } else if (!serverScriptTagPatternAdded &amp;&amp; pattern.equalsIgnoreCase(&quot;SERVER_SCRIPT_TAG_PATTERN&quot;)) {</span>
+<span class="fc" id="L330">                    preservePatternList</span>
+<span class="fc" id="L331">                            .add(com.googlecode.htmlcompressor.compressor.HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN);</span>
+<span class="fc" id="L332">                    serverScriptTagPatternAdded = true;</span>
                 }
             }
         }
-<span class="pc bpc" id="L344" title="1 of 2 branches missed.">        if (preservePatterns != null) {</span>
-<span class="nc bnc" id="L345" title="All 2 branches missed.">            for (String preservePatternString : preservePatterns) {</span>
-<span class="nc bnc" id="L346" title="All 2 branches missed.">                if (!preservePatternString.isEmpty()) {</span>
+<span class="fc bfc" id="L336" title="All 2 branches covered.">        if (preservePatterns != null) {</span>
+<span class="fc bfc" id="L337" title="All 2 branches covered.">            for (String preservePatternString : preservePatterns) {</span>
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">                if (!preservePatternString.isEmpty()) {</span>
                     try {
-<span class="nc" id="L348">                        preservePatternList.add(Pattern.compile(preservePatternString));</span>
-<span class="nc" id="L349">                    } catch (PatternSyntaxException e) {</span>
-<span class="nc" id="L350">                        throw new MojoExecutionException(e.getMessage());</span>
-<span class="nc" id="L351">                    }</span>
+<span class="fc" id="L340">                        preservePatternList.add(Pattern.compile(preservePatternString));</span>
+<span class="fc" id="L341">                    } catch (PatternSyntaxException e) {</span>
+<span class="fc" id="L342">                        throw new MojoExecutionException(e.getMessage());</span>
+<span class="fc" id="L343">                    }</span>
                 }
             }
         }
-<span class="pc bpc" id="L355" title="1 of 2 branches missed.">        if (preservePatternFiles != null) {</span>
-<span class="nc bnc" id="L356" title="All 2 branches missed.">            for (File file : preservePatternFiles) {</span>
+<span class="pc bpc" id="L347" title="1 of 2 branches missed.">        if (preservePatternFiles != null) {</span>
+<span class="nc bnc" id="L348" title="All 2 branches missed.">            for (File file : preservePatternFiles) {</span>
                 try {
-<span class="nc" id="L358">                    List&lt;String&gt; fileLines = Files.readAllLines(file.toPath(), Charset.forName(encoding));</span>
-<span class="nc bnc" id="L359" title="All 2 branches missed.">                    for (String line : fileLines) {</span>
-<span class="nc bnc" id="L360" title="All 2 branches missed.">                        if (!line.isEmpty()) {</span>
-<span class="nc" id="L361">                            preservePatternList.add(Pattern.compile(line));</span>
+<span class="nc" id="L350">                    List&lt;String&gt; fileLines = Files.readAllLines(file.toPath(), Charset.forName(encoding));</span>
+<span class="nc bnc" id="L351" title="All 2 branches missed.">                    for (String line : fileLines) {</span>
+<span class="nc bnc" id="L352" title="All 2 branches missed.">                        if (!line.isEmpty()) {</span>
+<span class="nc" id="L353">                            preservePatternList.add(Pattern.compile(line));</span>
                         }
-<span class="nc" id="L363">                    }</span>
-<span class="nc" id="L364">                } catch (IOException | PatternSyntaxException e) {</span>
-<span class="nc" id="L365">                    throw new MojoExecutionException(e.getMessage());</span>
-<span class="nc" id="L366">                }</span>
+<span class="nc" id="L355">                    }</span>
+<span class="nc" id="L356">                } catch (IOException | PatternSyntaxException e) {</span>
+<span class="nc" id="L357">                    throw new MojoExecutionException(e.getMessage());</span>
+<span class="nc" id="L358">                }</span>
             }
         }
-<span class="fc" id="L369">        htmlCompressorHandler.setPreservePatterns(preservePatternList);</span>
-<span class="fc" id="L370">        htmlCompressor.setHtmlCompressor(htmlCompressorHandler);</span>
+<span class="fc" id="L361">        htmlCompressorHandler.setPreservePatterns(preservePatternList);</span>
+<span class="fc" id="L362">        htmlCompressor.setHtmlCompressor(htmlCompressorHandler);</span>
 
         try {
-<span class="fc" id="L373">            htmlCompressor.compress();</span>
-<span class="nc" id="L374">        } catch (IOException e) {</span>
-<span class="nc" id="L375">            throw new MojoExecutionException(e.getMessage());</span>
-<span class="fc" id="L376">        }</span>
+<span class="fc" id="L365">            htmlCompressor.compress();</span>
+<span class="nc" id="L366">        } catch (IOException e) {</span>
+<span class="nc" id="L367">            throw new MojoExecutionException(e.getMessage());</span>
+<span class="fc" id="L368">        }</span>
 
         // The system of units (SI) as 1000 rather than 1024
-<span class="fc" id="L379">        boolean systemOfUnits = true;</span>
+<span class="fc" id="L371">        boolean systemOfUnits = true;</span>
 
-<span class="fc" id="L381">        int origFilesizeBytes = -1;</span>
+<span class="fc" id="L373">        int origFilesizeBytes = -1;</span>
         try {
-<span class="fc" id="L383">            origFilesizeBytes = htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getFilesize();</span>
-<span class="nc" id="L384">        } catch (NullPointerException e) {</span>
-<span class="nc" id="L385">            getLog().info(&quot;No files found to compress, HTML compression completed.&quot;);</span>
-<span class="nc" id="L386">            return;</span>
-<span class="fc" id="L387">        }</span>
+<span class="fc" id="L375">            origFilesizeBytes = htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getFilesize();</span>
+<span class="nc" id="L376">        } catch (NullPointerException e) {</span>
+<span class="nc" id="L377">            getLog().info(&quot;No files found to compress, HTML compression completed.&quot;);</span>
+<span class="nc" id="L378">            return;</span>
+<span class="fc" id="L379">        }</span>
 
-<span class="fc" id="L389">        String origFilesize = FileTool.humanReadableByteCount(origFilesizeBytes, systemOfUnits);</span>
-<span class="fc" id="L390">        String origEmptyChars = String</span>
-<span class="fc" id="L391">                .valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getEmptyChars());</span>
-<span class="fc" id="L392">        String origInlineEventSize = FileTool.humanReadableByteCount(</span>
-<span class="fc" id="L393">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineEventSize(),</span>
+<span class="fc" id="L381">        String origFilesize = FileTool.humanReadableByteCount(origFilesizeBytes, systemOfUnits);</span>
+<span class="fc" id="L382">        String origEmptyChars = String</span>
+<span class="fc" id="L383">                .valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getEmptyChars());</span>
+<span class="fc" id="L384">        String origInlineEventSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L385">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineEventSize(),</span>
                 systemOfUnits);
-<span class="fc" id="L395">        String origInlineScriptSize = FileTool.humanReadableByteCount(</span>
-<span class="fc" id="L396">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineScriptSize(),</span>
+<span class="fc" id="L387">        String origInlineScriptSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L388">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineScriptSize(),</span>
                 systemOfUnits);
-<span class="fc" id="L398">        String origInlineStyleSize = FileTool.humanReadableByteCount(</span>
-<span class="fc" id="L399">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineStyleSize(),</span>
-                systemOfUnits);
-
-<span class="fc" id="L402">        int compFilesizeBytes = htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getFilesize();</span>
-<span class="fc" id="L403">        String compFilesize = FileTool.humanReadableByteCount(compFilesizeBytes, systemOfUnits);</span>
-<span class="fc" id="L404">        String compEmptyChars = String</span>
-<span class="fc" id="L405">                .valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getEmptyChars());</span>
-<span class="fc" id="L406">        String compInlineEventSize = FileTool.humanReadableByteCount(</span>
-<span class="fc" id="L407">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineEventSize(),</span>
-                systemOfUnits);
-<span class="fc" id="L409">        String compInlineScriptSize = FileTool.humanReadableByteCount(</span>
-<span class="fc" id="L410">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineScriptSize(),</span>
-                systemOfUnits);
-<span class="fc" id="L412">        String compInlineStyleSize = FileTool.humanReadableByteCount(</span>
-<span class="fc" id="L413">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineStyleSize(),</span>
+<span class="fc" id="L390">        String origInlineStyleSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L391">                htmlCompressor.getHtmlCompressor().getStatistics().getOriginalMetrics().getInlineStyleSize(),</span>
                 systemOfUnits);
 
-<span class="fc" id="L416">        String elapsedTime = FileTool.getElapsedHMSTime(htmlCompressor.getHtmlCompressor().getStatistics().getTime());</span>
-<span class="fc" id="L417">        String preservedSize = FileTool.humanReadableByteCount(</span>
-<span class="fc" id="L418">                htmlCompressor.getHtmlCompressor().getStatistics().getPreservedSize(), systemOfUnits);</span>
-<span class="fc" id="L419">        float compressionRatio = Float.valueOf(compFilesizeBytes) / Float.valueOf(origFilesizeBytes);</span>
-<span class="fc" id="L420">        float spaceSavings = Float.valueOf(1) - compressionRatio;</span>
+<span class="fc" id="L394">        int compFilesizeBytes = htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getFilesize();</span>
+<span class="fc" id="L395">        String compFilesize = FileTool.humanReadableByteCount(compFilesizeBytes, systemOfUnits);</span>
+<span class="fc" id="L396">        String compEmptyChars = String</span>
+<span class="fc" id="L397">                .valueOf(htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getEmptyChars());</span>
+<span class="fc" id="L398">        String compInlineEventSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L399">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineEventSize(),</span>
+                systemOfUnits);
+<span class="fc" id="L401">        String compInlineScriptSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L402">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineScriptSize(),</span>
+                systemOfUnits);
+<span class="fc" id="L404">        String compInlineStyleSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L405">                htmlCompressor.getHtmlCompressor().getStatistics().getCompressedMetrics().getInlineStyleSize(),</span>
+                systemOfUnits);
 
-<span class="fc" id="L422">        String format = &quot;%-30s%-30s%-30s%-2s&quot;;</span>
-<span class="fc" id="L423">        NumberFormat formatter = new DecimalFormat(&quot;#0.00&quot;);</span>
-<span class="fc" id="L424">        String eol = &quot;\n&quot;;</span>
-<span class="fc" id="L425">        String hr = &quot;+-----------------------------+-----------------------------+-----------------------------+&quot;;</span>
-<span class="fc" id="L426">        StringBuilder sb = new StringBuilder(&quot;HTML compression statistics:&quot;).append(eol);</span>
-<span class="fc" id="L427">        sb.append(hr).append(eol);</span>
-<span class="fc" id="L428">        sb.append(String.format(format, &quot;| Category&quot;, &quot;| Original&quot;, &quot;| Compressed&quot;, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L429">        sb.append(hr).append(eol);</span>
-<span class="fc" id="L430">        sb.append(String.format(format, &quot;| Filesize&quot;, &quot;| &quot; + origFilesize, &quot;| &quot; + compFilesize, &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L431">        sb.append(String.format(format, &quot;| Empty Chars&quot;, &quot;| &quot; + origEmptyChars, &quot;| &quot; + compEmptyChars, &quot;|&quot;))</span>
-<span class="fc" id="L432">                .append(eol);</span>
-<span class="fc" id="L433">        sb.append(String.format(format, &quot;| Script Size&quot;, &quot;| &quot; + origInlineScriptSize, &quot;| &quot; + compInlineScriptSize, &quot;|&quot;))</span>
+<span class="fc" id="L408">        String elapsedTime = FileTool.getElapsedHMSTime(htmlCompressor.getHtmlCompressor().getStatistics().getTime());</span>
+<span class="fc" id="L409">        String preservedSize = FileTool.humanReadableByteCount(</span>
+<span class="fc" id="L410">                htmlCompressor.getHtmlCompressor().getStatistics().getPreservedSize(), systemOfUnits);</span>
+<span class="fc" id="L411">        float compressionRatio = Float.valueOf(compFilesizeBytes) / Float.valueOf(origFilesizeBytes);</span>
+<span class="fc" id="L412">        float spaceSavings = Float.valueOf(1) - compressionRatio;</span>
+
+<span class="fc" id="L414">        String format = &quot;%-30s%-30s%-30s%-2s&quot;;</span>
+<span class="fc" id="L415">        NumberFormat formatter = new DecimalFormat(&quot;#0.00&quot;);</span>
+<span class="fc" id="L416">        String eol = &quot;\n&quot;;</span>
+<span class="fc" id="L417">        String hr = &quot;+-----------------------------+-----------------------------+-----------------------------+&quot;;</span>
+<span class="fc" id="L418">        StringBuilder sb = new StringBuilder(&quot;HTML compression statistics:&quot;).append(eol);</span>
+<span class="fc" id="L419">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L420">        sb.append(format.formatted(&quot;| Category&quot;, &quot;| Original&quot;, &quot;| Compressed&quot;, &quot;|&quot;)).append(eol);</span>
+<span class="fc" id="L421">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L422">        sb.append(format.formatted(&quot;| Filesize&quot;, &quot;| &quot; + origFilesize, &quot;| &quot; + compFilesize, &quot;|&quot;)).append(eol);</span>
+<span class="fc" id="L423">        sb.append(format.formatted(&quot;| Empty Chars&quot;, &quot;| &quot; + origEmptyChars, &quot;| &quot; + compEmptyChars, &quot;|&quot;)).append(eol);</span>
+<span class="fc" id="L424">        sb.append(format.formatted(&quot;| Script Size&quot;, &quot;| &quot; + origInlineScriptSize, &quot;| &quot; + compInlineScriptSize, &quot;|&quot;))</span>
+<span class="fc" id="L425">                .append(eol);</span>
+<span class="fc" id="L426">        sb.append(format.formatted(&quot;| Style Size&quot;, &quot;| &quot; + origInlineStyleSize, &quot;| &quot; + compInlineStyleSize, &quot;|&quot;))</span>
+<span class="fc" id="L427">                .append(eol);</span>
+<span class="fc" id="L428">        sb.append(format.formatted(&quot;| Event Handler Size&quot;, &quot;| &quot; + origInlineEventSize, &quot;| &quot; + compInlineEventSize, &quot;|&quot;))</span>
+<span class="fc" id="L429">                .append(eol);</span>
+<span class="fc" id="L430">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L431">        sb.append(&quot;%-90s%-2s&quot;</span>
+<span class="fc" id="L432">                .formatted(&quot;| Time: %s, Preserved: %s, Compression Ratio: %s, Savings: %s%%&quot;.formatted(elapsedTime,</span>
+<span class="fc" id="L433">                        preservedSize, formatter.format(compressionRatio), formatter.format(spaceSavings * 100)), &quot;|&quot;))</span>
 <span class="fc" id="L434">                .append(eol);</span>
-<span class="fc" id="L435">        sb.append(String.format(format, &quot;| Style Size&quot;, &quot;| &quot; + origInlineStyleSize, &quot;| &quot; + compInlineStyleSize, &quot;|&quot;))</span>
-<span class="fc" id="L436">                .append(eol);</span>
-<span class="fc" id="L437">        sb.append(String.format(format, &quot;| Event Handler Size&quot;, &quot;| &quot; + origInlineEventSize, &quot;| &quot; + compInlineEventSize,</span>
-<span class="fc" id="L438">                &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L439">        sb.append(hr).append(eol);</span>
-<span class="fc" id="L440">        sb.append(String.format(&quot;%-90s%-2s&quot;,</span>
-<span class="fc" id="L441">                String.format(&quot;| Time: %s, Preserved: %s, Compression Ratio: %s, Savings: %s%%&quot;, elapsedTime,</span>
-<span class="fc" id="L442">                        preservedSize, formatter.format(compressionRatio), formatter.format(spaceSavings * 100)),</span>
-<span class="fc" id="L443">                &quot;|&quot;)).append(eol);</span>
-<span class="fc" id="L444">        sb.append(hr).append(eol);</span>
+<span class="fc" id="L435">        sb.append(hr).append(eol);</span>
 
-<span class="fc" id="L446">        String statistics = sb.toString();</span>
-<span class="fc" id="L447">        getLog().info(statistics);</span>
+<span class="fc" id="L437">        String statistics = sb.toString();</span>
+<span class="fc" id="L438">        getLog().info(statistics);</span>
         try {
-<span class="fc" id="L449">            Files.createDirectories(Path.of(htmlCompressionStatistics).getParent());</span>
-<span class="fc" id="L450">            Files.writeString(Path.of(htmlCompressionStatistics), statistics, Charset.forName(encoding));</span>
-<span class="nc" id="L451">        } catch (IOException e) {</span>
-<span class="nc" id="L452">            throw new MojoExecutionException(e.getMessage());</span>
-<span class="fc" id="L453">        }</span>
+<span class="fc" id="L440">            Files.createDirectories(Path.of(htmlCompressionStatistics).getParent());</span>
+<span class="fc" id="L441">            Files.writeString(Path.of(htmlCompressionStatistics), statistics, Charset.forName(encoding));</span>
+<span class="nc" id="L442">        } catch (IOException e) {</span>
+<span class="nc" id="L443">            throw new MojoExecutionException(e.getMessage());</span>
+<span class="fc" id="L444">        }</span>
 
-<span class="fc" id="L455">        getLog().info(&quot;HTML compression completed.&quot;);</span>
-<span class="fc" id="L456">    }</span>
+<span class="fc" id="L446">        getLog().info(&quot;HTML compression completed.&quot;);</span>
+<span class="fc" id="L447">    }</span>
+
+    /**
+     * Checks if plugin run is skipped.
+     *
+     * @return true, if plugin run is skipped
+     */
+    public boolean isSkip() {
+<span class="fc" id="L455">        return skip;</span>
+    }
+
+    /**
+     * Sets the skip flag to control whether plugin execution is skipped.
+     *
+     * @param skip
+     *            the new skip value
+     */
+    public void setSkip(boolean skip) {
+<span class="fc" id="L465">        this.skip = skip;</span>
+<span class="fc" id="L466">    }</span>
 
     /**
      * Gets the html compression statistics.
@@ -461,7 +471,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the html compression statistics
      */
     public String getHtmlCompressionStatistics() {
-<span class="nc" id="L464">        return htmlCompressionStatistics;</span>
+<span class="fc" id="L474">        return htmlCompressionStatistics;</span>
     }
 
     /**
@@ -471,8 +481,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new html compression statistics
      */
     public void setHtmlCompressionStatistics(String htmlCompressionStatistics) {
-<span class="nc" id="L474">        this.htmlCompressionStatistics = htmlCompressionStatistics;</span>
-<span class="nc" id="L475">    }</span>
+<span class="fc" id="L484">        this.htmlCompressionStatistics = htmlCompressionStatistics;</span>
+<span class="fc" id="L485">    }</span>
 
     /**
      * Gets the file ext.
@@ -483,7 +493,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      */
     @Deprecated
     public String[] getFileExt() {
-<span class="nc" id="L486">        return fileExt;</span>
+<span class="fc" id="L496">        return fileExt;</span>
     }
 
     /**
@@ -496,8 +506,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      */
     @Deprecated
     public void setFileExt(String[] fileExt) {
-<span class="nc" id="L499">        this.fileExt = fileExt;</span>
-<span class="nc" id="L500">    }</span>
+<span class="fc" id="L509">        this.fileExt = fileExt;</span>
+<span class="fc" id="L510">    }</span>
 
     /**
      * Gets the file ext.
@@ -505,7 +515,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the file extensions
      */
     public String[] getFileExtensions() {
-<span class="nc" id="L508">        return fileExtensions;</span>
+<span class="fc" id="L518">        return fileExtensions;</span>
     }
 
     /**
@@ -515,8 +525,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new file ext
      */
     public void setFileExtensions(String[] fileExtensions) {
-<span class="nc" id="L518">        this.fileExtensions = fileExtensions;</span>
-<span class="nc" id="L519">    }</span>
+<span class="fc" id="L528">        this.fileExtensions = fileExtensions;</span>
+<span class="fc" id="L529">    }</span>
 
     /**
      * Gets the enabled.
@@ -524,7 +534,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the enabled
      */
     public Boolean getEnabled() {
-<span class="nc" id="L527">        return enabled;</span>
+<span class="fc" id="L537">        return enabled;</span>
     }
 
     /**
@@ -534,8 +544,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new enabled
      */
     public void setEnabled(Boolean enabled) {
-<span class="nc" id="L537">        this.enabled = enabled;</span>
-<span class="nc" id="L538">    }</span>
+<span class="fc" id="L547">        this.enabled = enabled;</span>
+<span class="fc" id="L548">    }</span>
 
     /**
      * Gets the removes the comments.
@@ -543,7 +553,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the comments
      */
     public Boolean getRemoveComments() {
-<span class="nc" id="L546">        return removeComments;</span>
+<span class="fc" id="L556">        return removeComments;</span>
     }
 
     /**
@@ -553,8 +563,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the comments
      */
     public void setRemoveComments(Boolean removeComments) {
-<span class="nc" id="L556">        this.removeComments = removeComments;</span>
-<span class="nc" id="L557">    }</span>
+<span class="fc" id="L566">        this.removeComments = removeComments;</span>
+<span class="fc" id="L567">    }</span>
 
     /**
      * Gets the removes the multi spaces.
@@ -562,7 +572,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the multi spaces
      */
     public Boolean getRemoveMultiSpaces() {
-<span class="nc" id="L565">        return removeMultiSpaces;</span>
+<span class="fc" id="L575">        return removeMultiSpaces;</span>
     }
 
     /**
@@ -572,8 +582,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the multi spaces
      */
     public void setRemoveMultiSpaces(Boolean removeMultiSpaces) {
-<span class="nc" id="L575">        this.removeMultiSpaces = removeMultiSpaces;</span>
-<span class="nc" id="L576">    }</span>
+<span class="fc" id="L585">        this.removeMultiSpaces = removeMultiSpaces;</span>
+<span class="fc" id="L586">    }</span>
 
     /**
      * Gets the removes the intertag spaces.
@@ -581,7 +591,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the intertag spaces
      */
     public Boolean getRemoveIntertagSpaces() {
-<span class="nc" id="L584">        return removeIntertagSpaces;</span>
+<span class="fc" id="L594">        return removeIntertagSpaces;</span>
     }
 
     /**
@@ -591,8 +601,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the intertag spaces
      */
     public void setRemoveIntertagSpaces(Boolean removeIntertagSpaces) {
-<span class="nc" id="L594">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
-<span class="nc" id="L595">    }</span>
+<span class="fc" id="L604">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
+<span class="fc" id="L605">    }</span>
 
     /**
      * Gets the removes the quotes.
@@ -600,7 +610,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the quotes
      */
     public Boolean getRemoveQuotes() {
-<span class="nc" id="L603">        return removeQuotes;</span>
+<span class="fc" id="L613">        return removeQuotes;</span>
     }
 
     /**
@@ -610,8 +620,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the quotes
      */
     public void setRemoveQuotes(Boolean removeQuotes) {
-<span class="nc" id="L613">        this.removeQuotes = removeQuotes;</span>
-<span class="nc" id="L614">    }</span>
+<span class="fc" id="L623">        this.removeQuotes = removeQuotes;</span>
+<span class="fc" id="L624">    }</span>
 
     /**
      * Gets the simple doctype.
@@ -619,7 +629,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the simple doctype
      */
     public Boolean getSimpleDoctype() {
-<span class="nc" id="L622">        return simpleDoctype;</span>
+<span class="fc" id="L632">        return simpleDoctype;</span>
     }
 
     /**
@@ -629,8 +639,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new simple doctype
      */
     public void setSimpleDoctype(Boolean simpleDoctype) {
-<span class="nc" id="L632">        this.simpleDoctype = simpleDoctype;</span>
-<span class="nc" id="L633">    }</span>
+<span class="fc" id="L642">        this.simpleDoctype = simpleDoctype;</span>
+<span class="fc" id="L643">    }</span>
 
     /**
      * Gets the removes the script attributes.
@@ -638,7 +648,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the script attributes
      */
     public Boolean getRemoveScriptAttributes() {
-<span class="nc" id="L641">        return removeScriptAttributes;</span>
+<span class="fc" id="L651">        return removeScriptAttributes;</span>
     }
 
     /**
@@ -648,8 +658,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the script attributes
      */
     public void setRemoveScriptAttributes(Boolean removeScriptAttributes) {
-<span class="nc" id="L651">        this.removeScriptAttributes = removeScriptAttributes;</span>
-<span class="nc" id="L652">    }</span>
+<span class="fc" id="L661">        this.removeScriptAttributes = removeScriptAttributes;</span>
+<span class="fc" id="L662">    }</span>
 
     /**
      * Gets the removes the style attributes.
@@ -657,7 +667,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the style attributes
      */
     public Boolean getRemoveStyleAttributes() {
-<span class="nc" id="L660">        return removeStyleAttributes;</span>
+<span class="fc" id="L670">        return removeStyleAttributes;</span>
     }
 
     /**
@@ -667,8 +677,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the style attributes
      */
     public void setRemoveStyleAttributes(Boolean removeStyleAttributes) {
-<span class="nc" id="L670">        this.removeStyleAttributes = removeStyleAttributes;</span>
-<span class="nc" id="L671">    }</span>
+<span class="fc" id="L680">        this.removeStyleAttributes = removeStyleAttributes;</span>
+<span class="fc" id="L681">    }</span>
 
     /**
      * Gets the removes the link attributes.
@@ -676,7 +686,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the link attributes
      */
     public Boolean getRemoveLinkAttributes() {
-<span class="nc" id="L679">        return removeLinkAttributes;</span>
+<span class="fc" id="L689">        return removeLinkAttributes;</span>
     }
 
     /**
@@ -686,8 +696,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the link attributes
      */
     public void setRemoveLinkAttributes(Boolean removeLinkAttributes) {
-<span class="nc" id="L689">        this.removeLinkAttributes = removeLinkAttributes;</span>
-<span class="nc" id="L690">    }</span>
+<span class="fc" id="L699">        this.removeLinkAttributes = removeLinkAttributes;</span>
+<span class="fc" id="L700">    }</span>
 
     /**
      * Gets the removes the form attributes.
@@ -695,7 +705,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the form attributes
      */
     public Boolean getRemoveFormAttributes() {
-<span class="nc" id="L698">        return removeFormAttributes;</span>
+<span class="fc" id="L708">        return removeFormAttributes;</span>
     }
 
     /**
@@ -705,8 +715,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the form attributes
      */
     public void setRemoveFormAttributes(Boolean removeFormAttributes) {
-<span class="nc" id="L708">        this.removeFormAttributes = removeFormAttributes;</span>
-<span class="nc" id="L709">    }</span>
+<span class="fc" id="L718">        this.removeFormAttributes = removeFormAttributes;</span>
+<span class="fc" id="L719">    }</span>
 
     /**
      * Gets the removes the input attributes.
@@ -714,7 +724,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the input attributes
      */
     public Boolean getRemoveInputAttributes() {
-<span class="nc" id="L717">        return removeInputAttributes;</span>
+<span class="fc" id="L727">        return removeInputAttributes;</span>
     }
 
     /**
@@ -724,8 +734,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the input attributes
      */
     public void setRemoveInputAttributes(Boolean removeInputAttributes) {
-<span class="nc" id="L727">        this.removeInputAttributes = removeInputAttributes;</span>
-<span class="nc" id="L728">    }</span>
+<span class="fc" id="L737">        this.removeInputAttributes = removeInputAttributes;</span>
+<span class="fc" id="L738">    }</span>
 
     /**
      * Gets the simple boolean attributes.
@@ -733,7 +743,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the simple boolean attributes
      */
     public Boolean getSimpleBooleanAttributes() {
-<span class="nc" id="L736">        return simpleBooleanAttributes;</span>
+<span class="fc" id="L746">        return simpleBooleanAttributes;</span>
     }
 
     /**
@@ -743,8 +753,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new simple boolean attributes
      */
     public void setSimpleBooleanAttributes(Boolean simpleBooleanAttributes) {
-<span class="nc" id="L746">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
-<span class="nc" id="L747">    }</span>
+<span class="fc" id="L756">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
+<span class="fc" id="L757">    }</span>
 
     /**
      * Gets the removes the java script protocol.
@@ -752,7 +762,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the java script protocol
      */
     public Boolean getRemoveJavaScriptProtocol() {
-<span class="nc" id="L755">        return removeJavaScriptProtocol;</span>
+<span class="fc" id="L765">        return removeJavaScriptProtocol;</span>
     }
 
     /**
@@ -762,8 +772,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the java script protocol
      */
     public void setRemoveJavaScriptProtocol(Boolean removeJavaScriptProtocol) {
-<span class="nc" id="L765">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
-<span class="nc" id="L766">    }</span>
+<span class="fc" id="L775">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
+<span class="fc" id="L776">    }</span>
 
     /**
      * Gets the removes the http protocol.
@@ -771,7 +781,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the http protocol
      */
     public Boolean getRemoveHttpProtocol() {
-<span class="nc" id="L774">        return removeHttpProtocol;</span>
+<span class="fc" id="L784">        return removeHttpProtocol;</span>
     }
 
     /**
@@ -781,8 +791,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the http protocol
      */
     public void setRemoveHttpProtocol(Boolean removeHttpProtocol) {
-<span class="nc" id="L784">        this.removeHttpProtocol = removeHttpProtocol;</span>
-<span class="nc" id="L785">    }</span>
+<span class="fc" id="L794">        this.removeHttpProtocol = removeHttpProtocol;</span>
+<span class="fc" id="L795">    }</span>
 
     /**
      * Gets the removes the https protocol.
@@ -790,7 +800,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the removes the https protocol
      */
     public Boolean getRemoveHttpsProtocol() {
-<span class="nc" id="L793">        return removeHttpsProtocol;</span>
+<span class="fc" id="L803">        return removeHttpsProtocol;</span>
     }
 
     /**
@@ -800,8 +810,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new removes the https protocol
      */
     public void setRemoveHttpsProtocol(Boolean removeHttpsProtocol) {
-<span class="nc" id="L803">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
-<span class="nc" id="L804">    }</span>
+<span class="fc" id="L813">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
+<span class="fc" id="L814">    }</span>
 
     /**
      * Gets the compress css.
@@ -809,7 +819,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the compress css
      */
     public Boolean getCompressCss() {
-<span class="nc" id="L812">        return compressCss;</span>
+<span class="fc" id="L822">        return compressCss;</span>
     }
 
     /**
@@ -819,8 +829,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new compress css
      */
     public void setCompressCss(Boolean compressCss) {
-<span class="nc" id="L822">        this.compressCss = compressCss;</span>
-<span class="nc" id="L823">    }</span>
+<span class="fc" id="L832">        this.compressCss = compressCss;</span>
+<span class="fc" id="L833">    }</span>
 
     /**
      * Gets the preserve line breaks.
@@ -828,7 +838,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the preserve line breaks
      */
     public Boolean getPreserveLineBreaks() {
-<span class="nc" id="L831">        return preserveLineBreaks;</span>
+<span class="fc" id="L841">        return preserveLineBreaks;</span>
     }
 
     /**
@@ -838,8 +848,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new preserve line breaks
      */
     public void setPreserveLineBreaks(Boolean preserveLineBreaks) {
-<span class="nc" id="L841">        this.preserveLineBreaks = preserveLineBreaks;</span>
-<span class="nc" id="L842">    }</span>
+<span class="fc" id="L851">        this.preserveLineBreaks = preserveLineBreaks;</span>
+<span class="fc" id="L852">    }</span>
 
     /**
      * Gets the yui css line break.
@@ -847,7 +857,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the yui css line break
      */
     public Integer getYuiCssLineBreak() {
-<span class="nc" id="L850">        return yuiCssLineBreak;</span>
+<span class="fc" id="L860">        return yuiCssLineBreak;</span>
     }
 
     /**
@@ -857,8 +867,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new yui css line break
      */
     public void setYuiCssLineBreak(Integer yuiCssLineBreak) {
-<span class="nc" id="L860">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
-<span class="nc" id="L861">    }</span>
+<span class="fc" id="L870">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
+<span class="fc" id="L871">    }</span>
 
     /**
      * Gets the compress java script.
@@ -866,7 +876,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the compress java script
      */
     public Boolean getCompressJavaScript() {
-<span class="nc" id="L869">        return compressJavaScript;</span>
+<span class="fc" id="L879">        return compressJavaScript;</span>
     }
 
     /**
@@ -876,8 +886,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new compress java script
      */
     public void setCompressJavaScript(Boolean compressJavaScript) {
-<span class="nc" id="L879">        this.compressJavaScript = compressJavaScript;</span>
-<span class="nc" id="L880">    }</span>
+<span class="fc" id="L889">        this.compressJavaScript = compressJavaScript;</span>
+<span class="fc" id="L890">    }</span>
 
     /**
      * Gets the js compressor.
@@ -885,7 +895,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the js compressor
      */
     public String getJsCompressor() {
-<span class="nc" id="L888">        return jsCompressor;</span>
+<span class="fc" id="L898">        return jsCompressor;</span>
     }
 
     /**
@@ -895,8 +905,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new js compressor
      */
     public void setJsCompressor(String jsCompressor) {
-<span class="nc" id="L898">        this.jsCompressor = jsCompressor;</span>
-<span class="nc" id="L899">    }</span>
+<span class="fc" id="L908">        this.jsCompressor = jsCompressor;</span>
+<span class="fc" id="L909">    }</span>
 
     /**
      * Gets the yui js no munge.
@@ -904,7 +914,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the yui js no munge
      */
     public Boolean getYuiJsNoMunge() {
-<span class="nc" id="L907">        return yuiJsNoMunge;</span>
+<span class="fc" id="L917">        return yuiJsNoMunge;</span>
     }
 
     /**
@@ -914,8 +924,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new yui js no munge
      */
     public void setYuiJsNoMunge(Boolean yuiJsNoMunge) {
-<span class="nc" id="L917">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
-<span class="nc" id="L918">    }</span>
+<span class="fc" id="L927">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
+<span class="fc" id="L928">    }</span>
 
     /**
      * Gets the yui js preserve all semi colons.
@@ -923,7 +933,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the yui js preserve all semi colons
      */
     public Boolean getYuiJsPreserveAllSemiColons() {
-<span class="nc" id="L926">        return yuiJsPreserveAllSemiColons;</span>
+<span class="fc" id="L936">        return yuiJsPreserveAllSemiColons;</span>
     }
 
     /**
@@ -933,8 +943,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new yui js preserve all semi colons
      */
     public void setYuiJsPreserveAllSemiColons(Boolean yuiJsPreserveAllSemiColons) {
-<span class="nc" id="L936">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
-<span class="nc" id="L937">    }</span>
+<span class="fc" id="L946">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
+<span class="fc" id="L947">    }</span>
 
     /**
      * Gets the yui js line break.
@@ -942,7 +952,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the yui js line break
      */
     public Integer getYuiJsLineBreak() {
-<span class="nc" id="L945">        return yuiJsLineBreak;</span>
+<span class="fc" id="L955">        return yuiJsLineBreak;</span>
     }
 
     /**
@@ -952,8 +962,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new yui js line break
      */
     public void setYuiJsLineBreak(Integer yuiJsLineBreak) {
-<span class="nc" id="L955">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
-<span class="nc" id="L956">    }</span>
+<span class="fc" id="L965">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
+<span class="fc" id="L966">    }</span>
 
     /**
      * Gets the closure opt level.
@@ -961,7 +971,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the closure opt level
      */
     public String getClosureOptLevel() {
-<span class="nc" id="L964">        return closureOptLevel;</span>
+<span class="fc" id="L974">        return closureOptLevel;</span>
     }
 
     /**
@@ -971,8 +981,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new closure opt level
      */
     public void setClosureOptLevel(String closureOptLevel) {
-<span class="nc" id="L974">        this.closureOptLevel = closureOptLevel;</span>
-<span class="nc" id="L975">    }</span>
+<span class="fc" id="L984">        this.closureOptLevel = closureOptLevel;</span>
+<span class="fc" id="L985">    }</span>
 
     /**
      * Gets the yui js disable optimizations.
@@ -980,7 +990,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the yui js disable optimizations
      */
     public Boolean getYuiJsDisableOptimizations() {
-<span class="nc" id="L983">        return yuiJsDisableOptimizations;</span>
+<span class="fc" id="L993">        return yuiJsDisableOptimizations;</span>
     }
 
     /**
@@ -990,8 +1000,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new yui js disable optimizations
      */
     public void setYuiJsDisableOptimizations(Boolean yuiJsDisableOptimizations) {
-<span class="nc" id="L993">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
-<span class="nc" id="L994">    }</span>
+<span class="fc" id="L1003">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
+<span class="fc" id="L1004">    }</span>
 
     /**
      * Gets the predefined preserve patterns.
@@ -999,7 +1009,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the predefined preserve patterns
      */
     public String[] getPredefinedPreservePatterns() {
-<span class="nc" id="L1002">        return predefinedPreservePatterns;</span>
+<span class="nc" id="L1012">        return predefinedPreservePatterns;</span>
     }
 
     /**
@@ -1009,8 +1019,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new predefined preserve patterns
      */
     public void setPredefinedPreservePatterns(String[] predefinedPreservePatterns) {
-<span class="nc" id="L1012">        this.predefinedPreservePatterns = predefinedPreservePatterns;</span>
-<span class="nc" id="L1013">    }</span>
+<span class="fc" id="L1022">        this.predefinedPreservePatterns = predefinedPreservePatterns;</span>
+<span class="fc" id="L1023">    }</span>
 
     /**
      * Gets the preserve patterns.
@@ -1018,7 +1028,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the preserve patterns
      */
     public String[] getPreservePatterns() {
-<span class="nc" id="L1021">        return preservePatterns;</span>
+<span class="fc" id="L1031">        return preservePatterns;</span>
     }
 
     /**
@@ -1028,8 +1038,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new preserve patterns
      */
     public void setPreservePatterns(String[] preservePatterns) {
-<span class="nc" id="L1031">        this.preservePatterns = preservePatterns;</span>
-<span class="nc" id="L1032">    }</span>
+<span class="fc" id="L1041">        this.preservePatterns = preservePatterns;</span>
+<span class="fc" id="L1042">    }</span>
 
     /**
      * Gets the preserve pattern files.
@@ -1037,7 +1047,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the preserve pattern files
      */
     public File[] getPreservePatternFiles() {
-<span class="nc" id="L1040">        return preservePatternFiles;</span>
+<span class="nc" id="L1050">        return preservePatternFiles;</span>
     }
 
     /**
@@ -1047,8 +1057,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new preserve pattern files
      */
     public void setPreservePatternFiles(File[] preservePatternFiles) {
-<span class="nc" id="L1050">        this.preservePatternFiles = preservePatternFiles;</span>
-<span class="nc" id="L1051">    }</span>
+<span class="nc" id="L1060">        this.preservePatternFiles = preservePatternFiles;</span>
+<span class="nc" id="L1061">    }</span>
 
     /**
      * Gets the generate statistics.
@@ -1056,7 +1066,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the generate statistics
      */
     public Boolean getGenerateStatistics() {
-<span class="nc" id="L1059">        return generateStatistics;</span>
+<span class="fc" id="L1069">        return generateStatistics;</span>
     }
 
     /**
@@ -1066,8 +1076,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new generate statistics
      */
     public void setGenerateStatistics(Boolean generateStatistics) {
-<span class="nc" id="L1069">        this.generateStatistics = generateStatistics;</span>
-<span class="nc" id="L1070">    }</span>
+<span class="fc" id="L1079">        this.generateStatistics = generateStatistics;</span>
+<span class="fc" id="L1080">    }</span>
 
     /**
      * Gets the src folder.
@@ -1075,7 +1085,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the src folder
      */
     public String getSrcFolder() {
-<span class="nc" id="L1078">        return srcFolder;</span>
+<span class="fc" id="L1088">        return srcFolder;</span>
     }
 
     /**
@@ -1085,8 +1095,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new src folder
      */
     public void setSrcFolder(String srcFolder) {
-<span class="fc" id="L1088">        this.srcFolder = srcFolder;</span>
-<span class="fc" id="L1089">    }</span>
+<span class="fc" id="L1098">        this.srcFolder = srcFolder;</span>
+<span class="fc" id="L1099">    }</span>
 
     /**
      * Gets the target folder.
@@ -1094,7 +1104,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the target folder
      */
     public String getTargetFolder() {
-<span class="nc" id="L1097">        return targetFolder;</span>
+<span class="fc" id="L1107">        return targetFolder;</span>
     }
 
     /**
@@ -1104,8 +1114,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new target folder
      */
     public void setTargetFolder(String targetFolder) {
-<span class="fc" id="L1107">        this.targetFolder = targetFolder;</span>
-<span class="fc" id="L1108">    }</span>
+<span class="fc" id="L1117">        this.targetFolder = targetFolder;</span>
+<span class="fc" id="L1118">    }</span>
 
     /**
      * Gets the javascript html sprite.
@@ -1113,7 +1123,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the javascript html sprite
      */
     public Boolean getJavascriptHtmlSprite() {
-<span class="nc" id="L1116">        return javascriptHtmlSprite;</span>
+<span class="fc" id="L1126">        return javascriptHtmlSprite;</span>
     }
 
     /**
@@ -1123,8 +1133,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new javascript html sprite
      */
     public void setJavascriptHtmlSprite(Boolean javascriptHtmlSprite) {
-<span class="nc" id="L1126">        this.javascriptHtmlSprite = javascriptHtmlSprite;</span>
-<span class="nc" id="L1127">    }</span>
+<span class="fc" id="L1136">        this.javascriptHtmlSprite = javascriptHtmlSprite;</span>
+<span class="fc" id="L1137">    }</span>
 
     /**
      * Gets the javascript html sprite integration file.
@@ -1132,7 +1142,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the javascript html sprite integration file
      */
     public String getJavascriptHtmlSpriteIntegrationFile() {
-<span class="nc" id="L1135">        return javascriptHtmlSpriteIntegrationFile;</span>
+<span class="fc" id="L1145">        return javascriptHtmlSpriteIntegrationFile;</span>
     }
 
     /**
@@ -1142,8 +1152,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new javascript html sprite integration file
      */
     public void setJavascriptHtmlSpriteIntegrationFile(String javascriptHtmlSpriteIntegrationFile) {
-<span class="fc" id="L1145">        this.javascriptHtmlSpriteIntegrationFile = javascriptHtmlSpriteIntegrationFile;</span>
-<span class="fc" id="L1146">    }</span>
+<span class="fc" id="L1155">        this.javascriptHtmlSpriteIntegrationFile = javascriptHtmlSpriteIntegrationFile;</span>
+<span class="fc" id="L1156">    }</span>
 
     /**
      * Gets the javascript html sprite target file.
@@ -1151,7 +1161,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the javascript html sprite target file
      */
     public String getJavascriptHtmlSpriteTargetFile() {
-<span class="nc" id="L1154">        return javascriptHtmlSpriteTargetFile;</span>
+<span class="fc" id="L1164">        return javascriptHtmlSpriteTargetFile;</span>
     }
 
     /**
@@ -1161,8 +1171,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new javascript html sprite target file
      */
     public void setJavascriptHtmlSpriteTargetFile(String javascriptHtmlSpriteTargetFile) {
-<span class="nc" id="L1164">        this.javascriptHtmlSpriteTargetFile = javascriptHtmlSpriteTargetFile;</span>
-<span class="nc" id="L1165">    }</span>
+<span class="fc" id="L1174">        this.javascriptHtmlSpriteTargetFile = javascriptHtmlSpriteTargetFile;</span>
+<span class="fc" id="L1175">    }</span>
 
     /**
      * Gets the encoding.
@@ -1170,7 +1180,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the encoding
      */
     public String getEncoding() {
-<span class="nc" id="L1173">        return encoding;</span>
+<span class="fc" id="L1183">        return encoding;</span>
     }
 
     /**
@@ -1180,8 +1190,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new encoding
      */
     public void setEncoding(String encoding) {
-<span class="nc" id="L1183">        this.encoding = encoding;</span>
-<span class="nc" id="L1184">    }</span>
+<span class="fc" id="L1193">        this.encoding = encoding;</span>
+<span class="fc" id="L1194">    }</span>
 
     /**
      * Gets the closure custom externs only.
@@ -1189,7 +1199,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the closure custom externs only
      */
     public Boolean getClosureCustomExternsOnly() {
-<span class="nc" id="L1192">        return closureCustomExternsOnly;</span>
+<span class="fc" id="L1202">        return closureCustomExternsOnly;</span>
     }
 
     /**
@@ -1199,8 +1209,8 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new closure custom externs only
      */
     public void setClosureCustomExternsOnly(Boolean closureCustomExternsOnly) {
-<span class="nc" id="L1202">        this.closureCustomExternsOnly = closureCustomExternsOnly;</span>
-<span class="nc" id="L1203">    }</span>
+<span class="fc" id="L1212">        this.closureCustomExternsOnly = closureCustomExternsOnly;</span>
+<span class="fc" id="L1213">    }</span>
 
     /**
      * Gets the closure externs.
@@ -1208,7 +1218,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      * @return the closure externs
      */
     public String[] getClosureExterns() {
-<span class="nc" id="L1211">        return closureExterns;</span>
+<span class="fc" id="L1221">        return closureExterns;</span>
     }
 
     /**
@@ -1218,7 +1228,7 @@ import org.apache.maven.plugins.annotations.Parameter;
      *            the new closure externs
      */
     public void setClosureExterns(String[] closureExterns) {
-<span class="nc" id="L1221">        this.closureExterns = closureExterns;</span>
-<span class="nc" id="L1222">    }</span>
+<span class="fc" id="L1231">        this.closureExterns = closureExterns;</span>
+<span class="fc" id="L1232">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
