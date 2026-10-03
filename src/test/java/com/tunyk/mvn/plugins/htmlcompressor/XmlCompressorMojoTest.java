@@ -129,7 +129,7 @@ class XmlCompressorMojoTest {
     }
 
     /**
-     * Test execute with deprecated fileExt parameter.
+     * Test execute with fileExtensions parameter.
      *
      * @param tempDir
      *            the temp dir provided by JUnit
@@ -138,20 +138,18 @@ class XmlCompressorMojoTest {
      *             the mojo execution exception
      */
     @Test
-    @SuppressWarnings("deprecation")
-    void testExecuteWithDeprecatedFileExt(@TempDir Path tempDir) throws MojoExecutionException {
-        LOG.info("Testing mojo execution with deprecated fileExt parameter...");
+    void testExecuteWithFileExtensions(@TempDir Path tempDir) throws MojoExecutionException {
+        LOG.info("Testing mojo execution with fileExtensions parameter...");
 
         XmlCompressorMojo xmlCompressorMojo = new XmlCompressorMojo();
         xmlCompressorMojo.setSrcFolder("src/test/resources/xml");
         xmlCompressorMojo.setTargetFolder(tempDir.toString());
-        // Use deprecated fileExt (should fall through to fileExtensions when fileExtensions is null)
-        xmlCompressorMojo.setFileExt(new String[] { "xml" });
+        xmlCompressorMojo.setFileExtensions(new String[] { "xml" });
         xmlCompressorMojo.execute();
 
-        // Verify output files were produced using the deprecated extension list
+        // Verify output files were produced using the extension list
         Assertions.assertTrue(Files.exists(tempDir.resolve("file.xml")),
-                "file.xml should be in output when using deprecated fileExt");
+                "file.xml should be in output when using fileExtensions parameter");
 
         LOG.info("Passed");
     }
@@ -190,7 +188,6 @@ class XmlCompressorMojoTest {
      * Test XmlCompressorMojo getters and setters for all configurable parameters.
      */
     @Test
-    @SuppressWarnings("deprecation")
     void testXmlMojoGettersSetters() {
         LOG.info("Testing XmlCompressorMojo getters and setters...");
 
@@ -227,10 +224,6 @@ class XmlCompressorMojoTest {
         // File extensions
         mojo.setFileExtensions(new String[] { "xml", "xsd" });
         Assertions.assertArrayEquals(new String[] { "xml", "xsd" }, mojo.getFileExtensions());
-
-        // Deprecated fileExt getter/setter
-        mojo.setFileExt(new String[] { "xml" });
-        Assertions.assertArrayEquals(new String[] { "xml" }, mojo.getFileExt());
 
         LOG.info("Passed");
     }

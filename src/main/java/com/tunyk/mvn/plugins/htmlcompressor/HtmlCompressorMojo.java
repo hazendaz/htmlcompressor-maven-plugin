@@ -41,15 +41,6 @@ public class HtmlCompressorMojo extends AbstractMojo {
     private String htmlCompressionStatistics = "target/htmlcompressor/html-compression-statistics.txt";
 
     /**
-     * file types to be processed.
-     *
-     * @deprecated use fileExtensions
-     */
-    @Deprecated
-    @Parameter(property = "htmlcompressor.fileExt")
-    private String[] fileExt;
-
-    /**
      * File extensions to be processed.
      */
     @Parameter(property = "htmlcompressor.fileExtensions")
@@ -257,11 +248,6 @@ public class HtmlCompressorMojo extends AbstractMojo {
 
         getLog().info("Compressing " + srcFolder);
         HtmlCompressor htmlCompressor = new HtmlCompressor(srcFolder, targetFolder);
-
-        // Deprecated
-        if (fileExt != null && fileExtensions == null) {
-            fileExtensions = fileExt;
-        }
 
         htmlCompressor.setFileExtensions(fileExtensions);
         htmlCompressor.setFileEncoding(Charset.forName(encoding));
@@ -482,31 +468,6 @@ public class HtmlCompressorMojo extends AbstractMojo {
      */
     public void setHtmlCompressionStatistics(String htmlCompressionStatistics) {
         this.htmlCompressionStatistics = htmlCompressionStatistics;
-    }
-
-    /**
-     * Gets the file ext.
-     *
-     * @return the file ext
-     *
-     * @deprecated use getFileExtensions
-     */
-    @Deprecated
-    public String[] getFileExt() {
-        return fileExt;
-    }
-
-    /**
-     * Sets the file ext.
-     *
-     * @param fileExt
-     *            the new file ext
-     *
-     * @deprecated use setFileExtensions
-     */
-    @Deprecated
-    public void setFileExt(String[] fileExt) {
-        this.fileExt = fileExt;
     }
 
     /**

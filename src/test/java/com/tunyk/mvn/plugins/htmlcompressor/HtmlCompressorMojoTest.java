@@ -154,7 +154,7 @@ class HtmlCompressorMojoTest {
     }
 
     /**
-     * Test execute with deprecated fileExt parameter.
+     * Test execute with fileExtensions parameter.
      *
      * @param tempDir
      *            the temp dir provided by JUnit
@@ -163,21 +163,19 @@ class HtmlCompressorMojoTest {
      *             the mojo execution exception
      */
     @Test
-    @SuppressWarnings("deprecation")
-    void testExecuteWithDeprecatedFileExt(@TempDir Path tempDir) throws MojoExecutionException {
-        LOG.info("Testing mojo execution with deprecated fileExt parameter...");
+    void testExecuteWithFileExtensions(@TempDir Path tempDir) throws MojoExecutionException {
+        LOG.info("Testing mojo execution with fileExtensions parameter...");
 
         HtmlCompressorMojo htmlCompressorMojo = new HtmlCompressorMojo();
         htmlCompressorMojo.setSrcFolder("src/test/resources/html");
         htmlCompressorMojo.setTargetFolder(tempDir.toString());
         htmlCompressorMojo.setJavascriptHtmlSprite(false);
-        // Set deprecated fileExt parameter (should be used when fileExtensions is null)
-        htmlCompressorMojo.setFileExt(new String[] { "html" });
+        htmlCompressorMojo.setFileExtensions(new String[] { "html" });
         htmlCompressorMojo.execute();
 
-        // Files should be processed using the deprecated extension list
+        // Files should be processed using the extension list
         Assertions.assertTrue(Files.exists(tempDir.resolve("templates/Template1.html")),
-                "Template1.html should be in output when using deprecated fileExt");
+                "Template1.html should be in output when using fileExtensions");
 
         LOG.info("Passed");
     }
@@ -357,10 +355,8 @@ class HtmlCompressorMojoTest {
         Assertions.assertEquals("target/stats.txt", mojo.getHtmlCompressionStatistics());
 
         // File extensions
-        mojo.setFileExt(new String[] { "xhtml" });
-        Assertions.assertArrayEquals(new String[] { "xhtml" }, mojo.getFileExt());
-        mojo.setFileExtensions(new String[] { "html", "htm" });
-        Assertions.assertArrayEquals(new String[] { "html", "htm" }, mojo.getFileExtensions());
+        mojo.setFileExtensions(new String[] { "html", "htm", "xhtml" });
+        Assertions.assertArrayEquals(new String[] { "html", "htm", "xhtml" }, mojo.getFileExtensions());
 
         // YUI CSS line break
         Assertions.assertEquals(-1, mojo.getYuiCssLineBreak());
