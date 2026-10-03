@@ -153,17 +153,23 @@ public class FileTool {
      *
      * @return the string
      */
-    // TODO JWL 4/22/2023 Didn't see a good way to handle as it gets flagged to remove unnecessary cast if I fix this
-    // per error-prone, so ignoring it
-    @SuppressWarnings("LongDoubleConversion")
     public static String humanReadableByteCount(long bytes, boolean systemOfUnits) {
         int unit = systemOfUnits ? 1000 : 1024;
+
         if (bytes < unit) {
             return bytes + " B";
         }
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
+
+        int exp = 0;
+        long value = bytes;
+        while (value >= unit) {
+            value /= unit;
+            exp++;
+        }
+
         String pre = (systemOfUnits ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (systemOfUnits ? "" : "i");
-        return "%.1f %sB".formatted(bytes / Math.pow(unit, exp), pre);
+
+        return "%.1f %sB".formatted((double) bytes / Math.pow(unit, exp), pre);
     }
 
     /**
