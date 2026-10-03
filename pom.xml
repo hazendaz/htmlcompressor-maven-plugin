@@ -84,7 +84,6 @@
 
         <!-- External Modules -->
         <checker-qual.version>4.2.3</checker-qual.version>
-        <maven-plugin.version>3.16.0</maven-plugin.version>
         <slf4j.version>2.0.20</slf4j.version>
     </properties>
 
@@ -214,7 +213,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>${maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>default-descriptor</id>
@@ -238,7 +236,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-report-plugin</artifactId>
-                <version>${maven-plugin.version}</version>
             </plugin>
         </plugins>
     </reporting>
