@@ -42,7 +42,7 @@
     </licenses>
 
     <prerequisites>
-        <maven>3.6.3</maven>
+        <maven>3.8.1</maven>
     </prerequisites>
 
     <scm>
@@ -76,15 +76,17 @@
         <javadoc.java.release.version>21</javadoc.java.release.version>
         <javadoc.legacy.mode>true</javadoc.legacy.mode>
 
+        <!-- Jacoco minimum code coverage -->
+        <jacoco.minimum.coverage>0.81</jacoco.minimum.coverage>
+
         <!-- Automatic Module Name -->
         <module.name>com.github.hazendaz.htmlcompressor.maven.plugin</module.name>
 
         <!-- Reproducible Builds -->
-        <project.build.outputTimestamp>1781486904</project.build.outputTimestamp>
+        <project.build.outputTimestamp>1781486442</project.build.outputTimestamp>
 
         <!-- External Modules -->
         <checker-qual.version>4.3.0</checker-qual.version>
-        <maven-plugin.version>3.16.0</maven-plugin.version>
         <slf4j.version>2.0.20</slf4j.version>
     </properties>
 
@@ -214,7 +216,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>${maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>default-descriptor</id>
@@ -238,7 +239,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-report-plugin</artifactId>
-                <version>${maven-plugin.version}</version>
             </plugin>
         </plugins>
     </reporting>

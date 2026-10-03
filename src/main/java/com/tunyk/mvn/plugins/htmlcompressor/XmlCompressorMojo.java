@@ -21,15 +21,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Mojo(name = "xml", defaultPhase = LifecyclePhase.COMPILE, requiresProject = false, threadSafe = true)
 public class XmlCompressorMojo extends AbstractMojo {
 
-    /**
-     * File extensions to be processed.
-     *
-     * @deprecated use fileExtensions
-     */
-    @Deprecated
-    @Parameter(property = "htmlcompressor.fileExt")
-    private String[] fileExt;
-
     /** file extensions to be processed. */
     @Parameter(property = "htmlcompressor.fileExtensions")
     private String[] fileExtensions;
@@ -79,11 +70,6 @@ public class XmlCompressorMojo extends AbstractMojo {
             return;
         }
 
-        // Deprecated
-        if (fileExt != null && fileExtensions == null) {
-            fileExtensions = fileExt;
-        }
-
         getLog().info("Compressing " + srcFolder);
         XmlCompressor xmlCompressor = new XmlCompressor(srcFolder, targetFolder);
         xmlCompressor.setFileExtensions(fileExtensions);
@@ -121,31 +107,6 @@ public class XmlCompressorMojo extends AbstractMojo {
      */
     public void setSkip(boolean skip) {
         this.skip = skip;
-    }
-
-    /**
-     * Gets the file ext.
-     *
-     * @return the file ext
-     *
-     * @deprecated use getFileExtensions
-     */
-    @Deprecated
-    public String[] getFileExt() {
-        return fileExt;
-    }
-
-    /**
-     * Sets the file ext.
-     *
-     * @param fileExt
-     *            the new file ext
-     *
-     * @deprecated use setFileExtensions
-     */
-    @Deprecated
-    public void setFileExt(String[] fileExt) {
-        this.fileExt = fileExt;
     }
 
     /**

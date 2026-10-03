@@ -31,6 +31,12 @@ class HelpMojoTest {
     /** The generated help mojo class name. */
     private static final String HELP_MOJO_CLASS = "com.github.hazendaz.maven.htmlcompressor_maven_plugin.HelpMojo";
 
+    /**
+     * Test execute normalizes invalid formatting parameters.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     void testExecuteNormalizesInvalidFormattingParameters() throws Exception {
         Mojo mojo = (Mojo) newHelpMojo();
@@ -43,6 +49,12 @@ class HelpMojoTest {
         Assertions.assertEquals(2, getField(mojo, "indentSize"));
     }
 
+    /**
+     * Test get property from expression variants.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     void testGetPropertyFromExpressionVariants() throws Exception {
         Assertions.assertEquals("user.prop",
@@ -54,6 +66,12 @@ class HelpMojoTest {
                 .assertNull(invokeStatic("getPropertyFromExpression", new Class<?>[] { String.class }, (Object) null));
     }
 
+    /**
+     * Test node lookup utility branches.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     void testNodeLookupUtilityBranches() throws Exception {
         Document doc = parse("<root><item>first</item><item>second</item></root>");
@@ -71,6 +89,12 @@ class HelpMojoTest {
         Assertions.assertInstanceOf(MojoExecutionException.class, missingGetSingleChild.getCause());
     }
 
+    /**
+     * Test text formatting helpers.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @SuppressWarnings("unchecked")
     @Test
     void testTextFormattingHelpers() throws Exception {
@@ -84,6 +108,12 @@ class HelpMojoTest {
         Assertions.assertEquals(2, invokeStatic("getIndentLevel", new Class<?>[] { String.class }, "\t  \tvalue"));
     }
 
+    /**
+     * Test write parameter includes metadata.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     void testWriteParameterIncludesMetadata() throws Exception {
         Object mojo = newHelpMojo();
@@ -109,26 +139,83 @@ class HelpMojoTest {
         Assertions.assertTrue(output.contains("parameter description"));
     }
 
+    /**
+     * New help mojo.
+     *
+     * @return the object
+     *
+     * @throws ReflectiveOperationException
+     *             the reflective operation exception
+     */
     private static Object newHelpMojo() throws ReflectiveOperationException {
         return helpMojoClass().getDeclaredConstructor().newInstance();
     }
 
+    /**
+     * Help mojo class.
+     *
+     * @return the class
+     *
+     * @throws ClassNotFoundException
+     *             the class not found exception
+     */
     private static Class<?> helpMojoClass() throws ClassNotFoundException {
         return Class.forName(HELP_MOJO_CLASS);
     }
 
+    /**
+     * Sets the field.
+     *
+     * @param target
+     *            the target
+     * @param fieldName
+     *            the field name
+     * @param value
+     *            the value
+     *
+     * @throws ReflectiveOperationException
+     *             the reflective operation exception
+     */
     private static void setField(Object target, String fieldName, Object value) throws ReflectiveOperationException {
         Field field = target.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         field.set(target, value);
     }
 
+    /**
+     * Gets the field.
+     *
+     * @param target
+     *            the target
+     * @param fieldName
+     *            the field name
+     *
+     * @return the field
+     *
+     * @throws ReflectiveOperationException
+     *             the reflective operation exception
+     */
     private static Object getField(Object target, String fieldName) throws ReflectiveOperationException {
         Field field = target.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         return field.get(target);
     }
 
+    /**
+     * Invoke static.
+     *
+     * @param methodName
+     *            the method name
+     * @param parameterTypes
+     *            the parameter types
+     * @param args
+     *            the args
+     *
+     * @return the object
+     *
+     * @throws ReflectiveOperationException
+     *             the reflective operation exception
+     */
     private static Object invokeStatic(String methodName, Class<?>[] parameterTypes, Object... args)
             throws ReflectiveOperationException {
         Method method = helpMojoClass().getDeclaredMethod(methodName, parameterTypes);
@@ -140,6 +227,23 @@ class HelpMojoTest {
         }
     }
 
+    /**
+     * Invoke instance.
+     *
+     * @param target
+     *            the target
+     * @param methodName
+     *            the method name
+     * @param parameterTypes
+     *            the parameter types
+     * @param args
+     *            the args
+     *
+     * @return the object
+     *
+     * @throws ReflectiveOperationException
+     *             the reflective operation exception
+     */
     private static Object invokeInstance(Object target, String methodName, Class<?>[] parameterTypes, Object... args)
             throws ReflectiveOperationException {
         Method method = target.getClass().getDeclaredMethod(methodName, parameterTypes);
@@ -151,6 +255,17 @@ class HelpMojoTest {
         }
     }
 
+    /**
+     * Parses the.
+     *
+     * @param xml
+     *            the xml
+     *
+     * @return the document
+     *
+     * @throws Exception
+     *             the exception
+     */
     private static Document parse(String xml) throws Exception {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(xml)));
     }
