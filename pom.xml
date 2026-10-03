@@ -76,6 +76,9 @@
         <javadoc.java.release.version>21</javadoc.java.release.version>
         <javadoc.legacy.mode>true</javadoc.legacy.mode>
 
+        <!-- Jacoco minimum code coverage -->
+        <jacoco.minimum.coverage>0.81</jacoco.minimum.coverage>
+
         <!-- Automatic Module Name -->
         <module.name>com.github.hazendaz.htmlcompressor.maven.plugin</module.name>
 
