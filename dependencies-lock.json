@@ -10,11 +10,11 @@
   }, {
     "groupId" : "com.github.hazendaz",
     "artifactId" : "htmlcompressor",
-    "version" : "2.4.1",
+    "version" : "1.13.1",
     "scope" : "compile",
     "type" : "jar",
     "optional" : false,
-    "integrity" : "sha512:XkpZqGLFpQSVXGHXBVCILL3L9Tj805DLia7OVbnZeVroudJVrx6TtCpUcWX9nBBvx3Y9k9LXAjNriDBpScMyoA=="
+    "integrity" : "sha512:wCBpCr6bV2lidEsMjZtcTqJSODELOeIZc8reDfQv2DboLwfr/hqAL5Ru7i8bMnB9lhEr5PInRVJmq01FAWqAsg=="
   }, {
     "groupId" : "com.github.spotbugs",
     "artifactId" : "spotbugs-annotations",
@@ -99,11 +99,11 @@
   }, {
     "groupId" : "jakarta.servlet.jsp",
     "artifactId" : "jakarta.servlet.jsp-api",
-    "version" : "4.0.0",
+    "version" : "2.3.6",
     "scope" : "compile",
     "type" : "jar",
     "optional" : false,
-    "integrity" : "sha512:7yzOeDiAgILx3oipkxP04InsWjJrRHU7QkGwTmQnJTJWVEO7LESr8QmYFBZbHQD/0d2h8NV8/KxC/BbY7YVgpA=="
+    "integrity" : "sha512:UcDui5jZUlkBUL+NcUUD3B5TGKTmjyiTXZcmzYCryCoW7Ur6wHlPU2wPtQPZzJuyBl6y8eIZCfie8XyboGd6xQ=="
   }, {
     "groupId" : "javax.inject",
     "artifactId" : "javax.inject",
