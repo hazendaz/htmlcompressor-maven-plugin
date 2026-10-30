@@ -121,7 +121,7 @@
         <dependency>
             <groupId>com.google.javascript</groupId>
             <artifactId>closure-compiler</artifactId>
-            <version>v20261021</version>
+            <version>v20261028</version>
         </dependency>
         <dependency>
             <groupId>com.yahoo.platform.yui</groupId>
